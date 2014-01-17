@@ -96,7 +96,7 @@ end_date = "2012-12-31"
 start_date = "2013-01-01"
 end_date = "2013-12-31"
 
-lapply(lst4, FetchStationWeatherForDateRange, "airportCode", start_date, end_date)
+lapply("RDU", FetchStationWeatherForDateRange, "airportCode", start_date, end_date)
 file.info(paste0(lst[2], ".csv.gz"))
 
 ##------------
