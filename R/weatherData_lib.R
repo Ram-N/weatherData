@@ -119,9 +119,15 @@ FetchDailyWeatherForStation <- function(station,
   
   #for airport codes
   if(station_type=="airportcode") {
-    airp_url = 'http://www.wunderground.com/history/airport/K'
+    airp_url = 'http://www.wunderground.com/history/airport/'
     coda = '/DailyHistory.html?format=1'    
-    final_url <- paste0(airp_url, station,
+    
+    #If an airportLetterCode is not supplied, try with K
+    #If it is, just use that code
+    letterCode <- ifelse(length(station_type == 3), "K", "")
+    
+    
+    final_url <- paste0(airp_url, letterCode, station,
                      '/',y,
                      '/',m,
                      '/',d,
@@ -261,7 +267,9 @@ FetchStationWeatherForDateRange <- function(station, station.type, start.date, e
   # stack elements of list into DF, filling missing columns with NA
   d <- ldply(l)
     
-  outFileName = paste(station,"_",start.date,"_",end.date, "csv","gz", sep='.')
+  outFileName <- paste0(station,"_",start.date,"_",end.date)
+  outFileName <- paste(outFileName, "csv","gz", sep=".")
+  
   # save to CSV
   write.csv(d, file=gzfile(outFileName), row.names=FALSE)
   print(paste("wrote:", outFileName, "to", getwd()))

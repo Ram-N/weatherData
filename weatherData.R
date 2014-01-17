@@ -59,7 +59,7 @@ lapply(lst, IsStationDataAvailable, "airportCode", start_date, end_date)
 #You should get non-zero records.
 
 #Print out what you are getting
-FetchDailyWeatherForStation(lst, "2013-01-31", "airportCode", opt.debug=T)
+FetchDailyWeatherForStation("SYD", "2013-01-31", "airportCode", opt.debug=T)
 
 
 #-- Test if able to fetch data
@@ -79,39 +79,47 @@ start_date = "2012-01-01"
 end_date = "2012-12-31"
 
 lst1 = list("JAX", "AVL", "SAT", "AUS", "IAH", "PSP", "TPA")
-lapply(lst2, IsStationDataAvailable, "airportCode", start_date, end_date)
+
+
+lapply(lst3, IsStationDataAvailable, "airportCode", start_date, end_date)
 
 #lapply(lst, IsStationDataAvailable, "ID", start.date, end.date)
 
 lapply(lst1, FetchStationWeatherForDateRange, "airportCode", start_date, end_date)
 length(lst)
 
+
+#---------------------------2 0 1 2
+start_date = "2012-01-01"
+end_date = "2012-12-31"
+#---------------------------2 0 1 3 
 start_date = "2013-01-01"
 end_date = "2013-12-31"
-lst = list("JAX", "AVL", "SAT", "AUS", "IAH", "PSP", "TPA")
-lapply(lst2, FetchStationWeatherForDateRange, "airportCode", start_date, end_date)
+
+lapply(lst4, FetchStationWeatherForDateRange, "airportCode", start_date, end_date)
 file.info(paste0(lst[2], ".csv.gz"))
 
 ##------------
 RAs list:
               2012            2013
-PDX   0 X          
-LAX
-SFO
-IAH 0 x
-MIA   0 x 
+PDX   X X          
+LAX   X
+SFO   X
+IAH   X x
+MIA   X x 
 RDU  x x
-ATL 0 X
+ATL X X
 TPA x x
-HNL
-LGA 0 x
-SYD
-Brisbane BNE
-LHR
-SIN
-BOM (Mumbai)
+HNL - PHNL - x x
+LGA x x
+SYD - YSSY - x x
+BNE - YBBN - x x
+LHR - EGLL - x x
+SIN - WSSS - x x
+BOM - VABB - x x
 
+lst = list("JAX", "AVL", "SAT", "AUS", "IAH", "PSP", "TPA")
 lst2 <- c("PDX", "IAH", "ATL", "LGA")
-lst3 <- c("SYD", "BBE", "LHR", "SIN", "BOM")
-
+lst3 <- c("YSSY", "YBBN", "EGLL", "WSSS", "VABB", "PHNL")
+lst4 <- c("SFO", "LAX", "MIA")
 
