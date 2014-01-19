@@ -1,13 +1,6 @@
-
-# To make it robust
-# http://stackoverflow.com/questions/12193779/how-to-write-trycatch-in-r/12195574#12195574
-
-
 require(plyr)
-
-#' @export
 #' 
-#' 
+#' Internal check to see if the data format is valid
 IsDateInvalid <- function (date) {
   # d <- try( as.Date( date, format= "%d-%m-%Y %H:%M:%S" ) ) #original
   d <- try( as.Date( date) )
@@ -18,8 +11,11 @@ IsDateInvalid <- function (date) {
   return(0) #is okay
 }
 
-#' @export
-IsStateTypeInvalid <- function (station_type) {
+#' @title Check if the station type is airportCode or id
+#' @description We are checking if a valid station type was given to the function.
+#' @param station_type can be \code{airportCode} which is the default, or it
+#'  can be \code{id}
+IsStationTypeInvalid <- function (station_type) {
     if(station_type != "airportcode" && 
          station_type != "id")  {
       print(paste( "Invalid station_type supplied", station_type ))
@@ -29,10 +25,6 @@ IsStateTypeInvalid <- function (station_type) {
   }
   
 
-
-#----------------------------------------------------------------
-#function to read URL with tryCatch
-#' @return NA if unsuccessful
 readUrl <- function(final_url) {
   out <- tryCatch(
 {
@@ -78,7 +70,9 @@ return(out)
 #----------------------------------------------------------------
 
 #' This function gets data from Wx Underground, given a valid station and date
+#' 
 #' TODO: Error checking for valid station name, date, station.type
+#' @export
 FetchDailyWeatherForStation <- function(station, 
                                         date, 
                                         station_type="airportCode",
@@ -94,7 +88,7 @@ FetchDailyWeatherForStation <- function(station,
   }
 
   station_type <- tolower(station_type)
-  if(IsStateTypeInvalid(station_type)) {
+  if(IsStationTypeInvalid(station_type)) {
     print("Station Type is Invalid")
     return(NULL)
   }
@@ -204,15 +198,18 @@ FetchDailyWeatherForStation <- function(station,
 
 
 
-#' These are needed for the function above
-#' @export
+#' @title Quick Check to see if WeatherUnderground has Weather Data for given station
+#' 
+#' @description Before we attempt to fetch the data for a big time interval of dates, this 
+#'  function is useful to see if the data even exists.
+#'  @details This functions checks for just the first and the last date in the interval
+#'    Not the days in between
 #' @param station is a valid 3-letter airport code or a valid Weather Station ID
-#' 
+#' @param station.type is either \code{airportCode} or \code{id}
 #' @param start_date is a valid string representing a date in the past (YYYY-MM-DD, all numeric)
-#' 
 #' @param end_date is a a valid string representing a date in the past (YYYY-MM-DD, all numeric) and is greater than start_date
 #' 
-#' 
+#' @export 
 IsStationDataAvailable<- function (station, station.type, start_date, end_date) {
   lst.start<- FetchDailyWeatherForStation(station, start_date, station.type, 
                                           opt.temp.only=T, opt.compress.output=T, opt.debug=T)
