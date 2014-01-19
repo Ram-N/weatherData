@@ -21,7 +21,8 @@ FetchStationWeatherForDateRange(station, station.type, start.date, end.date)
 \description{
 Getting data for full date-range
 }
-\author{
-Ram Narasimhan
+\details{
+For each day in the date range, this function fetches
+Weather Data
 }
 

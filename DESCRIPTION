@@ -1,10 +1,10 @@
 Package: weatherData
 Type: Package
-Title: Functions to Obtain Historical Weather Data from wx_underground
+Title: Functions to Obtain Historical Weather Data from wunderground.com
 Version: 0.1
 Date: 2014-01-18
 Author: Ram Narasimhan
 Maintainer: Ram Narasimhan <ram.narasimhan@gmail.com>
 Description: A set of functions that help in fetching data from Weather
     Underground. Supply a date range and a city and get its temperature data.
-License: MIT
+License: GPL

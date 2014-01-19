@@ -231,15 +231,13 @@ IsStationDataAvailable<- function (station, station.type, start_date, end_date) 
 
 
 #'  Getting data for full date-range
-#'  @export
 #'  
-#'  @author Ram Narasimhan
-#'  
+#' @details For each day in the date range, this function fetches Weather Data
 #' @param station is a valid 3-letter airport code or a valid Weather Station ID
 #' @param start_date is a valid string representing a date in the past (YYYY-MM-DD, all numeric)
 #' @param end_date is a a valid string representing a date in the past (YYYY-MM-DD, all numeric) and is greater than start_date  
 #' @param station.type = "airportCode" (3-letter airport code) or "ID" (Wx call Sign)
-
+#' @export
 FetchStationWeatherForDateRange <- function(station, station.type, start.date, end.date) {
   
   validity = IsStationDataAvailable(station, station.type, start.date, end.date)

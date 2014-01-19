@@ -1,6 +1,6 @@
 # Install 
 
-To install the development version of weatherData from github, use the **devtools** package,
+To install the development version of weatherData from github, use the **devtools** package.
 
 ```r
 library("devtools")
@@ -16,12 +16,12 @@ Suggestions are welcome! If you would have a particular need for weather data,
 let me know what changes you'd like to see in the package.
 Submit an Issue.
 
-#How to Use this package
+# How to Use this package
 
 ## Examples 
 
 
-```r
+```
 library(weatherData)
 IsStationDataAvailable("SFO", "airportCode", "2010-10-29", "2013-01-12")
 ```
