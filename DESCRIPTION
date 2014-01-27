@@ -1,10 +1,13 @@
 Package: weatherData
 Type: Package
-Title: Functions to Obtain Historical Weather Data from wunderground.com
+Title: Get Historical Weather Data from the Web
 Version: 0.1
-Date: 2014-01-18
+Date: 2014-01-24
 Author: Ram Narasimhan
-Maintainer: Ram Narasimhan <ram.narasimhan@gmail.com>
-Description: A set of functions that help in fetching data from Weather
-    Underground. Supply a date range and a city and get its temperature data.
+Depends:
+    plyr
+Maintainer: Ram Narasimhan <ramnarasimhan@gmail.com>
+Description: A set of functions that help in fetching weather data from
+    websites. Supply a date range and a city and get its temperature data.
+LazyData: FALSE
 License: GPL

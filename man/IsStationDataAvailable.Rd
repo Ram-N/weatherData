@@ -2,13 +2,13 @@
 \alias{IsStationDataAvailable}
 \title{Quick Check to see if WeatherUnderground has Weather Data for given station}
 \usage{
-IsStationDataAvailable(station, station.type, start_date, end_date)
+IsStationDataAvailable(station, station_type, start_date, end_date)
 }
 \arguments{
   \item{station}{is a valid 3-letter airport code or a
   valid Weather Station ID}
 
-  \item{station.type}{is either \code{airportCode} or
+  \item{station_type}{is either \code{airportCode} or
   \code{id}}
 
   \item{start_date}{is a valid string representing a date

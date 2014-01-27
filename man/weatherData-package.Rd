@@ -3,10 +3,11 @@
 \alias{weatherData}
 \docType{package}
 \title{
-Get weather & temperature data from wunderground.com
+Get Historical Weather & Temperature data from the Web
 }
 \description{
 The package has functions that can fetch weather data.
+These functions don't use APIs. They rely on reading URL's instead.
 Given a valid city and a date (or date range), the functions in 
 weatherData can fetch them as a nice R data frame. 
 These functions are useful for anyone interested in doing weather data analysis using R.
@@ -29,5 +30,6 @@ Maintainer: Ram Narasimhan <ramnarasimhan@gmail.com>
 }
 \keyword{ package }
 \examples{
-FetchDailyWeatherForStation("SEA", "2013-01-31", "airportCode")
+IsStationDataAvailable("BWI", "airportCode", "2013-12-13", "2014-01-01")
+getSingleDayWeather("LAX", "2013-01-01")
 }

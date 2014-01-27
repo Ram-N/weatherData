@@ -1,8 +1,8 @@
-\name{FetchStationWeatherForDateRange}
-\alias{FetchStationWeatherForDateRange}
+\name{getWeatherForDateRange}
+\alias{getWeatherForDateRange}
 \title{Getting data for full date-range}
 \usage{
-FetchStationWeatherForDateRange(station, station.type, start.date, end.date)
+getWeatherForDateRange(station, station.type, start_date, end_date)
 }
 \arguments{
   \item{station}{is a valid 3-letter airport code or a
@@ -23,6 +23,7 @@ Getting data for full date-range
 }
 \details{
 For each day in the date range, this function fetches
-Weather Data
+Weather Data Internally, it makes multiple calls to
+getSingleDayWeather
 }
 
