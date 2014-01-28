@@ -18,7 +18,7 @@ IsDateInvalid <- function (date) {
 IsStationTypeInvalid <- function (station_type) {
     if(station_type != "airportcode" && 
          station_type != "id")  {
-      print(paste( "Invalid station_type supplied", station_type ))
+      warning(paste( "Invalid station_type supplied", station_type ))
       return(1)
     }
     return(0) #is okay
@@ -72,7 +72,7 @@ return(out)
 
 #' This function gets weather data, given a valid station and a single date
 #' 
-#' TODO: Error checking for valid station name, date, station.type
+#' TODO: Error checking for valid station name, date, station_type
 #' 
 #' @param station is a valid 3-letter airport code or a valid Weather Station ID
 #' @param date is a valid string representing a date in the past (YYYY-MM-DD)
@@ -139,7 +139,7 @@ getSingleDayWeather <- function(station,
                      coda)
   }    
   if(opt_verbose) 
-    cat(sprintf("Getting data from:\n %s\n",final_url))
+    message(sprintf("Getting data from:\n %s\n",final_url))
   
   #------------------
   # Now read the data from the URL
@@ -153,6 +153,7 @@ getSingleDayWeather <- function(station,
 
 if(grepl(pattern="No daily or hourly history data", raw_data[3]) ==TRUE){
   warning(sprintf("Unable to get data from URL \n Check Station name %s \n Inspect the validity of the URL being tried:\n %s \n", station, final_url))
+  message("For International Airports, try the 4-letter Code")
       return(NULL) #have to try again      
 }
 
@@ -178,7 +179,7 @@ if(is.na(raw_data[1])) {
   #raw_data <- raw_data[-c(length(raw_data))]    
   
   if(opt.compress.output==TRUE) {
-    # remove odd numbers starting from 3 --> end
+    # remove odd rows starting from 3, to reduce volume
     raw_data <- raw_data[-seq(3, length(raw_data), by=2)]    
   }
 
@@ -212,8 +213,17 @@ if(is.na(raw_data[1])) {
   row.names(raw_data) <- 1:nrow(raw_data) #give the dataframe rownames
   
   df <- raw_data
-  if(opt_temperature_only) {
-    df <- raw_data[c("Time", "TemperatureF")]
+  # print(paste("Column names", names(df)))
+  if(opt_temperature_only) {    
+    #subset to the columns of interest
+    temp_column <- grep("Temperature", names(df))[1]
+    time_column <- grep("Time", names(df))[1]
+    if(!is.na(temp_column) & !(is.na(time_column))) {
+      df <- raw_data[, c(time_column, temp_column)]  
+    } else {
+      df <- NULL
+    }
+        
   }
   
   return(df)
@@ -233,7 +243,11 @@ if(is.na(raw_data[1])) {
 #' @param end_date is a a valid string representing a date in the past (YYYY-MM-DD, all numeric) and is greater than start_date
 #' 
 #' @export 
-IsStationDataAvailable<- function (station, station_type, start_date, end_date) {
+IsStationDataAvailable<- function (station, 
+                                   start_date, 
+                                   end_date,
+                                   station_type="airportCode"                                
+                                  ) {  
   lst_start <- getSingleDayWeather(station, start_date, station_type, 
                                    opt_temperature_only=T, opt.compress.output=T, 
                                    opt_verbose=T)
@@ -242,11 +256,12 @@ IsStationDataAvailable<- function (station, station_type, start_date, end_date) 
   st_row = nrow(lst_start) #takes on a value of NULL if station has no data
   en_row = nrow(lst_end)
   
-  cat(sprintf("For %s \n Found %d records for %s\n Found %d records for %s \n",
+  message(sprintf("Checking Data Availability For %s \n Found %d records for %s\n Found %d records for %s \n",
                 station, st_row, start_date, en_row, end_date))
   
   if (is.integer(st_row) && is.integer(en_row))
   {
+    message("Data is Available")
     return(1)
   }
   else {
@@ -255,44 +270,58 @@ IsStationDataAvailable<- function (station, station_type, start_date, end_date) 
 }
 
 
-#'  Getting data for full date-range
-#'  
-#' @details For each day in the date range, this function fetches Weather Data
-#' Internally, it makes multiple calls to getSingleDayWeather
+#'  Getting data for a range of dates 
+#'   
+#' @description This function will return a (fairly large) data frame. If you are going 
+#'  to be using this data for future analysis, you can store the results in a CSV file
+#'   by setting \code{opt_write_to_file} to be TRUE
+#' @details For each day in the date range, this function fetches Weather Data.
+#'  Internally, it makes multiple calls to getSingleDayWeather.
 #' 
-#' @param station is a valid 3-letter airport code or a valid Weather Station ID
+#' @param station is a valid 3- or 4-letter Airport code or a valid Weather Station ID
+#'  (example: "BUF", "ORD", "VABB" for Mumbai).
+#'  Valid Weather Station "id" values: "KFLMIAMI75" or "IMOSCOWO2" You can look these up
+#'   at wunderground.com
 #' @param start_date is a valid string representing a date in the past (YYYY-MM-DD, all numeric)
 #' @param end_date is a a valid string representing a date in the past (YYYY-MM-DD, all numeric) and is greater than start_date  
-#' @param station.type = "airportCode" (3-letter airport code) or "ID" (Wx call Sign)
+#' @param station_type = "airportCode" (3-letter airport code) or "ID" (Wx call Sign)
+#' @param opt_write_to_file If TRUE, the resulting dataframe will be stored in a CSV file. 
+#'  Default is FALSE
 #' @export
-getWeatherForDateRange <- function(station, station.type, start_date, end_date) {
-  
-  validity = IsStationDataAvailable(station, station.type, start_date, end_date)
+getDateRangeWeather <- function(station, 
+                                start_date, 
+                                end_date,
+                                station_type="airportCode",
+                                opt_write_to_file = FALSE
+                                ) {  
+  validity = IsStationDataAvailable(station,  start_date, end_date, station_type)
   if (validity==0){
-    print(paste("Station data not available.", station, start_date, "to", "end_date"))
-    return(0) #returning a NULL to signal no data
+    warning(paste("Station data not available.", station, start_date, "to", "end_date"))
+    return(NULL) #returning a NULL to signal no data
   }
   
   date.range <- seq.Date(from=as.Date(start_date), to=as.Date(end_date), by='1 day')
-  print(station)
+  message("Begin getting Daily Data for ", station)
   # pre-allocate list
   l <- vector(mode='list', length=length(date.range))
   
   # loop over dates, and fetch data
   for(i in seq_along(date.range))
   {
-    l[[i]] <- getSingleDayWeather(station,  date.range[i], station.type)
-    message(paste(station, i, date.range[i], ":",  nrow(l[[i]]) ))
+    l[[i]] <- getSingleDayWeather(station,  date.range[i], station_type)
+    message(paste(station, i, date.range[i], ":",  nrow(l[[i]]), "Rows" ))
   }
   
-  #print(l)  
   # stack elements of list into DF, filling missing columns with NA
   d <- ldply(l)
     
-  outFileName <- paste0(station,"_",start_date,"_",end_date)
-  outFileName <- paste(outFileName, "csv","gz", sep=".")
-  
-  # save to CSV
-  write.csv(d, file=gzfile(outFileName), row.names=FALSE)
-  print(paste("wrote:", outFileName, "to", getwd()))
+  if(opt_write_to_file) {
+    outFileName <- paste0(station,"_",start_date,"_",end_date)
+    outFileName <- paste(outFileName, "csv","gz", sep=".")
+    
+    # save to CSV
+    write.csv(d, file=gzfile(outFileName), row.names=FALSE)
+    message(paste("wrote:", outFileName, "to", getwd()))    
+  }
+  return(d)
 }

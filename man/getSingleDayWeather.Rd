@@ -29,6 +29,6 @@ getSingleDayWeather(station, date, station_type = "airportCode",
 }
 \description{
 TODO: Error checking for valid station name, date,
-station.type
+station_type
 }
 
