@@ -1,8 +1,8 @@
-\name{IsStationDataAvailable}
-\alias{IsStationDataAvailable}
+\name{checkStnDataForDateRange}
+\alias{checkStnDataForDateRange}
 \title{Quick Check to see if WeatherUnderground has Weather Data for given station}
 \usage{
-IsStationDataAvailable(station, start_date, end_date,
+checkStnDataForDateRange(station, start_date, end_date,
   station_type = "airportCode")
 }
 \arguments{

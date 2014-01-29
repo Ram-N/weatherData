@@ -7,6 +7,9 @@ IsDateInvalid <- function (date) {
     print(paste( "Invalid date supplied", date ))
     return(1)
   }
+  #TODO:
+  #If a date in the future is supplied, print an error message
+  
   return(0) #is okay
 }
 
@@ -26,49 +29,50 @@ IsStationTypeInvalid <- function (station_type) {
   
 
 readUrl <- function(final_url) {
-  out <- tryCatch(
-{
-  #if you want to use more than one R expression in the "try" part use {}
-  # 'tryCatch()' will return the last evaluated expression 
-  # in case the "try" part was completed successfully  
-  #message("This is the 'try' part")  
-  u <- url(final_url)  
-  # readLines(u, warn=FALSE) 
-  readLines(u) 
-  # The return value of `readLines()` is the actual value 
-  # that will be returned in case there is no condition 
-  # (e.g. warning or error). 
-  # You don't need to state the return value via `return()` as code 
-  # in the "try" part is not wrapped insided a function (unlike that
-  # for the condition handlers for warnings and error below)
-},
-error=function(cond) {
-  message(paste("URL does not seem to exist:", final_url))
-  message("The original error message:")
-  message(cond)
-  return(NA)  # Choose a return value in case of error
-},
-warning=function(cond) {
-  message(paste("URL caused a warning:", final_url))
-  message("Here's the original warning message:")
-  message(cond)
-  # Choose a return value in case of warning
-  return(NA)
-},
- finally=  close(u)
-#   # NOTE:
-#   # Here goes everything that should be executed at the end,
-#   # regardless of success or error.
-#   # If you want more than one expression to be executed, then you 
-#   # need to wrap them in curly brackets ({...}); otherwise you could
-#   # just have written 'finally=<expression>' 
-#   message(paste("Processed URL:", url))
-#   message("Some other message at the end")
-# }
+  out <- tryCatch({
+    #if you want to use more than one R expression in the "try" part use {}
+    # 'tryCatch()' will return the last evaluated expression 
+    # in case the "try" part was completed successfully  
+    #message("This is the 'try' part")  
+    u <- url(final_url)  
+    # readLines(u, warn=FALSE) 
+    readLines(u) 
+    # The return value of `readLines()` is the actual value 
+    # that will be returned in case there is no condition 
+    # (e.g. warning or error). 
+    # You don't need to state the return value via `return()` as code 
+    # in the "try" part is not wrapped insided a function (unlike that
+    # for the condition handlers for warnings and error below)
+  },
+  error=function(cond) {
+    message(paste("URL does not seem to exist:", final_url))
+    message("The original error message:")
+    message(cond)
+    return(NA)  # Choose a return value in case of error
+  },
+  warning=function(cond) {
+    message(paste("URL caused a warning:", final_url))
+    message("Here's the original warning message:")
+    message(cond)
+    # Choose a return value in case of warning
+    return(NA)
+  },
+  finally=  close(u)
+  #   # NOTE:
+  #   # Here goes everything that should be executed at the end,
+  #   # regardless of success or error.
+  #   # If you want more than one expression to be executed, then you 
+  #   # need to wrap them in curly brackets ({...}); otherwise you could
+  #   # just have written 'finally=<expression>' 
+  #   message(paste("Processed URL:", url))
+  #   message("Some other message at the end")
+  # }
   )    
-return(out)
+  return(out)
 }
-#----------------------------------------------------------------
+
+
+
 
 #' This function gets weather data, given a valid station and a single date
 #' 
@@ -152,7 +156,10 @@ getSingleDayWeather <- function(station,
   #print(str(raw_data))
 
 if(grepl(pattern="No daily or hourly history data", raw_data[3]) ==TRUE){
-  warning(sprintf("Unable to get data from URL \n Check Station name %s \n Inspect the validity of the URL being tried:\n %s \n", station, final_url))
+  warning(sprintf("Unable to get data from URL
+                  \n Check Station name %s 
+                  \n Check If Date is in the future %s
+                  \n Inspect the validity of the URL being tried:\n %s \n", station, date, final_url))
   message("For International Airports, try the 4-letter Code")
       return(NULL) #have to try again      
 }
@@ -227,101 +234,4 @@ if(is.na(raw_data[1])) {
   }
   
   return(df)
-}
-
-
-
-#' @title Quick Check to see if WeatherUnderground has Weather Data for given station
-#' 
-#' @description Before we attempt to fetch the data for a big time interval of dates, this 
-#'  function is useful to see if the data even exists.
-#'  @details This functions checks for just the first and the last date in the interval
-#'    Not the days in between
-#' @param station is a valid 3-letter airport code or a valid Weather Station ID
-#' @param station_type is either \code{airportCode} or \code{id}
-#' @param start_date is a valid string representing a date in the past (YYYY-MM-DD, all numeric)
-#' @param end_date is a a valid string representing a date in the past (YYYY-MM-DD, all numeric) and is greater than start_date
-#' 
-#' @export 
-IsStationDataAvailable<- function (station, 
-                                   start_date, 
-                                   end_date,
-                                   station_type="airportCode"                                
-                                  ) {  
-  lst_start <- getSingleDayWeather(station, start_date, station_type, 
-                                   opt_temperature_only=T, opt.compress.output=T, 
-                                   opt_verbose=T)
-  lst_end <- getSingleDayWeather(station, end_date, station_type,  opt_temperature_only=T, 
-                                        opt.compress.output=T, opt_verbose=T)
-  st_row = nrow(lst_start) #takes on a value of NULL if station has no data
-  en_row = nrow(lst_end)
-  
-  message(sprintf("Checking Data Availability For %s \n Found %d records for %s\n Found %d records for %s \n",
-                station, st_row, start_date, en_row, end_date))
-  
-  if (is.integer(st_row) && is.integer(en_row))
-  {
-    message("Data is Available")
-    return(1)
-  }
-  else {
-    return(0) #nothing found
-  }
-}
-
-
-#'  Getting data for a range of dates 
-#'   
-#' @description This function will return a (fairly large) data frame. If you are going 
-#'  to be using this data for future analysis, you can store the results in a CSV file
-#'   by setting \code{opt_write_to_file} to be TRUE
-#' @details For each day in the date range, this function fetches Weather Data.
-#'  Internally, it makes multiple calls to getSingleDayWeather.
-#' 
-#' @param station is a valid 3- or 4-letter Airport code or a valid Weather Station ID
-#'  (example: "BUF", "ORD", "VABB" for Mumbai).
-#'  Valid Weather Station "id" values: "KFLMIAMI75" or "IMOSCOWO2" You can look these up
-#'   at wunderground.com
-#' @param start_date is a valid string representing a date in the past (YYYY-MM-DD, all numeric)
-#' @param end_date is a a valid string representing a date in the past (YYYY-MM-DD, all numeric) and is greater than start_date  
-#' @param station_type = "airportCode" (3-letter airport code) or "ID" (Wx call Sign)
-#' @param opt_write_to_file If TRUE, the resulting dataframe will be stored in a CSV file. 
-#'  Default is FALSE
-#' @export
-getDateRangeWeather <- function(station, 
-                                start_date, 
-                                end_date,
-                                station_type="airportCode",
-                                opt_write_to_file = FALSE
-                                ) {  
-  validity = IsStationDataAvailable(station,  start_date, end_date, station_type)
-  if (validity==0){
-    warning(paste("Station data not available.", station, start_date, "to", "end_date"))
-    return(NULL) #returning a NULL to signal no data
-  }
-  
-  date.range <- seq.Date(from=as.Date(start_date), to=as.Date(end_date), by='1 day')
-  message("Begin getting Daily Data for ", station)
-  # pre-allocate list
-  l <- vector(mode='list', length=length(date.range))
-  
-  # loop over dates, and fetch data
-  for(i in seq_along(date.range))
-  {
-    l[[i]] <- getSingleDayWeather(station,  date.range[i], station_type)
-    message(paste(station, i, date.range[i], ":",  nrow(l[[i]]), "Rows" ))
-  }
-  
-  # stack elements of list into DF, filling missing columns with NA
-  d <- ldply(l)
-    
-  if(opt_write_to_file) {
-    outFileName <- paste0(station,"_",start_date,"_",end_date)
-    outFileName <- paste(outFileName, "csv","gz", sep=".")
-    
-    # save to CSV
-    write.csv(d, file=gzfile(outFileName), row.names=FALSE)
-    message(paste("wrote:", outFileName, "to", getwd()))    
-  }
-  return(d)
 }

@@ -1,3 +1,4 @@
-export(IsStationDataAvailable)
+export(checkStnDataForDate)
+export(checkStnDataForDateRange)
 export(getDateRangeWeather)
 export(getSingleDayWeather)

@@ -31,5 +31,5 @@ Maintainer: Ram Narasimhan <ramnarasimhan@gmail.com>
 \keyword{ package }
 \examples{
 getSingleDayWeather("LAX", "2013-01-01")
-IsStationDataAvailable("BWI", "2013-12-13", "2014-01-01", "airportCode")
+checkStnDataForDateRange("BWI", "2013-12-13", "2014-01-01", "airportCode")
 }
