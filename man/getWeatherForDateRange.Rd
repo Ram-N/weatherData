@@ -1,8 +1,8 @@
-\name{getDateRangeWeather}
-\alias{getDateRangeWeather}
+\name{getWeatherForDateRange}
+\alias{getWeatherForDateRange}
 \title{Getting data for a range of dates}
 \usage{
-getDateRangeWeather(station, start_date, end_date,
+getWeatherForDateRange(station, start_date, end_date,
   station_type = "airportCode", opt_write_to_file = FALSE)
 }
 \arguments{
@@ -25,6 +25,11 @@ getDateRangeWeather(station, start_date, end_date,
   \item{opt_write_to_file}{If TRUE, the resulting dataframe
   will be stored in a CSV file.  Default is FALSE}
 }
+\value{
+A data frame with each row containing: \itemize{ \item Date
+and Time stamp (for each date specified) \item Temperature
+and/or other weather columns sought }
+}
 \description{
 This function will return a (fairly large) data frame. If
 you are going to be using this data for future analysis,
@@ -34,6 +39,11 @@ you can store the results in a CSV file by setting
 \details{
 For each day in the date range, this function fetches
 Weather Data.  Internally, it makes multiple calls to
-getSingleDayWeather.
+\code{getWeatherForDate}.
+}
+\references{
+For a list of valid Weather Stations, try this format
+\url{http://www.wunderground.com/weatherstation/ListStations.asp?selectedCountry=United+States}
+and replace with your country of interest
 }
 

@@ -3,7 +3,7 @@
 \alias{weatherData}
 \docType{package}
 \title{
-Get Historical Weather & Temperature data from the Web
+Get Weather & Temperature data from the Web
 }
 \description{
 The package has functions that can fetch weather data.
@@ -30,6 +30,6 @@ Maintainer: Ram Narasimhan <ramnarasimhan@gmail.com>
 }
 \keyword{ package }
 \examples{
-getSingleDayWeather("LAX", "2013-01-01")
+getWeatherForDate("LAX", "2013-01-01")
 checkStnDataForDateRange("BWI", "2013-12-13", "2014-01-01", "airportCode")
 }

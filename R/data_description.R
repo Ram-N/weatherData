@@ -73,3 +73,23 @@ NULL
 #' 
 NULL
 
+
+#' @title Data - US Weather Stations ID's 
+#' 
+#' @description This is a data frame of the 1602 stations in Weather Underground's
+#'  database. The 4-letter "airportCode" is used by functions
+#'  to check and get the weather data.
+#' 
+#'
+#' @author Ram Narasimhan \email{ramnarasimhan@@gmail.com}
+#' @name USAirportWeatherStations
+#' @docType data
+#' @usage data(USAirportWeatherStations)
+#' @references 
+#' \url{http://www.wunderground.com/about/faq/US_cities.asp}
+#' @keywords data
+#' 
+NULL
+
+
+

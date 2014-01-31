@@ -3,22 +3,13 @@ weatherData version 0.3
 Things to do for version 0.3
 
 ## Rationalize functionNames
-     get vs check
-     SingleDay vs DateRange vs Current
      Temp vs Weather
-
-Factor Code into different R files
-
-utils.R
-wrapper_functions.R
-
 
 
 ## Planned features
 
 Priority | Feature
 ---------|------
-  High |  getCurrentTemp("RDU")
   High |  getAirportCode()
   Med  |  Get a whole year's worth of data easily
   Med  |  getAnnualTemp("SEA", 2013)
@@ -29,5 +20,20 @@ Priority | Feature
  Low | getTempForDateAndHour(station, date, hour) 
  Low | Plotting for data obtained
  
-  
-    
+ 
+ Other Things to Do
+ ------------------
+ 
+ Github pages for weatherData
+ 
+ 
+ 
+ getStationCode("Denver")
+ getStationCode(state="IA")
+ getStationCode(state="Iowa")
+ 
+ 
+ 
+ 
+ 
+ 

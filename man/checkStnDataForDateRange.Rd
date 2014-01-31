@@ -19,6 +19,10 @@ checkStnDataForDateRange(station, start_date, end_date,
   in the past (YYYY-MM-DD, all numeric) and is greater than
   start_date}
 }
+\value{
+1 if the Station did have weather records, 0 if nothing was
+found
+}
 \description{
 Before we attempt to fetch the data for a big time interval
 of dates, this function is useful to see if the data even
