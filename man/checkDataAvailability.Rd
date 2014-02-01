@@ -1,12 +1,12 @@
-\name{checkStnDataForDate}
-\alias{checkStnDataForDate}
+\name{checkDataAvailability}
+\alias{checkDataAvailability}
 \title{Check if WeatherUnderground has Data for given station and date}
 \usage{
-checkStnDataForDate(station, check_date, station_type = "airportCode")
+checkDataAvailability(station, check_date, station_type = "airportCode")
 }
 \arguments{
-  \item{station}{is a valid 3-letter airport code or a
-  valid Weather Station ID}
+  \item{station}{is a valid airport code or a valid Weather
+  Station ID}
 
   \item{check_date}{is a a valid string representing a date
   in the past (string "YYYY-MM-DD")}
@@ -15,8 +15,8 @@ checkStnDataForDate(station, check_date, station_type = "airportCode")
   \code{id}}
 }
 \value{
-1 if the Station did have weather records, 0 if nothing was
-found
+1 if the station does have weather records for input date,
+0 if no records were found
 }
 \description{
 Use this function to check if data is available for station

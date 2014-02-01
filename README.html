@@ -5,7 +5,7 @@
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
 <meta http-equiv="x-ua-compatible" content="IE=9" >
 
-<title>Install</title>
+<title>Shiny App</title>
 
 <style type="text/css">
 body, td {
@@ -179,32 +179,67 @@ hljs.initHighlightingOnLoad();
 </head>
 
 <body>
+<p>weatherData is a library of functions that will fetch weather (Temperature, Pressure, Humidity etc.) data from the Web for you as clean data frame.</p>
+
+<p>If you want to perform weather Analysis, but don&#39;t wish to be bothered with
+scraping the data yourself, you can consider using <code>weatherData</code>.</p>
+
+<h3>Shiny App</h3>
+
+<p>WeatherCompare is <a href="http://spark.rstudio.com/ram/WeatherCompare/">a Shiny App</a> that uses the data brought over by weatherData and then summarized in various ways</p>
+
 <h1>Install</h1>
 
-<p>To install the development version of weatherData from github, use the <strong>devtools</strong> package,</p>
+<p>To install the development version of weatherData from github, use the <strong>devtools</strong> package.</p>
 
-<pre><code class="r">library(&quot;devtools&quot;)
+<pre><code class="r">install.packages(&quot;devtools&quot;)
+library(&quot;devtools&quot;)
 install_github(&quot;weatherData&quot;, &quot;Ram-N&quot;)
 </code></pre>
 
-<p>Windows users also must first install
+<p>Load the library</p>
+
+<pre><code class="r">library(weatherData)
+</code></pre>
+
+<p>Windows users must also first install
 <a href="http://cran.rstudio.com/bin/windows/Rtools/">Rtools</a>.</p>
 
 <h2>Suggestions</h2>
 
 <p>Suggestions are welcome! If you would have a particular need for weather data,
-let me know what changes you&#39;d like to see in the package.
+let me know what changes you&#39;d like to see in the package. If you find bugs, please do report it. Fetching data from the web can be fragile.
 Submit an Issue.</p>
 
 <h1>How to Use this package</h1>
 
 <h2>Examples</h2>
 
-<pre><code>library(weatherData)
-IsStationDataAvailable(&quot;SFO&quot;, &quot;airportCode&quot;, &quot;2010-10-29&quot;, &quot;2013-01-12&quot;)
+<pre><code class="r">library(weatherData)
+checkDataAvailabilityForDateRange(&quot;SFO&quot;, &quot;2010-10-29&quot;, &quot;2013-01-12&quot;)
 </code></pre>
 
-<p>The command above will see if weather data is available for the two end dates supplied: for the 20th Oct 2010 and for Jan 12th 2013.</p>
+<p>The command above will see if weather data is available for the Airport supplied (&ldquo;SFO&rdquo;) for the two end dates supplied: for the 20th Oct 2010 and for Jan 12th 2013 in this case.</p>
+
+<p>This command is useful for a quick check, before invoking <code>getDateRangeWeather</code></p>
+
+<pre><code class="r">data(London2013)
+</code></pre>
+
+<p>This is a data frame of Ambient temperature data, extracted
+from Weather Undergound. Each row has two entries
+(columns). The Timestamp (YYYY-MM-DD HH:MM:SS) and the
+TemperatureF (in degrees F) </p>
+
+<pre><code class="r">getCurrentTemperature(&quot;PIT&quot;)
+</code></pre>
+
+<p>This function will get the latest recorded Temperature for a give city or station. Any valid US Airport code or International 4-letter Airport Weather Code is valid. For example &ldquo;EGLL&rdquo; for London, UK. 
+Note: This function uses the Sys.Date to learn today&#39;s date</p>
+
+<pre><code class="r">getStationCode(&quot;Buffalo&quot;)
+getStationCode(&quot;Buffalo&quot;, state=&quot;WY&quot;)
+</code></pre>
 
 </body>
 

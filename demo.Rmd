@@ -1,0 +1,17 @@
+My Project Analysis Report
+========================================================
+
+Text here.
+
+```{r}
+3 * 1.1
+
+str(mtcars)
+```
+
+You can also embed plots, for example:
+
+```{r fig.width=7, fig.height=6}
+plot(cars)
+```
+

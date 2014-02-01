@@ -11,6 +11,20 @@ IsDateInvalid <- function (date) {
   return(0) #is okay
 }
 
+
+validYear <- function(year){
+  current_year = 1900 + as.POSIXlt(Sys.Date())$year    
+  if(year <= 0){
+    return(0)
+  }    
+  if(year > current_year){
+    warning("\nThe year cannot be greater than current year.")
+    return(0)
+  }  
+  return(1) #is okay
+}
+
+
 #' @title Check if the station type is airportCode or id
 #' @description We are checking if a valid station type was given to the function.
 #' @param station_type can be \code{airportCode} which is the default, or it

@@ -2,13 +2,13 @@
 \alias{getWeatherForDateRange}
 \title{Getting data for a range of dates}
 \usage{
-getWeatherForDateRange(station, start_date, end_date,
+getWeatherForDateRange(station_id, start_date, end_date,
   station_type = "airportCode", opt_write_to_file = FALSE)
 }
 \arguments{
-  \item{station}{is a valid 3- or 4-letter Airport code or
-  a valid Weather Station ID (example: "BUF", "ORD", "VABB"
-  for Mumbai).  Valid Weather Station "id" values:
+  \item{station_id}{is a valid 3- or 4-letter Airport code
+  or a valid Weather Station ID (example: "BUF", "ORD",
+  "VABB" for Mumbai).  Valid Weather Station "id" values:
   "KFLMIAMI75" or "IMOSCOWO2" You can look these up at
   wunderground.com}
 
@@ -19,8 +19,8 @@ getWeatherForDateRange(station, start_date, end_date,
   in the past (YYYY-MM-DD, all numeric) and is greater than
   start_date}
 
-  \item{station_type}{= "airportCode" (3-letter airport
-  code) or "ID" (Wx call Sign)}
+  \item{station_type}{= "airportCode" (3- or 4-letter
+  airport code) or "ID" (Wx call Sign)}
 
   \item{opt_write_to_file}{If TRUE, the resulting dataframe
   will be stored in a CSV file.  Default is FALSE}
@@ -40,6 +40,11 @@ you can store the results in a CSV file by setting
 For each day in the date range, this function fetches
 Weather Data.  Internally, it makes multiple calls to
 \code{getWeatherForDate}.
+}
+\examples{
+\dontrun{
+dat <- getWeatherForDateRange("PHNL", "2013-08-10", 2013-08-31")
+}
 }
 \references{
 For a list of valid Weather Stations, try this format

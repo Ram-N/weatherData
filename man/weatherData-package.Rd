@@ -31,5 +31,5 @@ Maintainer: Ram Narasimhan <ramnarasimhan@gmail.com>
 \keyword{ package }
 \examples{
 getWeatherForDate("LAX", "2013-01-01")
-checkStnDataForDateRange("BWI", "2013-12-13", "2014-01-01", "airportCode")
+checkDataAvailabilityForDateRange("BWI", "2013-12-13", "2014-01-01", "airportCode")
 }

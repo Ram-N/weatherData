@@ -1,13 +1,14 @@
 Package: weatherData
 Type: Package
-Title: Get Historical Weather Data from the Web
+Title: Get Weather Data from the Web
 Version: 0.3
-Date: 2014-01-28
+Date: 2014-01-31
 Author: Ram Narasimhan
 Imports:
     plyr
 Maintainer: Ram Narasimhan <ramnarasimhan@gmail.com>
-Description: A set of functions that help in fetching weather data from
-    websites. Supply a date range and a city and get its temperature data.
+Description: Functions that help in fetching weather data from
+    websites. Given a location and a date range, these functions help fetch
+    weather data (temperature, pressure etc.) for any weather related analysis.
 LazyData: TRUE
 License: GPL

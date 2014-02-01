@@ -3,21 +3,25 @@
 #' @description Use this function to check if data is available for station and date
 #'  If the station code or the date in invalid, function will return 0 
 #'  
-#' @param station is a valid 3-letter airport code or a valid Weather Station ID
+#' @param station is a valid airport code or a valid Weather Station ID
 #' @param check_date is a a valid string representing a date in the past (string "YYYY-MM-DD")
 #' @param station_type is either \code{airportCode} or \code{id}
 #' @references For a list of valid Weather Stations, try this format
 #'  \url{http://www.wunderground.com/weatherstation/ListStations.asp?selectedCountry=United+States}
 #'  and replace with your country of interest
-#' @return 1 if the Station did have weather records, 0 if nothing was found  
+#' @return 1 if the station does have weather records for input date, 
+#'  0 if no records were found  
 #' @export 
-checkStnDataForDate<- function (station, 
+checkDataAvailability <- function (station, 
                                    check_date, 
                                    station_type="airportCode"                                
                                   ) {  
-  df <- getWeatherForDate(station, check_date, station_type, 
-                                   opt_temperature_only=T, opt_compress_output=T, 
-                                   opt_verbose=T)
+  df <- getWeatherForDate(station, 
+                          check_date, 
+                          station_type, 
+                          opt_temperature_only=T, 
+                          opt_compress_output=T, 
+                          opt_verbose=T)
   
     
   message(sprintf("Checking Data Availability For %s", station))
@@ -46,7 +50,7 @@ checkStnDataForDate<- function (station,
 #' @return 1 if the Station did have weather records, 0 if nothing was found  
 
 #' @export 
-checkStnDataForDateRange<- function (station, 
+checkDataAvailabilityForDateRange<- function (station, 
                                      start_date, 
                                      end_date,
                                      station_type="airportCode"                                
@@ -97,13 +101,13 @@ checkStnDataForDateRange<- function (station,
 #' @details For each day in the date range, this function fetches Weather Data.
 #'  Internally, it makes multiple calls to \code{getWeatherForDate}.
 #' 
-#' @param station is a valid 3- or 4-letter Airport code or a valid Weather Station ID
+#' @param station_id is a valid 3- or 4-letter Airport code or a valid Weather Station ID
 #'  (example: "BUF", "ORD", "VABB" for Mumbai).
 #'  Valid Weather Station "id" values: "KFLMIAMI75" or "IMOSCOWO2" You can look these up
 #'   at wunderground.com
 #' @param start_date is a valid string representing a date in the past (YYYY-MM-DD, all numeric)
 #' @param end_date is a a valid string representing a date in the past (YYYY-MM-DD, all numeric) and is greater than start_date  
-#' @param station_type = "airportCode" (3-letter airport code) or "ID" (Wx call Sign)
+#' @param station_type = "airportCode" (3- or 4-letter airport code) or "ID" (Wx call Sign)
 #' @param opt_write_to_file If TRUE, the resulting dataframe will be stored in a CSV file. 
 #'  Default is FALSE
 #' @references For a list of valid Weather Stations, try this format
@@ -113,37 +117,40 @@ checkStnDataForDateRange<- function (station,
 #' \item Date and Time stamp (for each date specified)
 #' \item Temperature and/or other weather columns sought
 #' }
-
+#'@examples
+#'\dontrun{
+#' dat <- getWeatherForDateRange("PHNL", "2013-08-10", 2013-08-31")
+#'}
 #' @export
-getWeatherForDateRange <- function(station, 
+getWeatherForDateRange <- function(station_id, 
                                 start_date, 
                                 end_date,
                                 station_type="airportCode",
                                 opt_write_to_file = FALSE
                                 ) {  
-  validity = checkStnDataForDateRange(station,  start_date, end_date, station_type)
+  validity = checkDataAvailabilityForDateRange(station_id,  start_date, end_date, station_type)
   if (validity==0){
-    warning(paste("Station data not available.", station, start_date, "to", "end_date"))
+    warning(paste("Station data not available.", station_id, start_date, "to", "end_date"))
     return(NULL) #returning a NULL to signal no data
   }
   
   date.range <- seq.Date(from=as.Date(start_date), to=as.Date(end_date), by='1 day')
-  message("Begin getting Daily Data for ", station)
+  message("Begin getting Daily Data for ", station_id)
   # pre-allocate list
   l <- vector(mode='list', length=length(date.range))
   
   # loop over dates, and fetch data
   for(i in seq_along(date.range))
   {
-    l[[i]] <- getWeatherForDate(station,  date.range[i], station_type)
-    message(paste(station, i, date.range[i], ":",  nrow(l[[i]]), "Rows" ))
+    l[[i]] <- getWeatherForDate(station_id,  date.range[i], station_type)
+    message(paste(station_id, i, date.range[i], ":",  nrow(l[[i]]), "Rows" ))
   }
   
   # stack elements of list into DF, filling missing columns with NA
   d <- ldply(l)
     
   if(opt_write_to_file) {
-    outFileName <- paste0(station,"_",start_date,"_",end_date)
+    outFileName <- paste0(station_id,"_",start_date,"_",end_date)
     outFileName <- paste(outFileName, "csv","gz", sep=".")
     
     # save to CSV
@@ -152,6 +159,64 @@ getWeatherForDateRange <- function(station,
   }
   return(d)
 }
+
+
+#'  Get weather data for one full year
+#'  
+#' @description Function will return a data frame with all the records
+#'   for a given station_id and year. If the current year is supplied,
+#'   it will returns records until the current Sys.Date() ("today")
+#'   
+#' @details Note that this function is a light wrapper for getWeatherForDateRange
+#'    with the two end dates being Jan-01 and Dec-31 of the given year.
+#'   
+#' @description This function will return a (fairly large) data frame. If you are going 
+#'  to be using this data for future analysis, you can store the results in a CSV file
+#'   by setting \code{opt_write_to_file} to be TRUE
+#' @details For each day in the date range, this function fetches Weather Data.
+#'  Internally, it makes multiple calls to \code{getWeatherForDate}.
+#'  
+#' @param station_id is a valid 3- or 4-letter Airport code or a valid Weather Station ID
+#'  (example: "BUF", "ORD", "VABB" for Mumbai).
+#'  Valid Weather Station "id" values: "KFLMIAMI75" or "IMOSCOWO2" You can look these up
+#'   at wunderground.com
+#' @param year is a valid year in the past (numeric, YYYY format)
+#' @param station_type = "airportCode" (3 or 4 letter airport code) or "ID" (Wx call Sign)
+#' @param opt_write_to_file If TRUE, the resulting dataframe will be stored in a CSV file. 
+#'  Default is FALSE
+#' @references For a list of valid Weather Stations, try this format
+#'  \url{http://www.wunderground.com/weatherstation/ListStations.asp?selectedCountry=United+States}
+#'  and replace with your country of interest
+#' @return A data frame with each row containing: \itemize{
+#' \item Date and Time stamp (for each date specified)
+#' \item Temperature and/or other weather columns sought
+#' }
+#'@examples
+#'\dontrun{
+#' dat <- getWeatherForYear("KLGA", 2013)
+#'}
+#' @export
+getWeatherForYear <- function(station_id,
+                              year,
+                              station_type="airportCode",
+                              opt_write_to_file = FALSE) {
+  
+  if(!validYear(year)){   #check if year is valid
+    warning("Year argument is invalid. Please provide a valid 4-digit 
+            year (numeric)")
+    return(NULL)
+  } 
+  
+  if(year == (1900 + as.POSIXlt(Sys.Date())$year)) { #current Year. Just go until current date
+    last_day <-  Sys.Date()   
+  } else{
+    last_day <- paste0(year,"-12-31")
+  }
+  first_day <- paste0(year,"-01-01")
+  
+  getWeatherForDateRange(station_id, first_day, last_day)  
+}
+
 
 
 #' Get the latest recorded temperature for a location
@@ -196,19 +261,26 @@ getCurrentTemperature <- function(station){
 #' 
 #'
 #'@param stationName String that you want to get the weatherStation code for
-#'@param state Two-letter String with state name abbreviation. Ex. "AK" for Alaska 
+#'@param region A qualifier about the station's location.
+#' It could be a continent or a country.
+#' If in the US, region is a two-letter state abbreviation. Ex. "AK" for Alaska 
 #' @return A one row data frame containing: \itemize{
 #' \item A string of Station Name that matched
-#' \item two-letter US state abbreviation
+#' \item the region. (two-letter state abbreviation if in the US)
 #' \item The 4-letter weather station ID. (This is the string you use when 
 #'  calling \code{getWeatherForDate()})
 #' }
+#' 
+#' @references For a world-wide list of possible stations, be sure to look at
+#' \url{http://weather.rap.ucar.edu/surface/stations.txt} The ICAO (4-letter
+#' code is what needs to be input to \code{getWeatherData()})
+#' 
 #'@examples getStationCode("Denver")
 #'@export
-getStationCode <- function(stationName, state="XX"){
+getStationCode <- function(stationName, region="XX"){
 
-  if(state != "XX"){
-    state_matches <- grep(pattern=state,
+  if(region != "XX"){
+    region_matches <- grep(pattern=region,
                           USAirportWeatherStations$State, 
                           ignore.case=TRUE, value=FALSE)  
   }
@@ -216,25 +288,20 @@ getStationCode <- function(stationName, state="XX"){
                       USAirportWeatherStations$Station, 
                       ignore.case=TRUE, value=FALSE)
   
-  if(state != "XX"){
-    intersection <- which(state_matches %in% stn_matches)
+  if(region != "XX"){
+    intersection <- which(region_matches %in% stn_matches)
     if(length(intersection)) {
-      both_matches <- state_matches[intersection]
+      both_matches <- region_matches[intersection]
       stn2 <-  USAirportWeatherStations[both_matches, c("Station", "State", "airportCode")]  
       return(stn2)
     } else{
-      message("Could not match both StationName and State")
+      message("Could not match both StationName and Region")
     }
   }
   
   if(length(stn_matches)){
     USAirportWeatherStations[stn_matches, c("Station", "State", "airportCode")]  
   }
-#   if(length(state_matches)){
-#   stn2 <-  USAirportWeatherStations[state_matches, c("Station", "State", "airportCode")]  
-#   }
-#   
-#   rbind(stn1, stn2)
     
 }
 

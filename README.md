@@ -39,7 +39,7 @@ Submit an Issue.
 
 ```r
 library(weatherData)
-checkSnDataForDateRange("SFO", "2010-10-29", "2013-01-12")
+checkDataAvailabilityForDateRange("SFO", "2010-10-29", "2013-01-12")
 ```
 
 The command above will see if weather data is available for the Airport supplied ("SFO") for the two end dates supplied: for the 20th Oct 2010 and for Jan 12th 2013 in this case.
@@ -61,6 +61,17 @@ getCurrentTemperature("PIT")
 
 This function will get the latest recorded Temperature for a give city or station. Any valid US Airport code or International 4-letter Airport Weather Code is valid. For example "EGLL" for London, UK. 
 Note: This function uses the Sys.Date to learn today's date
+
+```r
+getStationCode("Buffalo")
+getStationCode("Buffalo", state="WY")
+```
+
+This function will return a record containing matches to a given
+station name, and the 4 letter code can then be used in the arguments
+to other functions such as `getWeatherForDate()`
+
+
 
 
 
