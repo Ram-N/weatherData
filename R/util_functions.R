@@ -82,3 +82,22 @@ readUrl <- function(final_url) {
   )    
   return(out)
 }
+
+
+keepOnlyMinMax <- function(single_day_df, daily_min=FALSE, daily_max=FALSE){
+  ret <- NULL
+  #assumes that second row is the value to get min/max of  
+  min_row <- which.min(single_day_df[,2])
+  max_row <- which.max(single_day_df[,2])
+  Tmin <- min(single_day_df[min_row,1])
+  Tmax <- max(single_day_df[max_row,1])
+  Vmin <- min(single_day_df[min_row,2])
+  Vmax <- max(single_day_df[max_row,2])
+  if(daily_min)
+    ret <- c(ret, Tmin, Vmin)
+  if(daily_max)
+    ret <- c(ret, Tmax, Vmax)
+  return(ret)
+}
+
+#name these min and max values

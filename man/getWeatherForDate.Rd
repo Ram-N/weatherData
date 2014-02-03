@@ -1,45 +1,55 @@
 \name{getWeatherForDate}
 \alias{getWeatherForDate}
-\title{Gets weather data for a single date}
+\title{Getting data for a range of dates}
 \usage{
-getWeatherForDate(station, date, station_type = "airportCode",
-  opt_temperature_only = T, opt_compress_output = FALSE,
-  opt_verbose = FALSE, opt_warnings = TRUE)
+  getWeatherForDate(station_id, start_date,
+    end_date = NULL, station_type = "airportCode",
+    opt_write_to_file = FALSE)
 }
 \arguments{
-  \item{station}{is a valid 3-letter airport code or a
-  valid Weather Station ID}
+  \item{station_id}{is a valid 3- or 4-letter Airport code
+  or a valid Weather Station ID (example: "BUF", "ORD",
+  "VABB" for Mumbai).  Valid Weather Station "id" values:
+  "KFLMIAMI75" or "IMOSCOWO2" You can look these up at
+  wunderground.com}
 
-  \item{date}{is a valid string representing a date in the
-  past (YYYY-MM-DD)}
+  \item{start_date}{is a valid string representing a date
+  in the past (YYYY-MM-DD, all numeric)}
 
-  \item{station_type}{can be \code{airportCode} which is
-  the default, or it can be \code{id} which is a
-  weather-station ID}
+  \item{end_date}{is a a valid string representing a date
+  in the past (YYYY-MM-DD, all numeric) and is greater than
+  start_date}
 
-  \item{opt_temperature_only}{Boolen flag to indicate only
-  Temperature data is to be returned (default TRUE)}
+  \item{station_type}{= "airportCode" (3- or 4-letter
+  airport code) or "ID" (Wx call Sign)}
 
-  \item{opt_compress_output}{Boolean flag to indicate if a
-  compressed output is preferred.  If this option is set to
-  be TRUE, only every other record is returned}
-
-  \item{opt_verbose}{Boolean flag to indicate if verbose
-  output is desired}
-
-  \item{opt_warnings}{Boolean flag to turn off warnings.
-  Default value is TRUE, to keep the warnings on.}
+  \item{opt_write_to_file}{If TRUE, the resulting dataframe
+  will be stored in a CSV file.  Default is FALSE}
 }
 \value{
-A data frame with each row containing: \itemize{ \item Date
-and Time stamp for the date specified \item Temperature
-and/or other weather columns }
-
-A data frame containing the Date & Time stamp and Weather
-data columns
+  A data frame with each row containing: \itemize{ \item
+  Date and Time stamp (for each date specified) \item
+  Temperature and/or other weather columns sought }
 }
 \description{
-Given a valid station and a single date this function will
-return a dataframe of time-stamped weather data
+  This function will return a (fairly large) data frame. If
+  you are going to be using this data for future analysis,
+  you can store the results in a CSV file by setting
+  \code{opt_write_to_file} to be TRUE
+}
+\details{
+  For each day in the date range, this function fetches
+  Weather Data.  Internally, it makes multiple calls to
+  \code{getWeatherData}.
+}
+\examples{
+\dontrun{
+dat <- getWeatherForDate("PHNL", "2013-08-10", 2013-08-31")
+}
+}
+\references{
+  For a list of valid Weather Stations, try this format
+  \url{http://www.wunderground.com/weatherstation/ListStations.asp?selectedCountry=United+States}
+  and replace with your country of interest
 }
 

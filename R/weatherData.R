@@ -25,8 +25,8 @@ require(plyr)
 #' @return A data frame containing the Date & Time stamp and Weather data columns
 #' @import plyr
 #' @export
-getWeatherForDate <- function(station, 
-                                date, 
+getWeatherData <- function(station, 
+                           date, 
                                 station_type="airportCode",
                                 opt_temperature_only = T,
                                 opt_compress_output = FALSE,
