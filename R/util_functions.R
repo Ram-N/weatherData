@@ -84,20 +84,128 @@ readUrl <- function(final_url) {
 }
 
 
-keepOnlyMinMax <- function(single_day_df, daily_min=FALSE, daily_max=FALSE){
+keepOnlyMinMax <- function(single_day_df, 
+                           daily_min=FALSE, 
+                           daily_max=FALSE){
   ret <- NULL
   #assumes that second row is the value to get min/max of  
   min_row <- which.min(single_day_df[,2])
   max_row <- which.max(single_day_df[,2])
-  Tmin <- min(single_day_df[min_row,1])
-  Tmax <- max(single_day_df[max_row,1])
-  Vmin <- min(single_day_df[min_row,2])
-  Vmax <- max(single_day_df[max_row,2])
+  
+  Tmin <- single_day_df[min_row,1]
+  Tmax <- single_day_df[max_row,1]
+  Vmin <- single_day_df[min_row,2]
+  Vmax <- single_day_df[max_row,2]
   if(daily_min)
     ret <- c(ret, Tmin, Vmin)
   if(daily_max)
     ret <- c(ret, Tmax, Vmax)
   return(ret)
+  
 }
 
-#name these min and max values
+
+
+#' Gets the Weather Station code for a location (in the US)
+#'
+#' This function goes through the USAirportWeatherStations dataset
+#' and looks for matches. Usually, the 4 letter airportCode is what you are after.
+#' 
+#'
+#'@param stationName String that you want to get the weatherStation code for
+#'@param region A qualifier about the station's location.
+#' It could be a continent or a country.
+#' If in the US, region is a two-letter state abbreviation. Ex. "AK" for Alaska 
+#' @return A one row data frame containing: \itemize{
+#' \item A string of Station Name that matched
+#' \item the region. (two-letter state abbreviation if in the US)
+#' \item The 4-letter weather station ID. (This is the string you use when 
+#'  calling \code{getWeatherData()})
+#' }
+#' 
+#' @references For a world-wide list of possible stations, be sure to look at
+#' \url{http://weather.rap.ucar.edu/surface/stations.txt} The ICAO (4-letter
+#' code is what needs to be input to \code{getWeatherData()})
+#' 
+#'@examples getStationCode("Denver")
+#'@export
+getStationCode <- function(stationName, region=NULL){
+  
+  stn2 <- NULL; us_stns <- NULL
+  intl_stn2 <- NULL; i_stns <- NULL
+  if(!is.null(region)){
+    region_matches <- grep(pattern=region,
+                           USAirportWeatherStations$State, 
+                           ignore.case=TRUE, value=FALSE)  
+    
+    iRegion_matches <- grep(pattern=region,
+                            IntlWxStations[,1],
+                            ignore.case=TRUE, value=FALSE)  
+    
+    
+  }
+  stn_matches <- grep(pattern=stationName,
+                      USAirportWeatherStations$Station, 
+                      ignore.case=TRUE, value=FALSE)
+  iName_matches <- grep(pattern=stationName,
+                        IntlWxStations[, 1], 
+                        ignore.case=TRUE,
+                        value=FALSE)
+  
+  
+  if(!is.null(region)){
+    intl_section <- which(iName_matches %in% iRegion_matches)
+    intersection <- which(region_matches %in% stn_matches)
+    if(length(intersection)) {      
+      both_matches <- region_matches[intersection]
+      stn2 <-  USAirportWeatherStations[both_matches, c("Station", "State", "airportCode")]  
+    }
+    if(length(intl_section)) {      
+      both_matches <- iName_matches[intl_section]
+      intl_stn2 <-  IntlWxStations[both_matches,]
+    }
+    if(!length(intersection) & !length(intl_section)) {      
+      message("Could not match both StationName and Region")
+      message("Will try matching just the Station Names")
+    }
+  }
+  
+  if(!is.null(stn2) & !is.null(intl_stn2)) {
+    return(list(stn2, intl_stn2))
+  }    
+  
+  if(!is.null(stn2)){
+    return(stn2)
+  }    
+  if(!is.null(intl_stn2)){
+    return(intl_stn2)
+  }    
+  
+  #No region hits, just the StationName matches
+  if(length(iName_matches)){
+    #  print(paste(stationName, intl_matches))
+    i_stns <- (IntlWxStations[iName_matches, ])
+  }    
+  if(length(stn_matches)){
+    us_stns <- USAirportWeatherStations[stn_matches, 
+                                        c("Station", 
+                                          "State", 
+                                          "airportCode")]  
+  }
+  
+  if(!is.null(us_stns) & !is.null(i_stns)) {
+    return(list(us_stns, i_stns))
+  }    
+  
+  if(!is.null(us_stns)){
+    return(us_stns)
+  }    
+  if(!is.null(i_stns)){
+    return(i_stns)
+  }    
+  
+}
+
+
+
+

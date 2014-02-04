@@ -1,6 +1,7 @@
 export(checkDataAvailability)
 export(checkDataAvailabilityForDateRange)
 export(getCurrentTemperature)
+export(getDailyMinMaxTemp)
 export(getStationCode)
 export(getWeatherData)
 export(getWeatherForDate)

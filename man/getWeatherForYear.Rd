@@ -2,16 +2,15 @@
 \alias{getWeatherForYear}
 \title{Get weather data for one full year}
 \usage{
-  getWeatherForYear(station_id, year,
-    station_type = "airportCode",
-    opt_write_to_file = FALSE)
+getWeatherForYear(station_id, year, station_type = "airportCode",
+  opt_write_to_file = FALSE)
 }
 \arguments{
-  \item{station_id}{is a valid 3- or 4-letter Airport code
-  or a valid Weather Station ID (example: "BUF", "ORD",
-  "VABB" for Mumbai).  Valid Weather Station "id" values:
-  "KFLMIAMI75" or "IMOSCOWO2" You can look these up at
-  wunderground.com}
+  \item{station_id}{is a valid Weather Station ID (example:
+  "BUF", "ORD", "VABB" for Mumbai).  Valid Weather Station
+  "id" values: "KFLMIAMI75" or "IMOSCOWO2" You can look
+  these up at wunderground.com. You can get station_id's
+  for a given location by calling \code{getStationCode()}}
 
   \item{year}{is a valid year in the past (numeric, YYYY
   format)}
@@ -23,20 +22,20 @@
   will be stored in a CSV file.  Default is FALSE}
 }
 \value{
-  A data frame with each row containing: \itemize{ \item
-  Date and Time stamp (for each date specified) \item
-  Temperature and/or other weather columns sought }
+A data frame with each row containing: \itemize{ \item Date
+and Time stamp (for each date specified) \item Temperature
+and/or other weather columns sought }
 }
 \description{
-  Function will return a data frame with all the records
-  for a given station_id and year. If the current year is
-  supplied, it will returns records until the current
-  Sys.Date() ("today")
+Function will return a data frame with all the records for
+a given station_id and year. If the current year is
+supplied, it will returns records until the current
+Sys.Date() ("today")
 }
 \details{
-  Note that this function is a light wrapper for
-  getWeatherForDate with the two end dates being Jan-01 and
-  Dec-31 of the given year.
+Note that this function is a light wrapper for
+getWeatherForDate with the two end dates being Jan-01 and
+Dec-31 of the given year.
 }
 \examples{
 \dontrun{
@@ -44,8 +43,8 @@ dat <- getWeatherForYear("KLGA", 2013)
 }
 }
 \references{
-  For a list of valid Weather Stations, try this format
-  \url{http://www.wunderground.com/weatherstation/ListStations.asp?selectedCountry=United+States}
-  and replace with your country of interest
+For a list of valid Weather Stations, try this format
+\url{http://www.wunderground.com/weatherstation/ListStations.asp?selectedCountry=United+States}
+and replace with your country of interest
 }
 

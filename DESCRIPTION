@@ -12,8 +12,3 @@ Description: Functions that help in fetching weather data from
     weather data (temperature, pressure etc.) for any weather related analysis.
 LazyData: TRUE
 License: GPL
-Collate:
-    'data_description.R'
-    'util_functions.R'
-    'weatherData.R'
-    'wrapper_functions.R'

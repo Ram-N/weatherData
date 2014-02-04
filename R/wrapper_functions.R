@@ -106,7 +106,11 @@ checkDataAvailabilityForDateRange<- function (station_id,
 #'  Valid Weather Station "id" values: "KFLMIAMI75" or "IMOSCOWO2" You can look these up
 #'   at wunderground.com
 #' @param start_date is a valid string representing a date in the past (YYYY-MM-DD, all numeric)
-#' @param end_date is a a valid string representing a date in the past (YYYY-MM-DD, all numeric) and is greater than start_date  
+#' @param end_date (optional) If an interval is to be specified, end_date 
+#'  is a a valid string representing a date in the past (YYYY-MM-DD, all numeric) 
+#'  and greater than start_date  
+#' @param daily_min A boolean indicating if only the Minimum Temperatures are desired
+#' @param daily_max A boolean indicating if only the Maximum Temperatures are desired
 #' @param station_type = "airportCode" (3- or 4-letter airport code) or "ID" (Wx call Sign)
 #' @param opt_write_to_file If TRUE, the resulting dataframe will be stored in a CSV file. 
 #'  Default is FALSE
@@ -125,28 +129,25 @@ checkDataAvailabilityForDateRange<- function (station_id,
 getWeatherForDate <- function(station_id, 
                               start_date, 
                               end_date =NULL,
-                              daily_min=NULL,
-                              daily_max=NULL,                              
+                              daily_min=FALSE,
+                              daily_max=FALSE,                              
                               station_type="airportCode",
                               opt_write_to_file = FALSE
                                 ) {  
+  coda <- NULL
   if(is.null(end_date)) {
-    valid <- checkDataAvailability(station_id, start_date, station_type)
-    if(valid){
-      d <- getWeatherData(station_id, 
-                          start_date,
-                          station_type)
-      outFileName <- paste0(station_id,"_",start_date)
-      outFileName <- paste(outFileName, "csv","gz", sep=".")
-      
-    }
+    validity <- checkDataAvailability(station_id, start_date, station_type)
+    end_date <- start_date #the same day
   } else {
+    coda <- paste0("_", end_date) #used for naming files
     validity <- checkDataAvailabilityForDateRange(station_id,  start_date, end_date, station_type)
-    if (validity==0){
-      warning(paste("Station data not available.", station_id, start_date, "to", "end_date"))
-      return(NULL) #returning a NULL to signal no data
-    }
-    
+  }
+  
+  if (validity==0){
+    warning(paste("Station data not available.", station_id, start_date, "to", "end_date"))
+    return(NULL) 
+  }
+  
     date.range <- seq.Date(from=as.Date(start_date), to=as.Date(end_date), by='1 day')
     message("Begin getting Daily Data for ", station_id)
     # pre-allocate list
@@ -155,8 +156,11 @@ getWeatherForDate <- function(station_id,
     # loop over dates, and fetch data
     for(i in seq_along(date.range))
     {
-      single_day_df <- getWeatherData(station_id,  date.range[i], station_type)
-      message(paste(station_id, i, date.range[i], ":",  nrow(l[[i]]), "Rows" ))
+      single_day_df <- getWeatherData(station_id,  
+                                      date.range[i], 
+                                      station_type)
+      message(paste(station_id, i, date.range[i], ":",
+                    nrow(single_day_df), "Rows" ))      
       if(daily_min | daily_max) {
         l[[i]] <- keepOnlyMinMax(single_day_df, daily_min, daily_max)
       } else{ #store the full day's dframe
@@ -166,9 +170,22 @@ getWeatherForDate <- function(station_id,
     
     # stack elements of list into DF, filling missing columns with NA
     d <- ldply(l)
-    outFileName <- paste0(station_id,"_",start_date,"_",end_date)
+    
+    #Take care of filename and Row Names for min/max
+    prepend <- NULL
+    if(daily_max & daily_min) {#both
+      names(d) <- c("TimeMin", "MinTemp","TimeMax", "MaxTemp")
+      prepend <- "MinMax_"
+    } else if(daily_min){
+      names(d) <- c("TimeMin", "MinTemp")
+      prepend <- "Min_"
+    } else if(daily_max){
+      names(d) <- c("TimeMax", "MaxTemp")
+      prepend <- "Max_"
+    }
+        
+    outFileName <- paste0(prepend, station_id,"_",start_date, coda)  
     outFileName <- paste(outFileName, "csv","gz", sep=".")
-  }    
   
   if(opt_write_to_file) {
     write.csv(d, file=gzfile(outFileName), row.names=FALSE)
@@ -194,10 +211,11 @@ getWeatherForDate <- function(station_id,
 #' @details For each day in the date range, this function fetches Weather Data.
 #'  Internally, it makes multiple calls to \code{getWeatherData}.
 #'  
-#' @param station_id is a valid 3- or 4-letter Airport code or a valid Weather Station ID
+#' @param station_id is a valid Weather Station ID
 #'  (example: "BUF", "ORD", "VABB" for Mumbai).
 #'  Valid Weather Station "id" values: "KFLMIAMI75" or "IMOSCOWO2" You can look these up
-#'   at wunderground.com
+#'   at wunderground.com. You can get station_id's for a given location
+#'   by calling \code{getStationCode()}
 #' @param year is a valid year in the past (numeric, YYYY format)
 #' @param station_type = "airportCode" (3 or 4 letter airport code) or "ID" (Wx call Sign)
 #' @param opt_write_to_file If TRUE, the resulting dataframe will be stored in a CSV file. 
@@ -242,10 +260,11 @@ getWeatherForYear <- function(station_id,
 #' @description A wrapper for getWeatherData(), it returns the last
 #'  record in the web page. Uses Sys.Date() to get current time. 
 #'
-#' @param station is a valid 3- or 4-letter Airport code or a valid Weather Station ID
+#' @param station_id is a valid Weather Station ID
 #'  (example: "BUF", "ORD", "VABB" for Mumbai).
 #'  Valid Weather Station "id" values: "KFLMIAMI75" or "IMOSCOWO2" You can look these up
-#'   at wunderground.com
+#'   at wunderground.com. You can get station_id's for a given location
+#'   by calling \code{getStationCode()}
 #' @return A one row data frame containing: \itemize{
 #' \item Date and Time stamp (for when the latest temperature reading was recorded)
 #' \item Temperature for the station in Farenheit (or Celcius)
@@ -256,120 +275,91 @@ getWeatherForYear <- function(station_id,
 #' 
 #' @examples getCurrentTemperature(station ="HNL")
 #' @export
-getCurrentTemperature <- function(station){  
+getCurrentTemperature <- function(station_id){  
   #Try with tomorrow's date first, in case location is ahead in timezone
   #We expect this to fail if the date is in the future. That's why
   # the warnings are FALSE.
   
-  temp.df <- getWeatherData(station, Sys.Date()+1,  
-                                 opt_warnings=FALSE)
+  temp.df <- getWeatherData(station_id,
+                            Sys.Date()+1,  
+                            opt_warnings=FALSE)
   
   #If the second call also fails, we want to be warned, so opt_warnings=T
   #The only reason this can fail is if the station is invalid
-  if(is.null(temp.df))  temp.df <- getWeatherData(station, Sys.Date()
+  if(is.null(temp.df))  temp.df <- getWeatherData(station_id, Sys.Date()
                                                        ,  opt_warnings=TRUE)  
   temp.df[nrow(temp.df), ]
 }
 
 
-#' Gets the Weather Station code for a location (in the US)
-#'
-#' This function goes through the USAirportWeatherStations dataset
-#' and looks for matches. Usually, the 4 letter airportCode is what you are after.
+#' Get the daily minimum (maximum) temperatures for a given weather stations
 #' 
-#'
-#'@param stationName String that you want to get the weatherStation code for
-#'@param region A qualifier about the station's location.
-#' It could be a continent or a country.
-#' If in the US, region is a two-letter state abbreviation. Ex. "AK" for Alaska 
-#' @return A one row data frame containing: \itemize{
-#' \item A string of Station Name that matched
-#' \item the region. (two-letter state abbreviation if in the US)
-#' \item The 4-letter weather station ID. (This is the string you use when 
-#'  calling \code{getWeatherData()})
+#' Given a StationID and a set of dates, this function returns the 
+#' Daily Minimum and/or Maximum temperatures recorded, along with timestamps
+#' 
+#' @details This functions fetches all the records for 
+#' each date specified, but it only retaints the min and/or max record, along 
+#'  with the timestamp.
+#'  
+#' @param station_id is a valid 3- or 4-letter Airport code or a valid Weather Station ID
+#'  (example: "BUF", "ORD", "VABB" for Mumbai).
+#'  Valid Weather Station "id" values: "KFLMIAMI75" or "IMOSCOWO2" You can look these up
+#'   at wunderground.com
+#' @param start_date is a valid string representing a date in the past (YYYY-MM-DD, all numeric)
+#' @param end_date (optional) If an interval is to be specified, end_date 
+#'  is a a valid string representing a date in the past (YYYY-MM-DD, all numeric) 
+#'  and greater than start_date  
+#' @param daily_min A boolean indicating if the Minimum Temperatures are desired
+#' @param daily_max A boolean indicating if the Maximum Temperatures are desired
+#'  Both \code{daily_min} and \code{daily_max} can be TRUE, but at least one of 
+#'  them should be TRUE.
+#' @param station_type = "airportCode" (3- or 4-letter airport code) or "ID" (Wx call Sign)
+#' @param opt_write_to_file If TRUE, the resulting dataframe will be stored in a CSV file. 
+#'  Default is FALSE
+#'  
+#' @return A data frame with each row containing: \itemize{
+#' \item Date and Time stamp (for when that day's minimum temperature was recorded)
+#' \item Minimum Temperature for the station in Farenheit (or Celcius)
+#' \item Date and Time stamp (for when that day's maximum temperature was recorded)
+#' \item Maximum Temperature for the station in Farenheit (or Celcius)
 #' }
-#' 
-#' @references For a world-wide list of possible stations, be sure to look at
-#' \url{http://weather.rap.ucar.edu/surface/stations.txt} The ICAO (4-letter
-#' code is what needs to be input to \code{getWeatherData()})
-#' 
-#'@examples getStationCode("Denver")
-#'@export
-getStationCode <- function(stationName, region=NULL){
-
-  stn2 <- NULL; us_stns <- NULL
-  intl_stn2 <- NULL; i_stns <- NULL
-  if(!is.null(region)){
-    region_matches <- grep(pattern=region,
-                          USAirportWeatherStations$State, 
-                          ignore.case=TRUE, value=FALSE)  
-    
-    iRegion_matches <- grep(pattern=region,
-                            IntlWxStations[,1],
-                           ignore.case=TRUE, value=FALSE)  
-    
-    
+#'@examples
+#'\dontrun{
+#' dat <- getDailyMinMaxTemp("KIAH", "2013-08-10", 2013-08-31", daily_max=TRUE)
+#' dat <- getDailyMinMaxTemp("KBIL", "2013-08-10", daily_max=T)
+#' dat <- getDailyMinMaxTemp("EGLL", "2013-08-10", daily_max=T, daily_min=TRUE)
+#'}
+#' @export
+getDailyMinMaxTemp <- function(station_id, start_date, 
+                               end_date =NULL,
+                               daily_min=FALSE,
+                               daily_max=FALSE,                              
+                               station_type="airportCode",
+                               opt_write_to_file = FALSE){  
+  
+  if((!daily_min) & (!daily_max)){
+    warning("When calling getDailyMinMaxTemp, \n at least one of daily_min or daily_max should be TRUE")
+    return(NULL)
   }
-  stn_matches <- grep(pattern=stationName,
-                      USAirportWeatherStations$Station, 
-                      ignore.case=TRUE, value=FALSE)
-  iName_matches <- grep(pattern=stationName,
-                        IntlWxStations[, 1], 
-                        ignore.case=TRUE,
-                        value=FALSE)
   
+  temp.df <- getWeatherForDate(station_id, start_date,
+                            end_date, daily_min,
+                            daily_max,
+                            station_type,
+                            opt_write_to_file)
   
-  if(!is.null(region)){
-    intl_section <- which(iName_matches %in% iRegion_matches)
-    intersection <- which(region_matches %in% stn_matches)
-    if(length(intersection)) {      
-      both_matches <- region_matches[intersection]
-      stn2 <-  USAirportWeatherStations[both_matches, c("Station", "State", "airportCode")]  
-    }
-    if(length(intl_section)) {      
-      both_matches <- iName_matches[intl_section]
-      intl_stn2 <-  IntlWxStations[both_matches,]
-    }
-    if(!length(intersection) & !length(intl_section)) {      
-      message("Could not match both StationName and Region")
-      message("Will try matching just the Station Names")
-    }
+  if(daily_min & daily_max){
+    temp.df$TimeMin <- as.POSIXct(temp.df[,1], origin="1970-01-01")
+    temp.df$TimeMax <- as.POSIXct(temp.df[,3], origin="1970-01-01")  
   }
-
-  if(!is.null(stn2) & !is.null(intl_stn2)) {
-    return(list(stn2, intl_stn2))
-  }    
-  
-  if(!is.null(stn2)){
-    return(stn2)
-  }    
-  if(!is.null(intl_stn2)){
-    return(intl_stn2)
-  }    
-  
-  #No region hits, just the StationName matches
-  if(length(iName_matches)){
-  #  print(paste(stationName, intl_matches))
-    i_stns <- (IntlWxStations[iName_matches, ])
-  }    
-  if(length(stn_matches)){
-    us_stns <- USAirportWeatherStations[stn_matches, 
-                                        c("Station", 
-                                          "State", 
-                                          "airportCode")]  
+  else if(daily_min){
+    temp.df$TimeMin <- as.POSIXct(temp.df[,1], origin="1970-01-01")
   }
-
-  if(!is.null(us_stns) & !is.null(i_stns)) {
-    return(list(us_stns, i_stns))
-  }    
+  else if(daily_max){
+    temp.df$TimeMax <- as.POSIXct(temp.df[,1], origin="1970-01-01")
+  }
   
-  if(!is.null(us_stns)){
-    return(us_stns)
-  }    
-  if(!is.null(i_stns)){
-    return(i_stns)
-  }    
-  
+  return(temp.df)  
 }
 
 

@@ -2,10 +2,9 @@
 \alias{getWeatherData}
 \title{Gets weather data for a single date}
 \usage{
-  getWeatherData(station, date,
-    station_type = "airportCode", opt_temperature_only = T,
-    opt_compress_output = FALSE, opt_verbose = FALSE,
-    opt_warnings = TRUE)
+getWeatherData(station, date, station_type = "airportCode",
+  opt_temperature_only = T, opt_compress_output = FALSE,
+  opt_verbose = FALSE, opt_warnings = TRUE)
 }
 \arguments{
   \item{station}{is a valid 3-letter airport code or a
@@ -32,15 +31,15 @@
   Default value is TRUE, to keep the warnings on.}
 }
 \value{
-  A data frame with each row containing: \itemize{ \item
-  Date and Time stamp for the date specified \item
-  Temperature and/or other weather columns }
+A data frame with each row containing: \itemize{ \item Date
+and Time stamp for the date specified \item Temperature
+and/or other weather columns }
 
-  A data frame containing the Date & Time stamp and Weather
-  data columns
+A data frame containing the Date & Time stamp and Weather
+data columns
 }
 \description{
-  Given a valid station and a single date this function
-  will return a dataframe of time-stamped weather data
+Given a valid station and a single date this function will
+return a dataframe of time-stamped weather data
 }
 
