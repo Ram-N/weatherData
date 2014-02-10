@@ -4,7 +4,7 @@
   <head>
     <meta charset='utf-8' />
     <meta http-equiv="X-UA-Compatible" content="chrome=1" />
-    <meta name="description" content="Weatherdata : A simple R package that fetches Weather data from WeatherUnderground" />
+    <meta name="description" content="Weatherdata : A simple R package that fetches Weather data from websites" />
 
     <link rel="stylesheet" type="text/css" media="screen" href="stylesheets/stylesheet.css">
 
@@ -19,7 +19,7 @@
           <a id="forkme_banner" href="https://github.com/Ram-N/weatherData">View on GitHub</a>
 
           <h1 id="project_title">Weatherdata</h1>
-          <h2 id="project_tagline">A simple R package that fetches Weather data from WeatherUnderground</h2>
+          <h2 id="project_tagline">A simple R package that fetches Weather data from websites</h2>
 
             <section id="downloads">
               <a class="zip_download_link" href="https://github.com/Ram-N/weatherData/zipball/master">Download this project as a .zip file</a>
@@ -31,40 +31,47 @@
     <!-- MAIN CONTENT -->
     <div id="main_content_wrap" class="outer">
       <section id="main_content" class="inner">
-        <p>weatherData is a library of functions that will fetch weather (Temperature, Pressure, Humidity etc.) data from the Web for you as clean data frame.</p>
+        <p><code>weatherData</code> is a collection of functions that will fetch weather (Temperature, Pressure, Humidity etc.) data from the Web for you as clean data frame.</p>
 
 <p>If you want to perform weather Analysis, but don't wish to be bothered with
 scraping the data yourself, you can consider using <code>weatherData</code>.</p>
 
 <h3>
-<a name="shiny-app" class="anchor" href="#shiny-app"><span class="octicon octicon-link"></span></a>Shiny App</h3>
+<a name="shiny-app-that-uses-weatherdata" class="anchor" href="#shiny-app-that-uses-weatherdata"><span class="octicon octicon-link"></span></a>Shiny App that uses WeatherData</h3>
 
-<p>WeatherCompare is <a href="http://spark.rstudio.com/ram/WeatherCompare/">a Shiny App</a> that uses the data brought over by weatherData and then summarized in various ways</p>
+<p><code>WeatherCompare</code> is <a href="http://spark.rstudio.com/ram/WeatherCompare/">a Shiny App</a> that uses the data brought over by weatherData and then summarized in various ways</p>
 
-<h1>
-<a name="install" class="anchor" href="#install"><span class="octicon octicon-link"></span></a>Install</h1>
+<h2>
+<a name="two-installation-options" class="anchor" href="#two-installation-options"><span class="octicon octicon-link"></span></a>Two Installation Options</h2>
 
-<p>To install the development version of weatherData from github, use the <strong>devtools</strong> package.</p>
+<p>You can install the version from CRAN, or you can try out the version hosted in Github. Github has the development version, where I am trying out the newer functions.</p>
+
+<h3>
+<a name="option-1-install-from-cran" class="anchor" href="#option-1-install-from-cran"><span class="octicon octicon-link"></span></a>Option 1: Install from CRAN</h3>
+
+<p>Install and Load the library</p>
+
+<pre><code>install.packages('weatherData')
+library(weatherData)
+</code></pre>
+
+<h3>
+<a name="option-2-install-from-github" class="anchor" href="#option-2-install-from-github"><span class="octicon octicon-link"></span></a>Option 2: Install from Github</h3>
+
+<p>The latest version of weatherData is on Github. (Note that this is the development version, and is usually ahead of what's on CRAN.) To install the development version of weatherData from github, use the <strong><code>devtools</code></strong> package.</p>
 
 <pre><code>install.packages("devtools")
 library("devtools")
 install_github("weatherData", "Ram-N")
 </code></pre>
 
-<p>Load the library</p>
+<p>Once the package has installed, load the library</p>
 
 <pre><code>library(weatherData)
 </code></pre>
 
-<p>Windows users must also first install
+<p>Note: Windows users must also first install
 <a href="http://cran.rstudio.com/bin/windows/Rtools/">Rtools</a>.</p>
-
-<h2>
-<a name="suggestions" class="anchor" href="#suggestions"><span class="octicon octicon-link"></span></a>Suggestions</h2>
-
-<p>Suggestions are welcome! If you would have a particular need for weather data,
-let me know what changes you'd like to see in the package. If you find bugs, please do report it. Fetching data from the web can be fragile.
-Submit an Issue.</p>
 
 <h1>
 <a name="how-to-use-this-package" class="anchor" href="#how-to-use-this-package"><span class="octicon octicon-link"></span></a>How to Use this package</h1>
@@ -101,6 +108,12 @@ Note: This function uses the Sys.Date to learn today's date</p>
 <p>This function will return a record containing matches to a given
 station name, and the 4 letter code can then be used in the arguments
 to other functions such as <code>getWeatherForDate()</code></p>
+
+<h3>
+<a name="suggestions" class="anchor" href="#suggestions"><span class="octicon octicon-link"></span></a>Suggestions</h3>
+
+<p>Suggestions are welcome! If you would have a particular need for weather data,
+let me know what changes you'd like to see in the package. If you find bugs, please do report it. Fetching data from the web can be fragile. Please consider submitting an Issue.</p>
       </section>
     </div>
 
