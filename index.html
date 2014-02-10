@@ -76,44 +76,72 @@ install_github("weatherData", "Ram-N")
 <h1>
 <a name="how-to-use-this-package" class="anchor" href="#how-to-use-this-package"><span class="octicon octicon-link"></span></a>How to Use this package</h1>
 
+<p>The typical workflow when using <code>weatherData</code> is to first find the <code>station_id</code> for the location(s) that you are interested in. Once you have the station_id and the date ranges, it is a simple matter to fetch the data.</p>
+
+<p>In all the examples that follow, it is assumed that you have loaded the library.</p>
+
+<pre><code>library(weatherData)
+</code></pre>
+
 <h2>
 <a name="examples" class="anchor" href="#examples"><span class="octicon octicon-link"></span></a>Examples</h2>
 
-<div class="highlight highlight-r"><pre><span class="c">library(weatherData)</span>
-<span class="c">checkDataAvailabilityForDateRange("SFO", "2010-10-29", "2013-01-12")</span>
-</pre></div>
+<p>Let's say that we want to search for weather in Buffalo. But we are interested in Buffalo, WY, not Buffalo,NY.</p>
 
-<p>The command above will see if weather data is available for the Airport supplied ("SFO") for the two end dates supplied: for the 20th Oct 2010 and for Jan 12th 2013 in this case.</p>
+<pre><code>getStationCode("Buffalo")
+getStationCode("Buffalo", region="WY") #being more specific about the location of interest
+</code></pre>
 
-<p>This command is useful for a quick check, before invoking <code>getDateRangeWeather</code></p>
+<p>This function will return a record containing matches to a given station name, and the 4 letter code can then be used in the arguments to other functions such as <code>getWeatherForDate()</code>
+So, we can see that the 4-letter airportCode that we are interested is <code>KBYG</code></p>
 
-<div class="highlight highlight-r"><pre><span class="c">data(London2013)</span>
-</pre></div>
+<h3>
+<a name="check-if-data-is-available" class="anchor" href="#check-if-data-is-available"><span class="octicon octicon-link"></span></a>Check if Data is Available</h3>
+
+<p>In general, it is a good idea to first check if data is available for our location and dates of interest. Throughout the package, we make a distinction between a <strong>Date</strong> and a <strong>Date Range</strong></p>
+
+<pre><code>checkDataAvailability("KBYG", "2011-01-02") #checking for a single date
+checkDataAvailabilityForDateRange("SFO", "2010-10-29", "2013-01-12") #checking for a date range
+</code></pre>
+
+<p>The first command searches for Data Availability (in Weather Underground) for the date specified.
+The second command above will see if weather data is available for the Airport supplied ("SFO") for the two end dates supplied: for the 20th Oct 2010 and for Jan 12th 2013 in this case.</p>
+
+<p>These commands are useful for a quick check, before invoking <code>getDateRangeWeather</code></p>
+
+<pre><code>getCurrentTemperature("PIT")
+</code></pre>
+
+<p>If you are writing functions that use the current (latest) temperature for any location, you could use the
+<code>getCurrentTemperature</code> function. This function will get the latest recorded Temperature for a give city or station. Any valid US Airport code or International 4-letter Airport Weather Code is valid. For example "EGLL" for London, UK. This function returns a NULL if it is unable to fetch the temperature, so you can test for that using <code>is.null()</code></p>
+
+<p>Note: This function uses the Sys.Date to learn today's date</p>
+
+<h3>
+<a name="built-in-datasets" class="anchor" href="#built-in-datasets"><span class="octicon octicon-link"></span></a>Built-in DataSets</h3>
+
+<pre><code>data(London2013)
+</code></pre>
 
 <p>This is a data frame of Ambient temperature data, extracted
-from Weather Undergound. Each row has two entries
-(columns). The Timestamp (YYYY-MM-DD HH:MM:SS) and the
+from Weather Undergound. Each row has two entries (columns). The Timestamp (YYYY-MM-DD HH:MM:SS) and the
 TemperatureF (in degrees F) </p>
-
-<div class="highlight highlight-r"><pre><span class="c">getCurrentTemperature("PIT")</span>
-</pre></div>
-
-<p>This function will get the latest recorded Temperature for a give city or station. Any valid US Airport code or International 4-letter Airport Weather Code is valid. For example "EGLL" for London, UK. 
-Note: This function uses the Sys.Date to learn today's date</p>
-
-<div class="highlight highlight-r"><pre><span class="c">getStationCode("Buffalo")</span>
-<span class="c">getStationCode("Buffalo", state="WY")</span>
-</pre></div>
-
-<p>This function will return a record containing matches to a given
-station name, and the 4 letter code can then be used in the arguments
-to other functions such as <code>getWeatherForDate()</code></p>
 
 <h3>
 <a name="suggestions" class="anchor" href="#suggestions"><span class="octicon octicon-link"></span></a>Suggestions</h3>
 
 <p>Suggestions are welcome! If you would have a particular need for weather data,
 let me know what changes you'd like to see in the package. If you find bugs, please do report it. Fetching data from the web can be fragile. Please consider submitting an Issue.</p>
+
+<h3>
+<a name="credits" class="anchor" href="#credits"><span class="octicon octicon-link"></span></a>Credits</h3>
+
+<p>A number of people have helped with suggestions and pointers.</p>
+
+<ul>
+<li>Luca Foschini &amp; Alessio Signorini</li>
+<li>Felipe Carillo</li>
+</ul>
       </section>
     </div>
 
