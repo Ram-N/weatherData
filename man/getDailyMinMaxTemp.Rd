@@ -3,7 +3,7 @@
 \title{Get the daily minimum (maximum) temperatures for a given weather stations}
 \usage{
 getDailyMinMaxTemp(station_id, start_date, end_date = NULL,
-  daily_min = FALSE, daily_max = FALSE, station_type = "airportCode",
+  daily_min = TRUE, daily_max = TRUE, station_type = "airportCode",
   opt_write_to_file = FALSE)
 }
 \arguments{
@@ -29,8 +29,8 @@ getDailyMinMaxTemp(station_id, start_date, end_date = NULL,
   \code{daily_max} can be TRUE, but at least one of them
   should be TRUE.}
 
-  \item{station_type}{= "airportCode" (3- or 4-letter
-  airport code) or "ID" (Wx call Sign)}
+  \item{station_type}{= "airportCode" or "ID" (Wx call
+  Sign)}
 
   \item{opt_write_to_file}{If TRUE, the resulting dataframe
   will be stored in a CSV file.  Default is FALSE}

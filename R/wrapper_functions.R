@@ -313,7 +313,7 @@ getCurrentTemperature <- function(station_id){
 #' @param daily_max A boolean indicating if the Maximum Temperatures are desired
 #'  Both \code{daily_min} and \code{daily_max} can be TRUE, but at least one of 
 #'  them should be TRUE.
-#' @param station_type = "airportCode" (3- or 4-letter airport code) or "ID" (Wx call Sign)
+#' @param station_type = "airportCode" or "ID" (Wx call Sign)
 #' @param opt_write_to_file If TRUE, the resulting dataframe will be stored in a CSV file. 
 #'  Default is FALSE
 #'  
@@ -332,8 +332,8 @@ getCurrentTemperature <- function(station_id){
 #' @export
 getDailyMinMaxTemp <- function(station_id, start_date, 
                                end_date =NULL,
-                               daily_min=FALSE,
-                               daily_max=FALSE,                              
+                               daily_min=TRUE,
+                               daily_max=TRUE,                              
                                station_type="airportCode",
                                opt_write_to_file = FALSE){  
   

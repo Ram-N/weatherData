@@ -27,66 +27,35 @@ require(plyr)
 #' @export
 getWeatherData <- function(station, 
                            date, 
-                                station_type="airportCode",
-                                opt_temperature_only = T,
-                                opt_compress_output = FALSE,
-                                opt_verbose = FALSE,
-                                opt_warnings=TRUE) {
-
+                           station_type="airportCode",
+                           opt_temperature_only = T,
+                           opt_compress_output = FALSE,
+                           opt_verbose = FALSE,
+                           opt_warnings=TRUE) {
+  
   if(IsDateInvalid(date)) {
     warning(sprintf("Unable to build a valid URL \n Date format Invalid %s \n Input date should be within quotes \n and of the form 'YYYY-MM-DD' \n\n", date))     
     return(NULL)
   }
 
+  
   station_type <- tolower(station_type)
   if(IsStationTypeInvalid(station_type)) {
-    warning("Station Type is Invalid")
+    warning("Station Type is Invalid:", station_type)
     return(NULL)
   }
   
   
-  date <- as.Date(date)
-  m <- as.integer(format(date, '%m'))
-  d <- as.integer(format(date, '%d'))
-  y <- format(date, '%Y')
+  #Create the WxUnderground URL.
+  final_url <- createWUSingleDateURL(station, date, 
+                                     station_type, 
+                                     opt_verbose)
   
-  # compose final url
-  # Type can be ID OR Airport  
-  if(station_type=="id") {
-    base_url <- 'http://www.wunderground.com/weatherstation/WXDailyHistory.asp?'
-    final_url <- paste0(base_url,
-                       'ID=', station,
-                       '&month=', m,
-                       '&day=', d, 
-                       '&year=', y,
-                       '&format=1')    
-  }
-  
-  #for airport codes
-  if(station_type=="airportcode") {
-    airp_url = 'http://www.wunderground.com/history/airport/'
-    coda = '/DailyHistory.html?format=1'    
+  #This would be the place to fetch from other URL's
     
-    #If an airportLetterCode is not supplied, try with K
-    #If it is, just use that code
-    letterCode <- ifelse(nchar(station) == 3, "K", "")
-    
-    final_url <- paste0(airp_url, letterCode, station,
-                     '/',y,
-                     '/',m,
-                     '/',d,
-                     coda)
-  }    
-  
-  if(opt_verbose) {
-    message(sprintf("Getting data from:\n %s\n",final_url))
-    #message(sprintf("%s %s \n",letterCode, station))    
-  }
-  
   #------------------
   # Now read the data from the URL
-  #-------------------
-  
+  #-------------------  
   # reading in as raw lines from the web server
   # contains <br> tags on every other line
 #  u <- url(final_url)

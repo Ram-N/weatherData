@@ -12,6 +12,7 @@ IsDateInvalid <- function (date) {
 }
 
 
+
 validYear <- function(year){
   current_year = 1900 + as.POSIXlt(Sys.Date())$year    
   if(year <= 0){
@@ -25,15 +26,11 @@ validYear <- function(year){
 }
 
 
-#' @title Check if the station type is airportCode or id
-#' @description We are checking if a valid station type was given to the function.
-#' @param station_type can be \code{airportCode} which is the default, or it
-#'  can be \code{id} which is a weather-station ID
-#'  @seealso getStationCode
 IsStationTypeInvalid <- function (station_type) {
-    if(station_type != "airportcode" && 
+  #has gone through to.lower
+    if(station_type != "airportcode" &
          station_type != "id")  {
-      warning(paste( "Invalid station_type supplied", station_type ))
+      warning(paste( "Invalid station_type supplied:", station_type ))
       return(1)
     }
     return(0) #is okay
@@ -206,6 +203,63 @@ getStationCode <- function(stationName, region=NULL){
   
 }
 
+
+
+#for Internal use only                           
+createWUSingleDateURL <- function (station, 
+                                   date, 
+                                   station_type="airportCode",
+                                   opt_verbose=FALSE) {
+  date <- as.Date(date)
+  m <- as.integer(format(date, '%m'))
+  d <- as.integer(format(date, '%d'))
+  y <- format(date, '%Y')
+
+  station_type <- tolower(station_type)  
+  if(IsStationTypeInvalid(station_type)) {
+    warning(sprintf("Unable to build a valid URL \n 
+                    station_type Invalid: %s \n 
+                    Valid station types are 'airportCode' or 'ID' \n 
+                    \n\n", station_type))     
+    return(NULL)
+  }
+  
+  
+  # compose final url
+  # Type can be ID OR Airport  
+  if(station_type=="id") {
+    base_url <- 'http://www.wunderground.com/weatherstation/WXDailyHistory.asp?'
+    final_url <- paste0(base_url,
+                        'ID=', station,
+                        '&month=', m,
+                        '&day=', d, 
+                        '&year=', y,
+                        '&format=1')    
+  }
+  
+  #for airport codes
+  if(station_type=="airportcode") {
+    airp_url = 'http://www.wunderground.com/history/airport/'
+    coda = '/DailyHistory.html?format=1'    
+    
+    #If an airportLetterCode is not supplied, try with K
+    #If it is, just use that code
+    letterCode <- ifelse(nchar(station) == 3, "K", "")
+    
+    final_url <- paste0(airp_url, letterCode, station,
+                        '/',y,
+                        '/',m,
+                        '/',d,
+                        coda)
+  }    
+  
+  if(opt_verbose) {
+    message(sprintf("Getting data from:\n %s\n",final_url))
+    #message(sprintf("%s %s \n",letterCode, station))    
+  }
+  
+  return(final_url)
+}
 
 
 
