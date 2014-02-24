@@ -1,149 +1,192 @@
 require(plyr)
 
-#' @title Gets weather data for a single date
+#' @title Gets weather data for a single date (All records)
 #' 
 #' @description Given a valid station and a single date this function
-#'  will return a dataframe of time-stamped weather data
-#' 
-#' 
-#' @param station is a valid 3-letter airport code or a valid Weather Station ID
+#'  will return a dataframe of time-stamped weather data. It does not summarize
+#'  the data.
+#'  
+#' @param station_id is a valid 3-letter airport code or a valid Weather Station ID
 #' @param date is a valid string representing a date in the past (YYYY-MM-DD)
 #' @param station_type can be \code{airportCode} which is the default, or it
 #'  can be \code{id} which is a weather-station ID
-
-#' @param opt_temperature_only Boolen flag to indicate only Temperature data is to be returned (default TRUE)
+#' @param opt_temperature_columns Boolen flag to indicate only Temperature data is to be returned (default TRUE)
+#' @param opt_all_columns Boolen flag to indicate whether all available data is to be returned (default FALSE)
+#' @param opt_custom_columns Boolen flag to indicate if only a user-specified set of columns are to be returned. (default FALSE)
+#'  If TRUE, then the desired columns must be specified via \code{custom_columns}
+#' @param custom_columns Vector of integers specified by the user to indicate which columns to fetch. 
+#'  The Date column is always returned as the first column. The 
+#'  column numbers specfied in \code{custom_columns} are appended as columns of 
+#'   the data frame being returned (default NULL). The exact column numbers can be
+#'   found by visiting the weatherUnderground URL, and counting from 1. Note that if \code{opt_custom_columns} is TRUE, 
+#'   then \code{custom_columns} must be specified.
 #' @param opt_compress_output Boolean flag to indicate if a compressed output is preferred. 
 #'  If this option is set to be TRUE, only every other record is returned
 #' @param opt_verbose Boolean flag to indicate if verbose output is desired
 #' @param opt_warnings Boolean flag to turn off warnings. Default value is TRUE, to keep
 #' the warnings on.
-#' 
+#' @seealso getWeatherForDate, getSummarizedWeather
+
 #' @return A data frame with each row containing: \itemize{
 #' \item Date and Time stamp for the date specified
 #' \item Temperature and/or other weather columns 
 #' }
-#' @return A data frame containing the Date & Time stamp and Weather data columns
-#' @import plyr
 #' @export
-getWeatherData <- function(station, 
-                           date, 
-                           station_type="airportCode",
-                           opt_temperature_only = T,
-                           opt_compress_output = FALSE,
-                           opt_verbose = FALSE,
-                           opt_warnings=TRUE) {
+getDetailedWeather <- function(station_id, 
+                               date, 
+                               station_type="airportCode",
+                               opt_temperature_columns=TRUE,
+                               opt_all_columns=FALSE,
+                               opt_custom_columns=FALSE,
+                               custom_columns=NULL,
+                               opt_compress_output=FALSE,
+                               opt_verbose=FALSE,
+                               opt_warnings=TRUE) {
   
+  
+  #validate Inputs
   if(IsDateInvalid(date)) {
     warning(sprintf("Unable to build a valid URL \n Date format Invalid %s \n Input date should be within quotes \n and of the form 'YYYY-MM-DD' \n\n", date))     
     return(NULL)
-  }
-
-  
+  }  
   station_type <- tolower(station_type)
   if(IsStationTypeInvalid(station_type)) {
     warning("Station Type is Invalid:", station_type)
     return(NULL)
   }
-  
-  
+    
   #Create the WxUnderground URL.
-  final_url <- createWUSingleDateURL(station, date, 
-                                     station_type, 
-                                     opt_verbose)
+ final_url <- createWU_SingleDateURL(station_id, date, 
+                                    station_type, 
+                                    opt_verbose)
   
-  #This would be the place to fetch from other URL's
     
   #------------------
   # Now read the data from the URL
   #-------------------  
   # reading in as raw lines from the web server
   # contains <br> tags on every other line
-#  u <- url(final_url)
   wxdata <- readUrl(final_url)
-  #print(str(wxdata))
 
-
-if(grepl(pattern="No daily or hourly history data", wxdata[3]) ==TRUE){
-  if(opt_warnings) {
-    warning(sprintf("Unable to get data from URL
+# check that the results are usable
+  if(grepl(pattern="No daily or hourly history data", wxdata[3]) ==TRUE){
+    if(opt_warnings) {
+      warning(sprintf("Unable to get data from URL
                   \n Check Station name %s 
                   \n Check If Date is in the future %s
-                  \n Inspect the validity of the URL being tried:\n %s \n", station, date, final_url))
-    message("For non-US Airports, try the 4-letter Code")  
+                  \n Inspect the validity of the URL being tried:\n %s \n", station_id, date, final_url))
+      message("For Airports, try the 4-letter Weather Airport Code")  
+    }
+    return(NULL)      
   }
-  return(NULL)      
-}
+  
+  # check that the results are usable
+  
+  if(is.na(wxdata[1])) {
+    warning(sprintf("Unable to get data from URL\n Check if URL is reachable"))
+    return(NULL) #have to try again
+  }
 
-
-if(is.na(wxdata[1])) {
-  warning(sprintf("Unable to get data from URL\n Check if URL is reachable"))
-  return(NULL) #have to try again
-}
-# print(is.na(wxdata))
-  # wxdata <- readLines(u) #wxdata is not a chr vector, each line = 1 element of the vector
-  # close(u)
-
+  
+  #Clean the data frame
   # only keep records with more than 3 rows of data
   if(length(wxdata) < 3 ) {
-    warning(paste("not enough records found for", station, 
+    warning(paste("not enough records found for", station_id, 
                 "/n Only", length(wxdata), "records."))
     return(NULL)
   }
-  # remove the first line
-  wxdata <- wxdata[-c(1)]    
 
-  #remove the last line
-  #wxdata <- wxdata[-c(length(wxdata))]    
+  df <- cleanAndSubsetDetailedData(wxdata, 
+                                    date,
+                                    opt_temperature_columns,
+                                    opt_all_columns,
+                                    opt_custom_columns,
+                                    custom_columns,
+                                    opt_compress_output,
+                                    opt_verbose)
   
-  if(opt_compress_output==TRUE) {
-    # remove odd rows starting from 3, in order to reduce volume
-    wxdata <- wxdata[-seq(3, length(wxdata), by=2)]    
-  }
-
-  wxdata <- gsub("<br />", "", wxdata) #get rid of the trailing br at the end of each line
-  
-  # extract header and cleanup
-  header_row <- wxdata[1]
-#   if(opt_verbose ==TRUE)
-#     print(the_header)
-  
-  # convert to csv, skipping header
-  tC <- textConnection(paste(wxdata, collapse='\n'))
-  wxdata <- read.csv(tC, as.is=TRUE, row.names=NULL, header=FALSE, skip=1) #makes it a data frame
-  close(tC)
-  
-  header_row <- make.names(strsplit(header_row, ',')[[1]]) #make the col.names syntactically valid
-  #     print(the_header)
-  #     print(length(the_header))
-  # assign column names
-  names(wxdata) <- header_row
-  
-  # convert Time column into properly encoded date time
-  wxdata$DateTime <- as.POSIXct(strptime(paste(date,wxdata[[1]]), format='%Y-%m-%d %I:%M %p'))
-  
-  # remove UTC and software type columns
-  wxdata$DateUTC.br. <- NULL
-  wxdata$SoftwareType <- NULL
-  
-  # sort and fix rownames
-  wxdata <- wxdata[order(wxdata$Time), ] #sort the rows by increasing time
-  row.names(wxdata) <- 1:nrow(wxdata) #give the dataframe rownames
-  
-  df <- wxdata
-  # print(paste("Column names", names(df)))
-  if(opt_temperature_only) {    
-    #subset to the columns of interest
-    temp_column <- grep("Temperature", names(df))[1]
-    time_column <- grep("DateTime", names(df))[1]
-    names(wxdata)[time_column] <- "Time" #rename it back
+  return(df)  
     
-    if(!is.na(temp_column) & !(is.na(time_column))) {
-      df <- wxdata[, c(time_column, temp_column)]  
-    } else {
-      df <- NULL
-    }
-        
+}
+
+
+
+
+
+
+#' @title Gets daily summary weather data (One record per day)
+#' 
+#' @description Given a valid station and a single date this function
+#'  will return a dataframe of time-stamped weather data. All the records
+#'  are summarized into one record per day.
+#'  
+#' @param station_id is a valid 3-letter airport code or a valid Weather Station ID
+#' @param start_date string representing a date in the past (YYYY-MM-DD)
+#' @param end_date string representing a date in the past (YYYY-MM-DD), and later than or equal to start_date.
+#' @param station_type can be \code{airportCode} which is the default, or it
+#'  can be \code{id} which is a weather-station ID
+#' @param opt_temperature_columns Boolen flag to indicate only Temperature data is to be returned (default TRUE)
+#' @param opt_all_columns Boolen flag to indicate whether all available data is to be returned (default FALSE)
+#' @param opt_custom_columns Boolen flag to indicate if only a user-specified set of columns are to be returned. (default FALSE)
+#'  If TRUE, then the desired columns must be specified via \code{custom_columns}
+#' @param custom_columns Vector of integers specified by the user to indicate which columns to fetch. 
+#'  The Date column is always returned as the first column. The 
+#'  column numbers specfied in \code{custom_columns} are appended as columns of 
+#'   the data frame being returned (default NULL). The exact column numbers can be
+#'   found by visiting the weatherUnderground URL, and counting from 1. Note that if \code{opt_custom_columns} is TRUE, 
+#'   then \code{custom_columns} must be specified.
+#' @param opt_verbose Boolean flag to indicate if verbose output is desired
+#' @seealso getWeatherForDate, getDetailededWeather
+#' 
+#' @return A data frame with each row containing: \itemize{
+#' \item Date stamp for the date specified
+#' \item Additional columns of Weather data depending on the options specified 
+#' }
+#' @export
+
+getSummarizedWeather <- function(station_id, 
+                                 start_date, 
+                                 end_date,
+                                 station_type="airportCode",
+                                 opt_temperature_columns=TRUE,
+                                 opt_all_columns=FALSE,
+                                 opt_custom_columns=FALSE,
+                                 custom_columns=NULL,
+                                 opt_verbose=FALSE){
+  
+  if(is.null(end_date)) end_date <- start_date
+  if(!validInputParameters(start_date, 
+                           end_date,
+                           station_type)){
+    stop("\nInput parameters Invalid.")
+    return(NULL)
   }
   
+  custom_url <- createWU_Custom_URL(station_id, 
+                                    start_date, 
+                                    end_date,
+                                    station_type="airportCode",
+                                    opt_verbose=FALSE)
+  
+  
+  wxdata <- readUrl(custom_url)
+  if(!isObtainedDataValid(wxdata, station_id, custom_url)) return(NULL)
+  
+  df <- cleanAndSubsetObtainedData(wxdata,
+                                   opt_temperature_columns,
+                                   opt_all_columns,
+                                   opt_custom_columns,
+                                   custom_columns,
+                                   opt_verbose)
+    
   return(df)
 }
+
+
+
+
+
+
+
+
+
