@@ -1,23 +1,21 @@
-context("DetailedWeather")
-
-
-# test_that("expectation correct for known cases", {
-#   expect_equal(E(dice), 3.5)
-#   expect_equal(E(coin), 0)
-# })
+context("SummarizedWeather")
 
 
 
 test_that("Must supply a date", {
-  expect_error(
-    getDetailedWeather("KBUF"), '"date" is missing'
+  expect_equal(
+    nrow(getSummarizedWeather("VOBB",
+                             "2010-01-01", 
+                             "2012-01-02",
+                             opt_all_columns=T,
+                             opt_custom_columns=T,
+                             custom_columns=c(2,3,4))),
+    365
   )
 })
 
 
 # test_that("expectation is additive", {
-#   expect_equal(E(dice + coin), E(dice) + E(coin))
-# 
 #   expect_equal(E(dice + dice), 2 * E(dice))
 #   expect_equal(E(dice + dice + dice), 3 * E(dice))
 # })

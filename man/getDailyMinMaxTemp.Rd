@@ -2,9 +2,10 @@
 \alias{getDailyMinMaxTemp}
 \title{Get the daily minimum (maximum) temperatures for a given weather stations}
 \usage{
-getDailyMinMaxTemp(station_id, start_date, end_date = NULL,
-  daily_min = TRUE, daily_max = TRUE, station_type = "airportCode",
-  opt_write_to_file = FALSE)
+  getDailyMinMaxTemp(station_id, start_date,
+    end_date = NULL, daily_min = TRUE, daily_max = TRUE,
+    station_type = "airportCode",
+    opt_write_to_file = FALSE)
 }
 \arguments{
   \item{station_id}{is a valid 3- or 4-letter Airport code
@@ -36,22 +37,23 @@ getDailyMinMaxTemp(station_id, start_date, end_date = NULL,
   will be stored in a CSV file.  Default is FALSE}
 }
 \value{
-A data frame with each row containing: \itemize{ \item Date
-and Time stamp (for when that day's minimum temperature was
-recorded) \item Minimum Temperature for the station in
-Farenheit (or Celcius) \item Date and Time stamp (for when
-that day's maximum temperature was recorded) \item Maximum
-Temperature for the station in Farenheit (or Celcius) }
+  A data frame with each row containing: \itemize{ \item
+  Date and Time stamp (for when that day's minimum
+  temperature was recorded) \item Minimum Temperature for
+  the station in Farenheit (or Celcius) \item Date and Time
+  stamp (for when that day's maximum temperature was
+  recorded) \item Maximum Temperature for the station in
+  Farenheit (or Celcius) }
 }
 \description{
-Given a StationID and a set of dates, this function returns
-the Daily Minimum and/or Maximum temperatures recorded,
-along with timestamps
+  Given a StationID and a set of dates, this function
+  returns the Daily Minimum and/or Maximum temperatures
+  recorded, along with timestamps
 }
 \details{
-This functions fetches all the records for each date
-specified, but it only retaints the min and/or max record,
-along with the timestamp.
+  This functions fetches all the records for each date
+  specified, but it only retaints the min and/or max
+  record, along with the timestamp.
 }
 \examples{
 \dontrun{

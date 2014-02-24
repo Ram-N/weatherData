@@ -2,7 +2,8 @@
 \alias{checkDataAvailability}
 \title{Check if WeatherUnderground has Data for given station and date}
 \usage{
-checkDataAvailability(station_id, check_date, station_type = "airportCode")
+  checkDataAvailability(station_id, check_date,
+    station_type = "airportCode")
 }
 \arguments{
   \item{station_id}{is a valid airport code or a valid
@@ -15,17 +16,17 @@ checkDataAvailability(station_id, check_date, station_type = "airportCode")
   \code{id}}
 }
 \value{
-1 if the station does have weather records for input date,
-0 if no records were found
+  1 if the station does have weather records for input
+  date, 0 if no records were found
 }
 \description{
-Use this function to check if data is available for station
-and date If the station code or the date is invalid,
-function will return 0
+  Use this function to check if data is available for
+  station and date If the station code or the date is
+  invalid, function will return 0
 }
 \references{
-For a list of valid Weather Stations, try this format
-\url{http://www.wunderground.com/weatherstation/ListStations.asp?selectedCountry=United+States}
-and replace with your country of interest
+  For a list of valid Weather Stations, try this format
+  \url{http://www.wunderground.com/weatherstation/ListStations.asp?selectedCountry=United+States}
+  and replace with your country of interest
 }
 

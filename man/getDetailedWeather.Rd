@@ -1,0 +1,67 @@
+\name{getDetailedWeather}
+\alias{getDetailedWeather}
+\title{Gets weather data for a single date (All records)}
+\usage{
+  getDetailedWeather(station_id, date,
+    station_type = "airportCode",
+    opt_temperature_columns = TRUE,
+    opt_all_columns = FALSE, opt_custom_columns = FALSE,
+    custom_columns = NULL, opt_compress_output = FALSE,
+    opt_verbose = FALSE, opt_warnings = TRUE)
+}
+\arguments{
+  \item{station_id}{is a valid 3-letter airport code or a
+  valid Weather Station ID}
+
+  \item{date}{is a valid string representing a date in the
+  past (YYYY-MM-DD)}
+
+  \item{station_type}{can be \code{airportCode} which is
+  the default, or it can be \code{id} which is a
+  weather-station ID}
+
+  \item{opt_temperature_columns}{Boolen flag to indicate
+  only Temperature data is to be returned (default TRUE)}
+
+  \item{opt_all_columns}{Boolen flag to indicate whether
+  all available data is to be returned (default FALSE)}
+
+  \item{opt_custom_columns}{Boolen flag to indicate if only
+  a user-specified set of columns are to be returned.
+  (default FALSE) If TRUE, then the desired columns must be
+  specified via \code{custom_columns}}
+
+  \item{custom_columns}{Vector of integers specified by the
+  user to indicate which columns to fetch.  The Date column
+  is always returned as the first column. The column
+  numbers specfied in \code{custom_columns} are appended as
+  columns of the data frame being returned (default NULL).
+  The exact column numbers can be found by visiting the
+  weatherUnderground URL, and counting from 1. Note that if
+  \code{opt_custom_columns} is TRUE, then
+  \code{custom_columns} must be specified.}
+
+  \item{opt_compress_output}{Boolean flag to indicate if a
+  compressed output is preferred.  If this option is set to
+  be TRUE, only every other record is returned}
+
+  \item{opt_verbose}{Boolean flag to indicate if verbose
+  output is desired}
+
+  \item{opt_warnings}{Boolean flag to turn off warnings.
+  Default value is TRUE, to keep the warnings on.}
+}
+\value{
+  A data frame with each row containing: \itemize{ \item
+  Date and Time stamp for the date specified \item
+  Temperature and/or other weather columns }
+}
+\description{
+  Given a valid station and a single date this function
+  will return a dataframe of time-stamped weather data. It
+  does not summarize the data.
+}
+\seealso{
+  getWeatherForDate, getSummarizedWeather
+}
+
