@@ -95,10 +95,11 @@ showAvailableColumns<- function(station_id,
   }
   
   #print only the header...as a dataframe
-  named_df <- data.frame("columnNumber" = 1:ncol(df), "columnName" = names(df))    
+  #Dropping the first Column since it is not present in the web-page. 
+  #Time Column was added by the getSummarizedWeather function
+  named_df <- data.frame("columnNumber" = 1:(ncol(df)-1), "columnName" = names(df)[-1])    
   return(named_df)
 }
-
 
 #' Gets the Weather Station code for a location (in the US)
 #'
