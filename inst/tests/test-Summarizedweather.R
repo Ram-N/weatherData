@@ -2,27 +2,18 @@ context("SummarizedWeather")
 
 
 
-test_that("Must supply a date", {
-  expect_equal(
-    nrow(getSummarizedWeather("VOBB",
-                             "2010-01-01", 
-                             "2012-01-02",
-                             opt_all_columns=T,
-                             opt_custom_columns=T,
-                             custom_columns=c(2,3,4))),
-    365
-  )
+test_that("Get the right number of rows", {
+  df <- getSummarizedWeather("LHR", "2012-01-01", "2012-02-01", 
+                                      opt_custom_columns=T, 
+                                      custom_columns=c(24,2, 24))
+  expect_that(nrow(df), equals(32))
+  expect_that(ncol(df), equals(2))
 })
 
-
-# test_that("expectation is additive", {
-#   expect_equal(E(dice + dice), 2 * E(dice))
-#   expect_equal(E(dice + dice + dice), 3 * E(dice))
-# })
-# 
-# test_that("expectation is multiplicatve", {
-#   expect_equal(E( 6 * dice),  6 * E(dice))
-#   expect_equal(E( 1 * dice),  1 * E(dice))
-#   expect_equal(E(-1 * dice), -1 * E(dice))
-#   expect_equal(E( 0 * dice),  0 * E(dice))
+# test_that("floor_date works for different units", {
+#   base <- as.POSIXct("2009-08-03 12:01:59.23", tz = "UTC")
+#   is_time <- function(x) equals(as.POSIXct(x, tz = "UTC"))
+#   floor_base <- function(unit) floor_date(base, unit)
+#   expect_that(floor_base("second"), is_time("2009-08-03 12:01:59"))
+#   expect_that(floor_base("minute"), is_time("2009-08-03 12:01:00"))
 # })

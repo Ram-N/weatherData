@@ -53,7 +53,11 @@ checkDataAvailability <- function (station_id,
 checkDataAvailabilityForDateRange<- function (station_id, 
                                      start_date, 
                                      end_date,
-                                     station_type="airportCode") {  
+                                     station_type="airportCode") { 
+  
+  if (!isDateRangeValid(start_date, end_date)) return(NULL)
+  
+  
   df_start <- getDetailedWeather(station_id, 
                                  start_date, 
                                  station_type, 

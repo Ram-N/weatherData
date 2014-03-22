@@ -168,6 +168,7 @@ getSummarizedWeather <- function(station_id,
                                     station_type="airportCode",
                                     opt_verbose=FALSE)
   
+  message(sprintf("Retrieving from: %s", custom_url))
   
   wxdata <- readUrl(custom_url)
   if(!isObtainedDataValid(wxdata, station_id, custom_url)) return(NULL)

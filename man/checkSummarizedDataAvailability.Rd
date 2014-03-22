@@ -3,8 +3,8 @@
 \title{Quick Check to see if WeatherUnderground has Summarized Weather Data for given station
  for a custom range of dates}
 \usage{
-  checkSummarizedDataAvailability(station_id, start_date,
-    end_date = NULL, station_type = "airportCode")
+checkSummarizedDataAvailability(station_id, start_date, end_date = NULL,
+  station_type = "airportCode")
 }
 \arguments{
   \item{station_id}{is a valid 3-letter airport code or a
@@ -22,17 +22,17 @@
   is taken to the same as the start_date}
 }
 \value{
-  1 if the Station did have weather records, 0 if nothing
-  was found
+1 if the Station did have weather records, 0 if nothing was
+found
 }
 \description{
-  Before we attempt to fetch the data for a big time
-  interval of dates, this function is useful to see if the
-  data even exists.
+Before we attempt to fetch the data for a big time interval
+of dates, this function is useful to see if the data even
+exists.
 }
 \details{
-  This functions build a custom URL and checks for the
-  data. If available, it will find one row for each date in
-  the date range.
+This functions build a custom URL and checks for the data.
+If available, it will find one row for each date in the
+date range.
 }
 

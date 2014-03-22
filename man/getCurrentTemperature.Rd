@@ -2,7 +2,7 @@
 \alias{getCurrentTemperature}
 \title{Get the latest recorded temperature for a location}
 \usage{
-  getCurrentTemperature(station_id)
+getCurrentTemperature(station_id)
 }
 \arguments{
   \item{station_id}{is a valid Weather Station ID (example:
@@ -12,22 +12,22 @@
   for a given location by calling \code{getStationCode()}}
 }
 \value{
-  A one row data frame containing: \itemize{ \item Date and
-  Time stamp (for when the latest temperature reading was
-  recorded) \item Temperature for the station in Farenheit
-  (or Celcius) }
+A one row data frame containing: \itemize{ \item Date and
+Time stamp (for when the latest temperature reading was
+recorded) \item Temperature for the station in Farenheit
+(or Celcius) }
 }
 \description{
-  A wrapper for getDetailedWeather(), it returns the last
-  record in the web page. Uses Sys.Date() to get current
-  time.
+A wrapper for getDetailedWeather(), it returns the last
+record in the web page. Uses Sys.Date() to get current
+time.
 }
 \examples{
 getCurrentTemperature(station ="HNL")
 }
 \references{
-  For a list of valid Weather Stations, try this format
-  \url{http://www.wunderground.com/weatherstation/ListStations.asp?selectedCountry=United+States}
-  and replace with your country of interest
+For a list of valid Weather Stations, try this format
+\url{http://www.wunderground.com/weatherstation/ListStations.asp?selectedCountry=United+States}
+and replace with your country of interest
 }
 

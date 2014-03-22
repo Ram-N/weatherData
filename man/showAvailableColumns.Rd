@@ -2,9 +2,8 @@
 \alias{showAvailableColumns}
 \title{Shows all the available Weather Data Columns}
 \usage{
-  showAvailableColumns(station_id, start_date,
-    end_date = NULL, station_type = "airportCode",
-    opt_detailed = FALSE, opt_verbose = FALSE)
+showAvailableColumns(station_id, start_date, end_date = NULL,
+  station_type = "airportCode", opt_detailed = FALSE, opt_verbose = FALSE)
 }
 \arguments{
   \item{station_id}{is a valid 3-letter airport code or a
@@ -28,10 +27,9 @@
   output is desired (default FALSE)}
 }
 \description{
-  This functons displays all the columns that are available
-  in the website, for the given station, and date range.
-  Useful when only a subset of the columns are desired.
-  Those can be specfied using the \code{custom_columns}
-  vector.
+This functons displays all the columns that are available
+in the website, for the given station, and date range.
+Useful when only a subset of the columns are desired. Those
+can be specfied using the \code{custom_columns} vector.
 }
 

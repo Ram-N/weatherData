@@ -276,7 +276,7 @@ getDesiredColumnsVector<- function(wx_df,
   }
   
   if(opt_custom_columns ==TRUE & opt_all_columns==TRUE){
-    warning("\nCustom columns and opt_all_columns are both selected. \n Only custom columns will be returned.")
+    warning("\n Please note: Custom columns and opt_all_columns are both selected. \n Only custom columns will be returned.")
     opt_all_columns=NULL
   }
   
@@ -291,7 +291,6 @@ getDesiredColumnsVector<- function(wx_df,
   #return custom_columns_only
   if(opt_custom_columns){
     desired_columns <- c(time_column_number, custom_columns)  
-    return(  desired_columns )    
   } else if(opt_all_columns){
     #return all columns, moving Date column to be the first
     all_columns <- 1:length(wx_df)
@@ -299,10 +298,15 @@ getDesiredColumnsVector<- function(wx_df,
   }else{
     #return Temp columns only  
     desired_columns <- c(time_column_number, grep("Temperature", names(wx_df)))  
-    return(  desired_columns )    
   }
-  
+
+  #remove duped columns
+  dc <- desired_columns[!duplicated(desired_columns)]
+  return(dc)
 }
+
+
+
 
 #for Internal use only                           
 createWU_Custom_URL <- function (station, 
@@ -345,14 +349,15 @@ createWU_Custom_URL <- function (station,
   #for airport codes
   if(station_type=="airportcode") {
     airp_url = 'http://www.wunderground.com/history/airport/'
-    mid = 'CustomHistory.html?'
+    mid = '/CustomHistory.html?'
     coda = '&req_city=NA&req_state=NA&req_statename=NA&format=1'
                     
     #If an airportLetterCode is not supplied, try with K
     #If it is 4 letters, just use the supplied 
-    letterCode <- ifelse(nchar(station) == 3, "K", "")
+    #letterCode <- ifelse(nchar(station) == 3, "K", "")
     
-    final_url <- paste0(airp_url, letterCode, station,
+    final_url <- paste0(airp_url, # letterCode, 
+                        station,
                         '/',y,
                         '/',m,
                         '/',d,
@@ -400,7 +405,7 @@ cleanAndSubsetObtainedData<- function(wxdata,
   
   #make the col.names syntactically valid
   if(opt_verbose ==TRUE)    {
-    print(paste("headers", opt_verbose))
+    message("The following columns are available:")
     print(header_names)    
   }
   
@@ -434,7 +439,11 @@ cleanAndSubsetObtainedData<- function(wxdata,
                                               opt_custom_columns, 
                                               custom_columns) 
   
-  print(desired_columns)
+  if(opt_custom_columns) {
+    message("Desired Columns Requested:")
+    print(desired_columns)    
+  }
+  #print(dim(wx_df))
   return(wx_df[,desired_columns])
 }
 
@@ -473,7 +482,7 @@ cleanAndSubsetDetailedData<- function(wxdata,
   
   #make the col.names syntactically valid
   if(opt_verbose ==TRUE)    {
-    print(paste("headers", opt_verbose))
+    message("The following columns are available:")
     print(header_names)    
   }
   

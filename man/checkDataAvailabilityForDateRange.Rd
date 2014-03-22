@@ -3,8 +3,8 @@
 \title{Quick Check to see if WeatherUnderground has Weather Data for given station
  for a range of dates}
 \usage{
-  checkDataAvailabilityForDateRange(station_id, start_date,
-    end_date, station_type = "airportCode")
+checkDataAvailabilityForDateRange(station_id, start_date, end_date,
+  station_type = "airportCode")
 }
 \arguments{
   \item{station_id}{is a valid 3-letter airport code or a
@@ -21,16 +21,16 @@
   start_date}
 }
 \value{
-  1 if the Station did have weather records, 0 if nothing
-  was found
+1 if the Station did have weather records, 0 if nothing was
+found
 }
 \description{
-  Before we attempt to fetch the data for a big time
-  interval of dates, this function is useful to see if the
-  data even exists.
+Before we attempt to fetch the data for a big time interval
+of dates, this function is useful to see if the data even
+exists.
 }
 \details{
-  This functions checks for just the first and the last
-  date in the interval, not the days in between
+This functions checks for just the first and the last date
+in the interval, not the days in between
 }
 

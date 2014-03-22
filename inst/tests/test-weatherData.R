@@ -1,10 +1,12 @@
 context("DetailedWeather")
 
 
-# test_that("expectation correct for known cases", {
-#   expect_equal(E(dice), 3.5)
-#   expect_equal(E(coin), 0)
-# })
+test_that("Data is available for MCI", {
+  expect_equal(checkDataAvailabilityForDateRange("MCI", 
+                                                 "2013-02-02", 
+                                                 "2014-01-01"), 
+               1)
+})
 
 
 

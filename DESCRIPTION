@@ -15,9 +15,3 @@ Imports:
 Maintainer: Ram Narasimhan <ramnarasimhan@gmail.com>
 LazyData: TRUE
 License: GPL
-Collate:
-    'data_description.R'
-    'util_functions.R'
-    'weatherData.R'
-    'wrapper_functions.R'
-    'validity_checks.R'

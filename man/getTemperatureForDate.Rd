@@ -2,10 +2,9 @@
 \alias{getTemperatureForDate}
 \title{Getting Temperature data for a single date (or a range of dates)}
 \usage{
-  getTemperatureForDate(station_id, start_date,
-    end_date = NULL, station_type = "airportCode",
-    daily_min = FALSE, daily_max = FALSE,
-    opt_write_to_file = FALSE)
+getTemperatureForDate(station_id, start_date, end_date = NULL,
+  station_type = "airportCode", daily_min = FALSE, daily_max = FALSE,
+  opt_write_to_file = FALSE)
 }
 \arguments{
   \item{station_id}{is a valid station code or a valid
@@ -35,22 +34,22 @@
   will be stored in a CSV file.  Default is FALSE}
 }
 \value{
-  A data frame with each row containing: \itemize{ \item
-  Date and Time stamp (for each date specified) \item
-  Temperature values }
+A data frame with each row containing: \itemize{ \item Date
+and Time stamp (for each date specified) \item Temperature
+values }
 }
 \description{
-  This function will return a (fairly large) data frame. If
-  you are going to be using this data for future analysis,
-  you can store the results in a CSV file by setting
-  \code{opt_write_to_file} to be TRUE
+This function will return a (fairly large) data frame. If
+you are going to be using this data for future analysis,
+you can store the results in a CSV file by setting
+\code{opt_write_to_file} to be TRUE
 }
 \details{
-  For each day in the date range, this function fetches
-  Temperature Data. It will fetch all the available values,
-  which is typically multiple rows for each day, with a
-  time stamp.  This function is a light wrapper for
-  \code{getWeatherForDate}.
+For each day in the date range, this function fetches
+Temperature Data. It will fetch all the available values,
+which is typically multiple rows for each day, with a time
+stamp.  This function is a light wrapper for
+\code{getWeatherForDate}.
 }
 \examples{
 \dontrun{
@@ -58,11 +57,11 @@ dat <- getTemperatureForDate("KPHX", "2013-08-10", 2013-08-13")
 }
 }
 \references{
-  For a list of valid Weather Stations, try this format
-  \url{http://www.wunderground.com/weatherstation/ListStations.asp?selectedCountry=United+States}
-  and replace with your country of interest
+For a list of valid Weather Stations, try this format
+\url{http://www.wunderground.com/weatherstation/ListStations.asp?selectedCountry=United+States}
+and replace with your country of interest
 }
 \seealso{
-  getWeatherForDate, getDetailedWeather
+getWeatherForDate, getDetailedWeather
 }
 

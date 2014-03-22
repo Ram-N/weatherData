@@ -2,11 +2,10 @@
 \alias{getSummarizedWeather}
 \title{Gets daily summary weather data (One record per day)}
 \usage{
-  getSummarizedWeather(station_id, start_date, end_date,
-    station_type = "airportCode",
-    opt_temperature_columns = TRUE,
-    opt_all_columns = FALSE, opt_custom_columns = FALSE,
-    custom_columns = NULL, opt_verbose = FALSE)
+getSummarizedWeather(station_id, start_date, end_date,
+  station_type = "airportCode", opt_temperature_columns = TRUE,
+  opt_all_columns = FALSE, opt_custom_columns = FALSE,
+  custom_columns = NULL, opt_verbose = FALSE)
 }
 \arguments{
   \item{station_id}{is a valid 3-letter airport code or a
@@ -47,17 +46,16 @@
   output is desired}
 }
 \value{
-  A data frame with each row containing: \itemize{ \item
-  Date stamp for the date specified \item Additional
-  columns of Weather data depending on the options
-  specified }
+A data frame with each row containing: \itemize{ \item Date
+stamp for the date specified \item Additional columns of
+Weather data depending on the options specified }
 }
 \description{
-  Given a valid station and a single date this function
-  will return a dataframe of time-stamped weather data. All
-  the records are summarized into one record per day.
+Given a valid station and a single date this function will
+return a dataframe of time-stamped weather data. All the
+records are summarized into one record per day.
 }
 \seealso{
-  getWeatherForDate, getDetailededWeather
+getWeatherForDate, getDetailededWeather
 }
 

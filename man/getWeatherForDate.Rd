@@ -2,13 +2,12 @@
 \alias{getWeatherForDate}
 \title{Getting data for a range of dates}
 \usage{
-  getWeatherForDate(station_id, start_date,
-    end_date = NULL, station_type = "airportCode",
-    opt_detailed = FALSE, opt_write_to_file = FALSE,
-    opt_temperature_columns = TRUE,
-    opt_all_columns = FALSE, opt_custom_columns = FALSE,
-    custom_columns = NULL, opt_verbose = FALSE,
-    daily_min = FALSE, daily_max = FALSE)
+getWeatherForDate(station_id, start_date, end_date = NULL,
+  station_type = "airportCode", opt_detailed = FALSE,
+  opt_write_to_file = FALSE, opt_temperature_columns = TRUE,
+  opt_all_columns = FALSE, opt_custom_columns = FALSE,
+  custom_columns = NULL, opt_verbose = FALSE, daily_min = FALSE,
+  daily_max = FALSE)
 }
 \arguments{
   \item{station_id}{is a valid 3- or 4-letter Airport code
@@ -66,20 +65,20 @@
   \code{custom_columns} must be specified.}
 }
 \value{
-  A data frame with each row containing: \itemize{ \item
-  Date and Time stamp (for each date specified) \item
-  Temperature and/or other weather columns sought }
+A data frame with each row containing: \itemize{ \item Date
+and Time stamp (for each date specified) \item Temperature
+and/or other weather columns sought }
 }
 \description{
-  This function will return a (fairly large) data frame. If
-  you are going to be using this data for future analysis,
-  you can store the results in a CSV file by setting
-  \code{opt_write_to_file} to be TRUE
+This function will return a (fairly large) data frame. If
+you are going to be using this data for future analysis,
+you can store the results in a CSV file by setting
+\code{opt_write_to_file} to be TRUE
 }
 \details{
-  For each day in the date range, this function fetches
-  Weather Data.  Internally, it makes multiple calls to
-  \code{getDetailedWeather}.
+For each day in the date range, this function fetches
+Weather Data.  Internally, it makes multiple calls to
+\code{getDetailedWeather}.
 }
 \examples{
 \dontrun{
@@ -87,8 +86,8 @@ dat <- getWeatherForDate("PHNL", "2013-08-10", 2013-08-31")
 }
 }
 \references{
-  For a list of valid Weather Stations, try this format
-  \url{http://www.wunderground.com/weatherstation/ListStations.asp?selectedCountry=United+States}
-  and replace with your country of interest
+For a list of valid Weather Stations, try this format
+\url{http://www.wunderground.com/weatherstation/ListStations.asp?selectedCountry=United+States}
+and replace with your country of interest
 }
 

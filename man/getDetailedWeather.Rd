@@ -2,12 +2,10 @@
 \alias{getDetailedWeather}
 \title{Gets weather data for a single date (All records)}
 \usage{
-  getDetailedWeather(station_id, date,
-    station_type = "airportCode",
-    opt_temperature_columns = TRUE,
-    opt_all_columns = FALSE, opt_custom_columns = FALSE,
-    custom_columns = NULL, opt_compress_output = FALSE,
-    opt_verbose = FALSE, opt_warnings = TRUE)
+getDetailedWeather(station_id, date, station_type = "airportCode",
+  opt_temperature_columns = TRUE, opt_all_columns = FALSE,
+  opt_custom_columns = FALSE, custom_columns = NULL,
+  opt_compress_output = FALSE, opt_verbose = FALSE, opt_warnings = TRUE)
 }
 \arguments{
   \item{station_id}{is a valid 3-letter airport code or a
@@ -52,16 +50,16 @@
   Default value is TRUE, to keep the warnings on.}
 }
 \value{
-  A data frame with each row containing: \itemize{ \item
-  Date and Time stamp for the date specified \item
-  Temperature and/or other weather columns }
+A data frame with each row containing: \itemize{ \item Date
+and Time stamp for the date specified \item Temperature
+and/or other weather columns }
 }
 \description{
-  Given a valid station and a single date this function
-  will return a dataframe of time-stamped weather data. It
-  does not summarize the data.
+Given a valid station and a single date this function will
+return a dataframe of time-stamped weather data. It does
+not summarize the data.
 }
 \seealso{
-  getWeatherForDate, getSummarizedWeather
+getWeatherForDate, getSummarizedWeather
 }
 
