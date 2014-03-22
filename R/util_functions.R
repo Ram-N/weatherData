@@ -238,9 +238,10 @@ createWU_SingleDateURL <- function (station,
     
     #If an airportLetterCode is not supplied, try with K
     #If it is, just use that code
-    letterCode <- ifelse(nchar(station) == 3, "K", "")
+    #letterCode <- ifelse(nchar(station) == 3, "K", "")
     
-    final_url <- paste0(airp_url, letterCode, station,
+    final_url <- paste0(airp_url, #letterCode, 
+                        station,
                         '/',y,
                         '/',m,
                         '/',d,
