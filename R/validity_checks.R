@@ -1,4 +1,4 @@
-IsDateInvalid <- function (date) {
+IsDateInvalid <- function (date, opt_warnings=TRUE) {
   # d <- try( as.Date( date, format= "%d-%m-%Y %H:%M:%S" ) ) #original
   d <- try( as.Date( date) )
   if( class( d ) == "try-error" || is.na( d ) )  {
@@ -9,7 +9,8 @@ IsDateInvalid <- function (date) {
   #If a date in the future is supplied, print an error message
   #return Invalid = TRUE
   if(date > Sys.Date()){
-    warning(paste("\n\nInput Date cannot be in the future:", date))
+    if(opt_warnings)
+      warning(paste("\n\nInput Date cannot be in the future:", date))
     return(1)
   }
   

@@ -45,8 +45,9 @@ getDetailedWeather <- function(station_id,
   
   
   #validate Inputs
-  if(IsDateInvalid(date)) {
-    warning(sprintf("Unable to build a valid URL \n Date format Invalid %s \n Input date should be within quotes \n and of the form 'YYYY-MM-DD' \n\n", date))     
+  if(IsDateInvalid(date, opt_warnings)) {
+    if (opt_warnings)
+      warning(sprintf("Unable to build a valid URL \n Date format Invalid %s \n Input date should be within quotes \n and of the form 'YYYY-MM-DD' \n\n", date))     
     return(NULL)
   }  
   station_type <- tolower(station_type)
