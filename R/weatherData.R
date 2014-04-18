@@ -93,7 +93,7 @@ getDetailedWeather <- function(station_id,
   # only keep records with more than 3 rows of data
   if(length(wxdata) < 3 ) {
     warning(paste("not enough records found for", station_id, 
-                "/n Only", length(wxdata), "records."))
+                "\n Only", length(wxdata), "records."))
     return(NULL)
   }
 

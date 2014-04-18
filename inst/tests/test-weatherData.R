@@ -2,11 +2,11 @@ context("DetailedWeather")
 
 
 test_that("Data is available for MCI", {
-  expect_equal(checkDataAvailabilityForDateRange("MCI", 
-                                                 "2013-02-02", 
-                                                 "2014-01-01"), 
-               1)
-})
+  cDA <- checkDataAvailabilityForDateRange("MCI", 
+                                    "2013-02-02", 
+                                    "2014-01-01")
+  expect_equal(cDA, 1)
+  })
 
 
 
@@ -15,18 +15,3 @@ test_that("Must supply a date", {
     getDetailedWeather("KBUF"), '"date" is missing'
   )
 })
-
-
-# test_that("expectation is additive", {
-#   expect_equal(E(dice + coin), E(dice) + E(coin))
-# 
-#   expect_equal(E(dice + dice), 2 * E(dice))
-#   expect_equal(E(dice + dice + dice), 3 * E(dice))
-# })
-# 
-# test_that("expectation is multiplicatve", {
-#   expect_equal(E( 6 * dice),  6 * E(dice))
-#   expect_equal(E( 1 * dice),  1 * E(dice))
-#   expect_equal(E(-1 * dice), -1 * E(dice))
-#   expect_equal(E( 0 * dice),  0 * E(dice))
-# })

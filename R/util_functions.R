@@ -68,13 +68,17 @@ keepOnlyMinMax <- function(single_day_df,
 #'  station, and date range. Useful when only a subset of the columns are
 #'  desired. Those can be specfied using the \code{custom_columns} vector.
 #' @param station_id is a valid 3-letter airport code or a valid Weather Station ID
-#' @param start_date string representing a date in the past (YYYY-MM-DD)
-#' @param end_date string representing a date in the past (YYYY-MM-DD), and later than or equal to start_date.
+#' @param start_date string representing a date in the past ("YYYY-MM-DD")
+#' @param end_date string representing a date in the past ("YYYY-MM-DD"), and later than or equal to start_date.
 #' @param station_type can be \code{airportCode} which is the default, or it
 #'  can be \code{id} which is a weather-station ID
 #' @param opt_detailed Boolen flag to indicate if detailed records for the station are desired.
 #' (default FALSE). By default only one records per date is returned.
 #' @param opt_verbose Boolean flag to indicate if verbose output is desired (default FALSE)
+#'@examples
+#'\dontrun{
+#' showAvailableColumns("NRT", "2014-04-04")
+#'}
 #' @export
 showAvailableColumns<- function(station_id, 
                                 start_date, 
