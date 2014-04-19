@@ -21,20 +21,26 @@ showAvailableColumns(station_id, start_date, end_date = NULL,
 
   \item{opt_detailed}{Boolen flag to indicate if detailed
   records for the station are desired. (default FALSE). By
-  default only one records per date is returned.}
+  default only one record per date is returned.}
 
   \item{opt_verbose}{Boolean flag to indicate if verbose
   output is desired (default FALSE)}
 }
 \description{
-This functons displays all the columns that are available
-in the website, for the given station, and date range.
-Useful when only a subset of the columns are desired. Those
-can be specfied using the \code{custom_columns} vector.
+Displays all the columns that are available in the website,
+for the given station, and date range. Useful when only a
+subset of the columns are desired. Those can be specfied
+using the \code{custom_columns} vector. Note: There are
+different columns available for summarized vs. detailed
+data. Be sure to turn the \code{opt_detailed} flag to be
+TRUE if multiple records per day is desired.
 }
 \examples{
 \dontrun{
 showAvailableColumns("NRT", "2014-04-04")
+
+#if you want to see the columns for the *detailed* weather, turn on opt_detailed
+showAvailableColumns("CDG", "2013-12-12", opt_detailed=T)
 }
 }
 

@@ -59,6 +59,12 @@ Given a valid station and a single date this function will
 return a dataframe of time-stamped weather data. It does
 not summarize the data.
 }
+\examples{
+\dontrun{
+wCDG <- getDetailedWeather("CDG", "2013-12-12",opt_custom_columns=T,
+                           custom_columns=c(10,11,12))
+}
+}
 \seealso{
 getWeatherForDate, getSummarizedWeather
 }

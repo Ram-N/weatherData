@@ -64,20 +64,25 @@ keepOnlyMinMax <- function(single_day_df,
 
 #' Shows all the available Weather Data Columns
 #' 
-#' This functons displays all the columns that are available in the website, for the given
+#' Displays all the columns that are available in the website, for the given
 #'  station, and date range. Useful when only a subset of the columns are
-#'  desired. Those can be specfied using the \code{custom_columns} vector.
+#'  desired. Those can be specfied using the \code{custom_columns} vector. Note: There
+#'  are different columns available for summarized vs. detailed data. Be sure to 
+#'  turn the \code{opt_detailed} flag to be TRUE if multiple records per day is desired. 
 #' @param station_id is a valid 3-letter airport code or a valid Weather Station ID
 #' @param start_date string representing a date in the past ("YYYY-MM-DD")
 #' @param end_date string representing a date in the past ("YYYY-MM-DD"), and later than or equal to start_date.
 #' @param station_type can be \code{airportCode} which is the default, or it
 #'  can be \code{id} which is a weather-station ID
 #' @param opt_detailed Boolen flag to indicate if detailed records for the station are desired.
-#' (default FALSE). By default only one records per date is returned.
+#' (default FALSE). By default only one record per date is returned.
 #' @param opt_verbose Boolean flag to indicate if verbose output is desired (default FALSE)
 #'@examples
 #'\dontrun{
 #' showAvailableColumns("NRT", "2014-04-04")
+#' 
+#' #if you want to see the columns for the *detailed* weather, turn on opt_detailed
+#'showAvailableColumns("CDG", "2013-12-12", opt_detailed=T)
 #'}
 #' @export
 showAvailableColumns<- function(station_id, 
@@ -89,7 +94,7 @@ showAvailableColumns<- function(station_id,
   
   #fetch the data
   if(opt_detailed==TRUE){
-    df <- getWeatherForDate(station_id,start_date,end_date,station_type,opt_detailed=T,opt_write_to_file=F,opt_temperature_columns=F,opt_all_columns=T)
+    df <- getDetailedWeather(station_id,start_date,station_type,opt_all_columns=T)
   } else{
     df <- getSummarizedWeather(station_id,
                                start_date,end_date,

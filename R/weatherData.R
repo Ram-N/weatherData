@@ -31,6 +31,11 @@ require(plyr)
 #' \item Date and Time stamp for the date specified
 #' \item Temperature and/or other weather columns 
 #' }
+#'@examples
+#'\dontrun{
+#' wCDG <- getDetailedWeather("CDG", "2013-12-12",opt_custom_columns=T, 
+#'                            custom_columns=c(10,11,12))
+#'}
 #' @export
 getDetailedWeather <- function(station_id, 
                                date, 
@@ -122,8 +127,8 @@ getDetailedWeather <- function(station_id,
 #'  are summarized into one record per day.
 #'  
 #' @param station_id is a valid 3-letter airport code or a valid Weather Station ID
-#' @param start_date string representing a date in the past (YYYY-MM-DD)
-#' @param end_date string representing a date in the past (YYYY-MM-DD), and later than or equal to start_date.
+#' @param start_date string representing a date in the past ("YYYY-MM-DD")
+#' @param end_date string representing a date in the past ("YYYY-MM-DD"), and later than or equal to start_date.
 #' @param station_type can be \code{airportCode} which is the default, or it
 #'  can be \code{id} which is a weather-station ID
 #' @param opt_temperature_columns Boolen flag to indicate only Temperature data is to be returned (default TRUE)
@@ -143,8 +148,14 @@ getDetailedWeather <- function(station_id,
 #' \item Date stamp for the date specified
 #' \item Additional columns of Weather data depending on the options specified 
 #' }
+#' 
+#'@examples
+#'\dontrun{
+#' windLHR <- getSummarizedWeather("LHR", "2012-12-12", "2012-12-31", 
+#'                                  opt_custom_columns=TRUE, 
+#'                                  custom_columns=c(17,18,19,23))
+#'}
 #' @export
-
 getSummarizedWeather <- function(station_id, 
                                  start_date, 
                                  end_date,

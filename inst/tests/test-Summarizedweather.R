@@ -10,10 +10,20 @@ test_that("Get the right number of rows", {
   expect_that(ncol(df), equals(2))
 })
 
-# test_that("floor_date works for different units", {
-#   base <- as.POSIXct("2009-08-03 12:01:59.23", tz = "UTC")
-#   is_time <- function(x) equals(as.POSIXct(x, tz = "UTC"))
-#   floor_base <- function(unit) floor_date(base, unit)
-#   expect_that(floor_base("second"), is_time("2009-08-03 12:01:59"))
-#   expect_that(floor_base("minute"), is_time("2009-08-03 12:01:00"))
-# })
+test_that("Summarized: Get Temp columns by default", {
+  LA <- getSummarizedWeather("LAX", "2014-01-01", "2014-01-31")
+  expect_that(LA, is_a("data.frame"))
+  expect_equal(ncol(LA), 4)
+  expect_equal(nrow(LA), 31)
+})
+
+test_that("Summarized: Get Temp columns by default", {
+  windLHR <- getSummarizedWeather("LHR", "2012-12-12", "2012-12-12", 
+                                  opt_custom_columns=TRUE,
+                                  custom_columns=c(17,18,19,23))
+  expect_that(windLHR, is_a("data.frame"))
+  expect_equal(ncol(windLHR), 5)
+  expect_equal(windLHR$WindDirDegrees, 104)
+})
+
+

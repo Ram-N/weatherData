@@ -12,10 +12,10 @@ getSummarizedWeather(station_id, start_date, end_date,
   valid Weather Station ID}
 
   \item{start_date}{string representing a date in the past
-  (YYYY-MM-DD)}
+  ("YYYY-MM-DD")}
 
   \item{end_date}{string representing a date in the past
-  (YYYY-MM-DD), and later than or equal to start_date.}
+  ("YYYY-MM-DD"), and later than or equal to start_date.}
 
   \item{station_type}{can be \code{airportCode} which is
   the default, or it can be \code{id} which is a
@@ -54,6 +54,13 @@ Weather data depending on the options specified }
 Given a valid station and a single date this function will
 return a dataframe of time-stamped weather data. All the
 records are summarized into one record per day.
+}
+\examples{
+\dontrun{
+windLHR <- getSummarizedWeather("LHR", "2012-12-12", "2012-12-31",
+                                 opt_custom_columns=TRUE,
+                                 custom_columns=c(17,18,19,23))
+}
 }
 \seealso{
 getWeatherForDate, getDetailededWeather
