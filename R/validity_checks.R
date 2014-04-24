@@ -112,3 +112,30 @@ validInputParameters <- function(start_date,
   
   return(1)
 }
+
+#for internal use only
+#validation routine
+#called from cleanAndSubsetDetailedData
+desiredColumnsAreValid <- function(wx_df, desired_columns){
+#make sure that the desired columns vector has reasonable numbers.
+  maxpossibleColNum <- ncol(wx_df)
+  
+  if (any(desired_columns > maxpossibleColNum)){
+    print("custom_columns:")
+    print(desired_columns)
+    stop("Invalid Columns specified in custom_columns vector.\n
+Specified column number is Larger than what is available columns: ", maxpossibleColNum)
+    return (FALSE) #something is not valid
+  }
+
+  if (any(desired_columns < 0)){
+    print("custom_columns:")
+    print(desired_columns)
+    stop("Invalid Columns (negative number) specified in custom_columns vector.")
+    return (FALSE) #something is not valid
+  }
+  return (TRUE)
+}
+  
+
+

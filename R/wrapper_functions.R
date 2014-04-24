@@ -90,11 +90,11 @@ checkDataAvailabilityForDateRange<- function (station_id,
   
   if (is.integer(st_row) && is.integer(en_row))
   {
-    message("Data is Available for the interval.")
+    message("Data is Available for the interval.\n")
     return(1)
   }
   else {
-    message("Data is Not Available")
+    message("Data is Not Available\n")
     return(0) #nothing found
   }
 }
@@ -234,6 +234,21 @@ getWeatherForDate <- function(station_id,
     
     
     date.range <- seq.Date(from=as.Date(start_date), to=as.Date(end_date), by='1 day')
+    
+    #Just print out once to let user know which columns are being fetched
+    message("Will be fetching these Columns:")
+    print(names(getDetailedWeather(station_id,  
+                                        date.range[1], 
+                                        station_type,
+                                        opt_temperature_columns,
+                                        opt_all_columns,
+                                        opt_custom_columns,
+                                        custom_columns,
+                                        opt_compress_output=FALSE,
+                                        opt_verbose,
+                                        opt_warnings=TRUE) ))
+    
+    
     message("Begin getting Daily Data for ", station_id)
     # pre-allocate list
     l <- vector(mode='list', length=length(date.range))
@@ -244,9 +259,18 @@ getWeatherForDate <- function(station_id,
       single_day_df <- getDetailedWeather(station_id,  
                                           date.range[i], 
                                           station_type,
-                                          opt_temperature_columns)
-      message(paste(station_id, i, date.range[i], ":",
-                    nrow(single_day_df), "Rows" ))      
+                                          opt_temperature_columns,
+                                          opt_all_columns,
+                                          opt_custom_columns,
+                                          custom_columns,
+                                          opt_compress_output=FALSE,
+                                          opt_verbose,
+                                          opt_warnings=TRUE) 
+        
+      message(paste(station_id, i, date.range[i], ": Fetching",
+                    nrow(single_day_df), "Rows" , "with",
+                    ncol(single_day_df), "Column(s)" )
+              )      
       if(daily_min | daily_max) {
         l[[i]] <- keepOnlyMinMax(single_day_df, daily_min, daily_max)
       } else{ #store the full day's dataframe
@@ -257,28 +281,6 @@ getWeatherForDate <- function(station_id,
     # stack elements of list into DF, filling missing columns with NA
     df <- ldply(l)
     
-    if(opt_write_to_file) {
-      
-      #Take care of filename and Row Names for min/max
-      prepend <- NULL
-      if(daily_max & daily_min) {#both
-        names(d) <- c("TimeMin", "MinTemp","TimeMax", "MaxTemp")
-        prepend <- "MinMax_"
-      } else if(daily_min){
-        names(d) <- c("TimeMin", "MinTemp")
-        prepend <- "Min_"
-      } else if(daily_max){
-        names(d) <- c("TimeMax", "MaxTemp")
-        prepend <- "Max_"
-      }
-      
-      outFileName <- paste0(prepend, station_id,"_",start_date, coda)  
-      outFileName <- paste(outFileName, "csv","gz", sep=".")
-      
-      write.csv(d, file=gzfile(outFileName), row.names=FALSE)
-      message(paste("wrote:", outFileName, "to", getwd()))    
-    }  
-    
     
   } else { #opt_detailed is FALSE. Summary desired
     
@@ -287,14 +289,43 @@ getWeatherForDate <- function(station_id,
                                     end_date,
                                     station_type)) return(NULL)
    # inputs are good 
+   
+   
     df <- getSummarizedWeather(station_id,
                                start_date,
                                end_date,
                                station_type,
                                opt_temperature_columns,
                                opt_all_columns,
-                               opt_custom_columns)    
+                               opt_custom_columns,
+                               custom_columns)    
+   #Print out once to let user know which columns are being fetched
+   message("Will be fetching these Columns:")
+   print(names(df))  
   }
+  
+  #persist the data frame, if user requires it
+  if(opt_write_to_file) {
+    #Take care of filename and Row Names for min/max
+    prepend <- NULL
+    if(daily_max & daily_min) {#both
+      names(d) <- c("TimeMin", "MinTemp","TimeMax", "MaxTemp")
+      prepend <- "MinMax_"
+    } else if(daily_min){
+      names(d) <- c("TimeMin", "MinTemp")
+      prepend <- "Min_"
+    } else if(daily_max){
+      names(d) <- c("TimeMax", "MaxTemp")
+      prepend <- "Max_"
+    }
+    
+    outFileName <- paste0(prepend, station_id,"_",start_date, coda)  
+    outFileName <- paste(outFileName, "csv","gz", sep=".")
+    
+    write.csv(d, file=gzfile(outFileName), row.names=FALSE)
+    message(paste("wrote:", outFileName, "to", getwd()))    
+  }  
+  
   
   return(df)
 }

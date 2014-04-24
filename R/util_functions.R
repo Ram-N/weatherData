@@ -268,13 +268,14 @@ createWU_SingleDateURL <- function (station,
 
 
 # Internal utility function
-#called by getSummarizedData()
+#called by cleanAndSubetData()
 getDesiredColumnsVector<- function(wx_df,
                                    time_column_number, #to be always returned
                                    opt_temperature_columns, 
                                    opt_all_columns, 
                                    opt_custom_columns, 
-                                   custom_columns=NULL) {
+                                   custom_columns=NULL,
+                                   opt_verbose=FALSE) {
   
   
   
@@ -287,12 +288,29 @@ getDesiredColumnsVector<- function(wx_df,
   }
   
   if(opt_custom_columns ==TRUE & opt_all_columns==TRUE){
-    warning("\n Please note: Custom columns and opt_all_columns are both selected. \n Only custom columns will be returned.")
-    opt_all_columns=NULL
+    message("\n Please note: Custom columns and opt_all_columns are both selected. \n Only custom columns will be returned.")
+    opt_all_columns=FALSE
+  }
+  
+  if(opt_temperature_columns ==TRUE & opt_all_columns==TRUE & opt_verbose){
+    message("opt_all_columns takes precedence over opt_temperature_columns")
+    opt_temperature_columns=FALSE
+  }
+  
+  if(opt_temperature_columns ==TRUE & opt_custom_columns==TRUE & opt_verbose){
+    message("opt_custom_columns takes precedence over opt_temperature_columns")
+    opt_temperature_columns=FALSE
   }
   
   if(opt_custom_columns ==TRUE & is.null(custom_columns)){
     stop("\n\nCustom columns can't be NULL if opt_custom_columns is selected")
+    return(NULL)
+  }
+  
+  if(opt_custom_columns ==FALSE & !is.null(custom_columns)){
+    stop("\n\nCustom columns can't be Specified 
+         if opt_custom_columns is FALSE\n
+         Please turn opt_custom_columns to be TRUE")    
     return(NULL)
   }
   
@@ -448,13 +466,18 @@ cleanAndSubsetObtainedData<- function(wxdata,
                                               time_column_number,                                              opt_temperature_columns, 
                                               opt_all_columns, 
                                               opt_custom_columns, 
-                                              custom_columns) 
+                                              custom_columns,
+                                              opt_verbose) 
   
-  if(opt_custom_columns) {
+  if(opt_custom_columns & opt_verbose) {
     message("Desired Columns Requested:")
     print(desired_columns)    
   }
-  #print(dim(wx_df))
+  if(desiredColumnsAreValid(wx_df, desired_columns))
+    return(wx_df[,desired_columns])
+  else
+    return(NULL)
+  
   return(wx_df[,desired_columns])
 }
 
@@ -493,7 +516,7 @@ cleanAndSubsetDetailedData<- function(wxdata,
   
   #make the col.names syntactically valid
   if(opt_verbose ==TRUE)    {
-    message("The following columns are available:")
+    message("The following columns are available for:", date)
     print(header_names)    
   }
   
@@ -531,8 +554,17 @@ cleanAndSubsetDetailedData<- function(wxdata,
                                               opt_temperature_columns, 
                                               opt_all_columns, 
                                               opt_custom_columns, 
-                                              custom_columns) 
+                                              custom_columns,
+                                              opt_verbose) 
   
   
-  return(wx_df[,desired_columns])
+  if(opt_custom_columns & opt_verbose) {
+    message("Desired Columns Requested:")
+    print(desired_columns)    
+  }
+  
+  if(desiredColumnsAreValid(wx_df, desired_columns))
+    return(wx_df[,desired_columns])
+  else
+    return(NULL)
 }
