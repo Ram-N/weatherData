@@ -1,0 +1,7 @@
+name: weatherData
+markdown: redcarpet
+pygments: true
+port: 4000
+auto: true
+safe: true
+server: true

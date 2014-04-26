@@ -1,163 +1,107 @@
-<!DOCTYPE html>
-<html>
+---
+layout: default
+title: weatherData	
+---
 
-  <head>
-    <meta charset='utf-8' />
-    <meta http-equiv="X-UA-Compatible" content="chrome=1" />
-    <meta name="description" content="Weatherdata : A simple R package that fetches Weather data from websites" />
 
-    <link rel="stylesheet" type="text/css" media="screen" href="stylesheets/stylesheet.css">
+<!-- other Pages -->
+<div id="home">
+  <h1>Using WeatherData </h1>
+  
+  If you want to perform weather Analysis, but don't wish to be bothered with
+  scraping the data yourself, you can consider using `weatherData`.
+  
 
-    <title>Weatherdata</title>
-  </head>
+  <h3>
+  <a name="uses-of-weatherdata" class="anchor" href="#uses-of-weatherdata"><span class="octicon octicon-link"></span></a>Uses of weatherData</h3>
 
-  <body>
+  <p><code>WeatherCompare</code> is <a href="http://spark.rstudio.com/ram/WeatherCompare/">a Shiny App</a> that uses the data brought over by weatherData and then summarized in various ways.</p>
 
-    <!-- HEADER -->
-    <div id="header_wrap" class="outer">
-        <header class="inner">
-          <a id="forkme_banner" href="https://github.com/Ram-N/weatherData">View on GitHub</a>
+  <p>Joe Rickert of <code>Revolution Analytics</code> has written a <a href="http://blog.revolutionanalytics.com/2014/02/r-and-the-weather.html">blog post with a sample script that uses <code>weatherData</code></a>. Do check it out.</p>
 
-          <h1 id="project_title">Weatherdata</h1>
-          <h2 id="project_tagline">A simple R package that fetches Weather data from websites</h2>
+  <h2>
+  <a name="two-installation-options" class="anchor" href="#two-installation-options"><span class="octicon octicon-link"></span></a>Two Installation Options</h2>
 
-            <section id="downloads">
-              <a class="zip_download_link" href="https://github.com/Ram-N/weatherData/zipball/master">Download this project as a .zip file</a>
-              <a class="tar_download_link" href="https://github.com/Ram-N/weatherData/tarball/master">Download this project as a tar.gz file</a>
-            </section>
-        </header>
-    </div>
+  <p>You can install the version from CRAN, or you can try out the version hosted in Github. Github has the development version, where I am trying out the newer functions.</p>
 
-    <!-- MAIN CONTENT -->
-    <div id="main_content_wrap" class="outer">
-      <section id="main_content" class="inner">
-        <p><code>weatherData</code> is a collection of functions that will fetch weather (Temperature, Pressure, Humidity etc.) data from the Web for you as clean data frame.</p>
+  <h3>
+  <a name="option-1-install-from-cran" class="anchor" href="#option-1-install-from-cran"><span class="octicon octicon-link"></span></a>Option 1: Install from CRAN</h3>
 
-<p>If you want to perform weather Analysis, but don't wish to be bothered with
-scraping the data yourself, you can consider using <code>weatherData</code>.</p>
+  <p>Install and Load the library</p>
 
-<h3>
-<a name="uses-of-weatherdata" class="anchor" href="#uses-of-weatherdata"><span class="octicon octicon-link"></span></a>Uses of WeatherData</h3>
+  <pre><code>install.packages('weatherData')
+  library(weatherData)
+  </code></pre>
 
-<p><code>WeatherCompare</code> is <a href="http://spark.rstudio.com/ram/WeatherCompare/">a Shiny App</a> that uses the data brought over by weatherData and then summarized in various ways.</p>
+  <h3>
+  <a name="option-2-install-from-github" class="anchor" href="#option-2-install-from-github"><span class="octicon octicon-link"></span></a>Option 2: Install from Github</h3>
 
-<p>Joe Rickert of <code>Revolution Analytics</code> has written a <a href="http://blog.revolutionanalytics.com/2014/02/r-and-the-weather.html">blog post with a sample script that uses <code>weatherData</code></a>. Do check it out.</p>
+  <p>The latest version of weatherData is on Github. (Note that this is the development version, and is usually ahead of what's on CRAN.) To install the development version of weatherData from github, use the <strong><code>devtools</code></strong> package.</p>
 
-<h2>
-<a name="two-installation-options" class="anchor" href="#two-installation-options"><span class="octicon octicon-link"></span></a>Two Installation Options</h2>
+  <pre><code>install.packages("devtools")
+  library("devtools")
+  install_github("weatherData", "Ram-N")
+  </code></pre>
 
-<p>You can install the version from CRAN, or you can try out the version hosted in Github. Github has the development version, where I am trying out the newer functions.</p>
+  <p>Once the package has installed, load the library</p>
 
-<h3>
-<a name="option-1-install-from-cran" class="anchor" href="#option-1-install-from-cran"><span class="octicon octicon-link"></span></a>Option 1: Install from CRAN</h3>
+  <pre><code>library(weatherData)
+  </code></pre>
 
-<p>Install and Load the library</p>
+  <p>Note: Windows users must also first install
+  <a href="http://cran.rstudio.com/bin/windows/Rtools/">Rtools</a>.</p>
 
-<pre><code>install.packages('weatherData')
-library(weatherData)
-</code></pre>
+  <h1>
+  <a name="how-to-use-this-package" class="anchor" href="#how-to-use-this-package"><span class="octicon octicon-link"></span></a>How to Use this package</h1>
 
-<h3>
-<a name="option-2-install-from-github" class="anchor" href="#option-2-install-from-github"><span class="octicon octicon-link"></span></a>Option 2: Install from Github</h3>
+  <p>The typical workflow when using <code>weatherData</code> is to first find the <code>station_id</code> for the location(s) that you are interested in. Once you have the station_id and the date ranges, it is a simple matter to fetch the data.</p>
 
-<p>The latest version of weatherData is on Github. (Note that this is the development version, and is usually ahead of what's on CRAN.) To install the development version of weatherData from github, use the <strong><code>devtools</code></strong> package.</p>
+  <p>In all the examples that follow, it is assumed that you have loaded the library.</p>
 
-<pre><code>install.packages("devtools")
-library("devtools")
-install_github("weatherData", "Ram-N")
-</code></pre>
+  <pre><code>library(weatherData)
+  </code></pre>
 
-<p>Once the package has installed, load the library</p>
+  <h2>
+  <a name="examples" class="anchor" href="#examples"><span class="octicon octicon-link"></span></a>Examples</h2>
 
-<pre><code>library(weatherData)
-</code></pre>
+  <p>Let's say that we want to search for weather in Buffalo. But we are interested in Buffalo, WY, not Buffalo,NY.</p>
 
-<p>Note: Windows users must also first install
-<a href="http://cran.rstudio.com/bin/windows/Rtools/">Rtools</a>.</p>
+  <pre><code>getStationCode("Buffalo")
+  getStationCode("Buffalo", region="WY") #being more specific about the location of interest
+  </code></pre>
 
-<h1>
-<a name="how-to-use-this-package" class="anchor" href="#how-to-use-this-package"><span class="octicon octicon-link"></span></a>How to Use this package</h1>
+  <p>This function will return a record containing matches to a given station name, and the 4 letter code can then be used in the arguments to other functions such as <code>getWeatherForDate()</code>
+  So, we can see that the 4-letter airportCode that we are interested is <code>KBYG</code></p>
 
-<p>The typical workflow when using <code>weatherData</code> is to first find the <code>station_id</code> for the location(s) that you are interested in. Once you have the station_id and the date ranges, it is a simple matter to fetch the data.</p>
+  <h3>
+  <a name="check-if-data-is-available" class="anchor" href="#check-if-data-is-available"><span class="octicon octicon-link"></span></a>Check if Data is Available</h3>
 
-<p>In all the examples that follow, it is assumed that you have loaded the library.</p>
+  <p>In general, it is a good idea to first check if data is available for our location and dates of interest. Throughout the package, we make a distinction between a <strong>Date</strong> and a <strong>Date Range</strong></p>
 
-<pre><code>library(weatherData)
-</code></pre>
+  <pre><code>checkDataAvailability("KBYG", "2011-01-02") #checking for a single date
+  checkDataAvailabilityForDateRange("SFO", "2010-10-29", "2013-01-12") #checking for a date range
+  </code></pre>
 
-<h2>
-<a name="examples" class="anchor" href="#examples"><span class="octicon octicon-link"></span></a>Examples</h2>
+  <p>The first command searches for Data Availability (in Weather Underground) for the date specified.
+  The second command above will see if weather data is available for the Airport supplied ("SFO") for the two end dates supplied: for the 20th Oct 2010 and for Jan 12th 2013 in this case.</p>
 
-<p>Let's say that we want to search for weather in Buffalo. But we are interested in Buffalo, WY, not Buffalo,NY.</p>
+  <p>These commands are useful for a quick check, before invoking <code>getDateRangeWeather</code></p>
 
-<pre><code>getStationCode("Buffalo")
-getStationCode("Buffalo", region="WY") #being more specific about the location of interest
-</code></pre>
+  <pre><code>getCurrentTemperature("PIT")
+  </code></pre>
 
-<p>This function will return a record containing matches to a given station name, and the 4 letter code can then be used in the arguments to other functions such as <code>getWeatherForDate()</code>
-So, we can see that the 4-letter airportCode that we are interested is <code>KBYG</code></p>
+  <p>If you are writing functions that use the current (latest) temperature for any location, you could use the
+  <code>getCurrentTemperature</code> function. This function will get the latest recorded Temperature for a give city or station. Any valid US Airport code or International 4-letter Airport Weather Code is valid. For example "EGLL" for London, UK. This function returns a NULL if it is unable to fetch the temperature, so you can test for that using <code>is.null()</code></p>
 
-<h3>
-<a name="check-if-data-is-available" class="anchor" href="#check-if-data-is-available"><span class="octicon octicon-link"></span></a>Check if Data is Available</h3>
+  <p>Note: This function uses the Sys.Date to learn today's date</p>
 
-<p>In general, it is a good idea to first check if data is available for our location and dates of interest. Throughout the package, we make a distinction between a <strong>Date</strong> and a <strong>Date Range</strong></p>
-
-<pre><code>checkDataAvailability("KBYG", "2011-01-02") #checking for a single date
-checkDataAvailabilityForDateRange("SFO", "2010-10-29", "2013-01-12") #checking for a date range
-</code></pre>
-
-<p>The first command searches for Data Availability (in Weather Underground) for the date specified.
-The second command above will see if weather data is available for the Airport supplied ("SFO") for the two end dates supplied: for the 20th Oct 2010 and for Jan 12th 2013 in this case.</p>
-
-<p>These commands are useful for a quick check, before invoking <code>getDateRangeWeather</code></p>
-
-<pre><code>getCurrentTemperature("PIT")
-</code></pre>
-
-<p>If you are writing functions that use the current (latest) temperature for any location, you could use the
-<code>getCurrentTemperature</code> function. This function will get the latest recorded Temperature for a give city or station. Any valid US Airport code or International 4-letter Airport Weather Code is valid. For example "EGLL" for London, UK. This function returns a NULL if it is unable to fetch the temperature, so you can test for that using <code>is.null()</code></p>
-
-<p>Note: This function uses the Sys.Date to learn today's date</p>
-
-<h3>
-<a name="built-in-datasets" class="anchor" href="#built-in-datasets"><span class="octicon octicon-link"></span></a>Built-in DataSets</h3>
-
-<pre><code>data(London2013)
-</code></pre>
-
-<p>This is a data frame of Ambient temperature data, extracted
-from Weather Undergound. Each row has two entries (columns). The Timestamp (YYYY-MM-DD HH:MM:SS) and the
-TemperatureF (in degrees F) </p>
-
-<h3>
-<a name="suggestions" class="anchor" href="#suggestions"><span class="octicon octicon-link"></span></a>Suggestions</h3>
-
-<p>Suggestions are welcome! If you would have a particular need for weather data,
-let me know what changes you'd like to see in the package. If you find bugs, please do report it. Fetching data from the web can be fragile. Please consider submitting an Issue.</p>
-
-<h3>
-<a name="credits" class="anchor" href="#credits"><span class="octicon octicon-link"></span></a>Credits</h3>
-
-<p>A number of people have helped with suggestions and pointers.</p>
-
-<ul>
-<li>Luca Foschini &amp; Alessio Signorini</li>
-<li>Felipe Carillo</li>
-<li>Edward P. Morris</li>
-<li>Martin Lavoie</li>
-</ul>
-      </section>
-    </div>
-
-    <!-- FOOTER  -->
-    <div id="footer_wrap" class="outer">
-      <footer class="inner">
-        <p class="copyright">Weatherdata maintained by <a href="https://github.com/Ram-N">Ram-N</a></p>
-        <p>Published with <a href="http://pages.github.com">GitHub Pages</a></p>
-      </footer>
-    </div>
-
+  
     
+  <li> <a href=builtin.html> Built-in Datasets </a>
+  <li> <a href=Examples2.html> Examples </a>
+  <li> <a href=credits.html> Credits </a>
+	  
+  
+</div>
+<!-- End other Pages -->
 
-  </body>
-</html>

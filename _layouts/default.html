@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html>
+
+    {% include header.html %}    
+
+
+  <body>
+
+    <!-- HEADER -->
+    <div id="header_wrap" class="outer">
+        <header class="inner">
+          <a id="forkme_banner" href="https://github.com/Ram-N/weatherData">View on GitHub</a>
+
+          <h1 id="project_title">weatherData</h1>
+          <h2 id="project_tagline">An R package that fetches Weather data from websites</h2>
+
+            <section id="downloads">
+              <a class="zip_download_link" href="https://github.com/Ram-N/weatherData/zipball/master">Download this project as a .zip file</a>
+              <a class="tar_download_link" href="https://github.com/Ram-N/weatherData/tarball/master">Download this project as a tar.gz file</a>
+            </section>
+        </header>
+    </div>
+
+    <!-- MAIN CONTENT -->
+    <div id="main_content_wrap" class="outer">
+      <section id="main_content" class="inner">
+        <p><code>weatherData</code> is a collection of functions that will fetch weather (Temperature, Pressure, Humidity etc.) data from the Web for you as clean data frame.</p>
+
+
+     {{ content }}
+
+
+
+      </section>
+    </div>
+	
+    {% include footer.html %}    
+
+  </body>
+</html>
