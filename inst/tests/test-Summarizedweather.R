@@ -27,3 +27,12 @@ test_that("Summarized: Get Temp columns by default", {
 })
 
 
+test_that("Summarized for a single date", {
+  sfo_single_date<- getSummarizedWeather("SFO", "2013-03-31")
+  expect_that(sfo_single_date, is_a("data.frame"))
+  expect_equal(ncol(sfo_single_date), 4)
+  expect_equal(nrow(sfo_single_date), 1)
+})
+
+
+

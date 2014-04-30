@@ -7,9 +7,10 @@ getCurrentTemperature(station_id)
 \arguments{
   \item{station_id}{is a valid Weather Station ID (example:
   "BUF", "ORD", "VABB" for Mumbai).  Valid Weather Station
-  "id" values: "KFLMIAMI75" or "IMOSCOWO2" You can look
-  these up at wunderground.com. You can get station_id's
-  for a given location by calling \code{getStationCode()}}
+  "id" values: \code{"KFLMIAMI75"} or \code{"IMOSCOWO2"}
+  You can look these up at wunderground.com. You can get
+  station_id's for a given location by calling
+  \code{getStationCode()}}
 }
 \value{
 A one row data frame containing: \itemize{ \item Date and
@@ -18,9 +19,14 @@ recorded) \item Temperature for the station in Farenheit
 (or Celcius) }
 }
 \description{
-A wrapper for getDetailedWeather(), it returns the last
-record in the web page. Uses Sys.Date() to get current
-time.
+Function will return the latest avialable temperature at a
+specified location.
+}
+\details{
+A wrapper for \code{getDetailedWeather()}, it returns the
+last record in the web page. Uses \code{Sys.Date()} to get
+current time. This function returns temperature in
+Farenheit or Celcius depending on the caller's location.
 }
 \examples{
 getCurrentTemperature(station ="HNL")

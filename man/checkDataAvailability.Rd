@@ -23,6 +23,12 @@ Use this function to check if data is available for station
 and date If the station code or the date is invalid,
 function will return 0
 }
+\examples{
+\dontrun{
+data_okay <- checkDataAvailability("HECA", "2014-01-01")
+
+}
+}
 \references{
 For a list of valid Weather Stations, try this format
 \url{http://www.wunderground.com/weatherstation/ListStations.asp?selectedCountry=United+States}

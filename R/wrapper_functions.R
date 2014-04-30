@@ -12,6 +12,11 @@ require(plyr)
 #'  and replace with your country of interest
 #' @return 1 if the station does have weather records for input date, 
 #'  0 if no records were found  
+#'@examples
+#'\dontrun{
+#' data_okay <- checkDataAvailability("HECA", "2014-01-01")
+#' 
+#'}
 #' @export 
 checkDataAvailability <- function (station_id, 
                                    check_date, 
@@ -48,7 +53,12 @@ checkDataAvailability <- function (station_id,
 #' @param end_date is a a valid string representing a date in the past (YYYY-MM-DD, all numeric) and is greater than start_date
 #' 
 #' @return 1 if the Station did have weather records, 0 if nothing was found  
-
+#' @examples
+#' \dontrun{
+#' data_okay <- checkDataAvailabilityForDateRange("BOS", 
+#'                                                "2011-01-01", 
+#'                                                "2011-03-31")
+#'}
 #' @export 
 checkDataAvailabilityForDateRange<- function (station_id, 
                                      start_date, 
@@ -113,7 +123,12 @@ checkDataAvailabilityForDateRange<- function (station_id,
 #'  Default is NULL, in which case the end_date is taken to the same as the start_date
 #' 
 #' @return 1 if the Station did have weather records, 0 if nothing was found  
-
+#' @examples
+#' \dontrun{
+#' data_okay <- checkSummarizedDataAvailability("GIG", 
+#'                                              "2000-01-01",
+#'                                              "2005-12-31")
+#'}
 #' @export 
 checkSummarizedDataAvailability<- function (station_id, 
                                             start_date, 
@@ -123,7 +138,8 @@ checkSummarizedDataAvailability<- function (station_id,
                              start_date,
                              end_date,
                              station_type,
-                             opt_temperature_columns=T)
+                             opt_temperature_columns=TRUE,
+                             opt_verbose=TRUE)
   
   
   st_row = nrow(df) #takes on a value of NULL if station has no data
@@ -164,10 +180,10 @@ checkSummarizedDataAvailability<- function (station_id,
 #'  (example: "BUF", "ORD", "VABB" for Mumbai).
 #'  Valid Weather Station "id" values: "KFLMIAMI75" or "IMOSCOWO2" You can look these up
 #'   at wunderground.com
-#' @param start_date string representing a date in the past (YYYY-MM-DD, all numeric)
-#' @param end_date (optional) If an interval is to be specified, end_date 
-#'  is a string representing a date in the past (YYYY-MM-DD, all numeric) 
-#'  and greater than the \code{start_date}  
+#' @param start_date string representing a date in the past ("YYYY-MM-DD", all numeric)
+#' @param end_date If an interval is to be specified, end_date 
+#'  is a string representing a date in the past ("YYYY-MM-DD", all numeric) 
+#'  and greater than the \code{start_date}  (Optional)
 #' @param station_type = "airportCode" (3- or 4-letter airport code) or "ID" (Wx call Sign)
 #' @param opt_detailed Boolen flag to indicate if detailed records for the station are desired.
 #' (default FALSE). By default only one records per date is returned.
@@ -197,6 +213,10 @@ checkSummarizedDataAvailability<- function (station_id,
 #'@examples
 #'\dontrun{
 #' dat <- getWeatherForDate("PHNL", "2013-08-10", 2013-08-31")
+#' d3<- getWeatherForDate("CWWF", start_date="2014-03-01", 
+#'                         end_date = "2014-03-03", 
+#'                         opt_detailed = TRUE, 
+#'                         opt_all_columns = TRUE)
 #'}
 #' @export
 getWeatherForDate <- function(station_id, 
@@ -282,15 +302,13 @@ getWeatherForDate <- function(station_id,
     df <- ldply(l)
     
     
-  } else { #opt_detailed is FALSE. Summary desired
+  } else { #opt_detailed is FALSE. Summary data desired
     
     if(!checkSummarizedDataAvailability(station_id,
                                     start_date,
                                     end_date,
                                     station_type)) return(NULL)
    # inputs are good 
-   
-   
     df <- getSummarizedWeather(station_id,
                                start_date,
                                end_date,
@@ -298,7 +316,8 @@ getWeatherForDate <- function(station_id,
                                opt_temperature_columns,
                                opt_all_columns,
                                opt_custom_columns,
-                               custom_columns)    
+                               custom_columns,
+                               opt_verbose=FALSE)    
    #Print out once to let user know which columns are being fetched
    message("Will be fetching these Columns:")
    print(names(df))  
@@ -368,6 +387,9 @@ getWeatherForDate <- function(station_id,
 #'@examples
 #'\dontrun{
 #' dat <- getWeatherForYear("KLGA", 2013)
+#' 
+#' # If opt_detailed is turned on, you will get a large data frame
+#' wx_Singapore <- getWeatherForYear("SIN", 2014, opt_detailed=TRUE)
 #'}
 #' @export
 getWeatherForYear <- function(station_id,
@@ -393,19 +415,23 @@ getWeatherForYear <- function(station_id,
                     first_day, 
                     last_day, 
                     station_type, 
-                    opt_detailed)  
+                    opt_detailed) 
 }
 
 
 
 #' Get the latest recorded temperature for a location
 #' 
-#' @description A wrapper for getDetailedWeather(), it returns the last
-#'  record in the web page. Uses Sys.Date() to get current time. 
+#' @description Function will return the latest avialable
+#' temperature at a specified location.
+#' 
+#' @details A wrapper for \code{getDetailedWeather()}, it returns the last
+#'  record in the web page. Uses \code{Sys.Date()} to get current time. This function
+#'  returns temperature in Farenheit or Celcius depending on the caller's location.
 #'
 #' @param station_id is a valid Weather Station ID
 #'  (example: "BUF", "ORD", "VABB" for Mumbai).
-#'  Valid Weather Station "id" values: "KFLMIAMI75" or "IMOSCOWO2" You can look these up
+#'  Valid Weather Station "id" values: \code{"KFLMIAMI75"} or \code{"IMOSCOWO2"} You can look these up
 #'   at wunderground.com. You can get station_id's for a given location
 #'   by calling \code{getStationCode()}
 #' @return A one row data frame containing: \itemize{
@@ -436,6 +462,16 @@ getCurrentTemperature <- function(station_id){
 }
 
 
+getDailyMinMaxTemp <- function(station_id, start_date, 
+                               end_date =NULL,
+                               daily_min=TRUE,
+                               daily_max=TRUE,                              
+                               station_type = 'airportCode',
+                               opt_write_to_file = FALSE){  
+  
+  #Not exposing this function at this time.
+  
+  
 #' Get the daily minimum (maximum) temperatures for a given weather stations
 #' 
 #' Given a StationID and a set of dates, this function returns the 
@@ -473,13 +509,7 @@ getCurrentTemperature <- function(station_id){
 #' dat <- getDailyMinMaxTemp("KBIL", "2013-08-10", daily_max=T)
 #' dat <- getDailyMinMaxTemp("EGLL", "2013-08-10", daily_max=T, daily_min=TRUE)
 #'}
-#' @export
-getDailyMinMaxTemp <- function(station_id, start_date, 
-                               end_date =NULL,
-                               daily_min=TRUE,
-                               daily_max=TRUE,                              
-                               station_type = 'airportCode',
-                               opt_write_to_file = FALSE){  
+#' at export 
   
   if((!daily_min) & (!daily_max)){
     warning("When calling getDailyMinMaxTemp, \n at least one of daily_min or daily_max should be TRUE")
@@ -508,41 +538,7 @@ getDailyMinMaxTemp <- function(station_id, start_date,
   return(temp.df)  
 }
 
-#'  Getting Temperature data for a single date (or a range of dates)
-#'   
-#' @description This function will return a (fairly large) data frame. If you are going 
-#'  to be using this data for future analysis, you can store the results in a CSV file
-#'   by setting \code{opt_write_to_file} to be TRUE
-#' @details For each day in the date range, this function fetches Temperature Data. It will fetch
-#' all the available values, which is typically multiple rows for each day, with a time stamp.
-#'  This function is a light wrapper for  \code{getWeatherForDate}.
-#' 
-#' @param station_id is a valid station code or a valid Weather Station ID
-#'  (example: "BUF", "ORD", "VABB" for Mumbai).
-#'  Valid Weather Station "id" values: "KFLMIAMI75" or "IMOSCOWO2" You can look up
-#'   weather station IDs at wunderground.com
-#' @param start_date is a valid string representing a date in the past (YYYY-MM-DD, all numeric)
-#' @param end_date (optional) If an interval is to be specified, end_date 
-#'  is a a valid string representing a date in the past (YYYY-MM-DD, all numeric) 
-#'  and greater than start_date  
-#' @param station_type = "airportCode" (4-letter airport code) or "ID" (Wx call Sign)
-#' @param daily_min A boolean indicating if only the Minimum Temperatures are desired
-#' @param daily_max A boolean indicating if only the Maximum Temperatures are desired
-#' @param opt_write_to_file If TRUE, the resulting dataframe will be stored in a CSV file. 
-#'  Default is FALSE
-#' @seealso getWeatherForDate, getDetailedWeather
-#' @references For a list of valid Weather Stations, try this format
-#'  \url{http://www.wunderground.com/weatherstation/ListStations.asp?selectedCountry=United+States}
-#'  and replace with your country of interest
-#' @return A data frame with each row containing: \itemize{
-#' \item Date and Time stamp (for each date specified)
-#' \item Temperature values
-#' }
-#'@examples
-#'\dontrun{
-#' dat <- getTemperatureForDate("KPHX", "2013-08-10", 2013-08-13")
-#'}
-#' @export
+
 getTemperatureForDate <- function(station_id, 
                               start_date, 
                               end_date =NULL,
@@ -552,6 +548,43 @@ getTemperatureForDate <- function(station_id,
                               opt_write_to_file = FALSE
 ) {  
 
+# Not exporting this function for now. Functionality exists elsewhere.  
+#'  Getting Temperature data for a single date (or a range of dates)
+  #'   
+  #' @description This function will return a (fairly large) data frame. If you are going 
+     #'  to be using this data for future analysis, you can store the results in a CSV file
+     #'   by setting \code{opt_write_to_file} to be TRUE
+     #' @details For each day in the date range, this function fetches Temperature Data. It will fetch
+     #' all the available values, which is typically multiple rows for each day, with a time stamp.
+     #'  This function is a light wrapper for  \code{getWeatherForDate}.
+     #' 
+     #' @param station_id is a valid station code or a valid Weather Station ID
+     #'  (example: "BUF", "ORD", "VABB" for Mumbai).
+     #'  Valid Weather Station "id" values: "KFLMIAMI75" or "IMOSCOWO2" You can look up
+     #'   weather station IDs at wunderground.com
+     #' @param start_date is a valid string representing a date in the past (YYYY-MM-DD, all numeric)
+     #' @param end_date (optional) If an interval is to be specified, end_date 
+     #'  is a a valid string representing a date in the past (YYYY-MM-DD, all numeric) 
+     #'  and greater than start_date  
+     #' @param station_type = "airportCode" (4-letter airport code) or "ID" (Wx call Sign)
+     #' @param daily_min A boolean indicating if only the Minimum Temperatures are desired
+     #' @param daily_max A boolean indicating if only the Maximum Temperatures are desired
+     #' @param opt_write_to_file If TRUE, the resulting dataframe will be stored in a CSV file. 
+     #'  Default is FALSE
+     #' @seealso getWeatherForDate, getDetailedWeather
+     #' @references For a list of valid Weather Stations, try this format
+     #'  \url{http://www.wunderground.com/weatherstation/ListStations.asp?selectedCountry=United+States}
+     #'  and replace with your country of interest
+     #' @return A data frame with each row containing: \itemize{
+     #' \item Date and Time stamp (for each date specified)
+     #' \item Temperature values
+     #' }
+     #'@examples
+     #'\dontrun{
+     #' dat <- getTemperatureForDate("KPHX", "2013-08-10", 2013-08-13")
+     #'}
+     #' at export
+  
   getWeatherForDate(station_id,start_date,end_date,station_type,
                     opt_temperature_columns=T, #this flag is preset.
                     daily_min,

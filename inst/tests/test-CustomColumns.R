@@ -6,3 +6,4 @@ test_that("Which Columns are available", {
   expect_equal(ncol(sAC), 2)
   expect_equal(nrow(sAC), 23)
 })
+

@@ -12,8 +12,8 @@ The package has functions that can fetch weather data.
 \tabular{ll}{
 Package: \tab weatherData\cr
 Type: \tab Package\cr
-Version: \tab 0.1\cr
-Date: \tab 2014-02-03\cr
+Version: \tab 0.4\cr
+Date: \tab 2014-04-29\cr
 License: \tab GPL\cr
 }
 These functions don't use APIs. They rely on reading URL's instead.
@@ -30,7 +30,7 @@ Maintainer: Ram Narasimhan <ramnarasimhan@gmail.com>
 }
 \keyword{ package }
 \examples{
-getWeatherForDate("LAX", "2013-01-01")
-checkDataAvailabilityForDateRange("BWI", "2013-12-13", "2014-01-01", "airportCode")
 getStationCode("Chennai")
+checkDataAvailabilityForDateRange("BWI", "2013-12-13", "2014-01-01", "airportCode")
+getWeatherForDate("LAX", "2013-01-01")
 }

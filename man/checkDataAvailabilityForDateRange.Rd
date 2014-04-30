@@ -33,4 +33,11 @@ exists.
 This functions checks for just the first and the last date
 in the interval, not the days in between
 }
+\examples{
+\dontrun{
+data_okay <- checkDataAvailabilityForDateRange("BOS",
+                                               "2011-01-01",
+                                               "2011-03-31")
+}
+}
 

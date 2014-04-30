@@ -44,6 +44,9 @@ Dec-31 of the given year.
 \examples{
 \dontrun{
 dat <- getWeatherForYear("KLGA", 2013)
+
+# If opt_detailed is turned on, you will get a large data frame
+wx_Singapore <- getWeatherForYear("SIN", 2014, opt_detailed=TRUE)
 }
 }
 \references{

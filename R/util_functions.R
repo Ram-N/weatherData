@@ -131,7 +131,10 @@ showAvailableColumns<- function(station_id,
 #' \url{http://weather.rap.ucar.edu/surface/stations.txt} The ICAO (4-letter
 #' code is what needs to be input to \code{getDetailedWeather()})
 #' 
-#'@examples getStationCode("Denver")
+#'@examples 
+#' getStationCode("Fiji") 
+#' getStationCode("Athens", region="GA") # in the US State of Georgia
+#'
 #'@export
 getStationCode <- function(stationName, region=NULL){
   

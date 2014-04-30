@@ -2,7 +2,7 @@
 \alias{getSummarizedWeather}
 \title{Gets daily summary weather data (One record per day)}
 \usage{
-getSummarizedWeather(station_id, start_date, end_date,
+getSummarizedWeather(station_id, start_date, end_date = NULL,
   station_type = "airportCode", opt_temperature_columns = TRUE,
   opt_all_columns = FALSE, opt_custom_columns = FALSE,
   custom_columns = NULL, opt_verbose = FALSE)
@@ -14,8 +14,9 @@ getSummarizedWeather(station_id, start_date, end_date,
   \item{start_date}{string representing a date in the past
   ("YYYY-MM-DD")}
 
-  \item{end_date}{string representing a date in the past
-  ("YYYY-MM-DD"), and later than or equal to start_date.}
+  \item{end_date}{(optional) string representing a date in
+  the past ("YYYY-MM-DD"), and later than or equal to
+  start_date.}
 
   \item{station_type}{can be \code{airportCode} which is
   the default, or it can be \code{id} which is a
@@ -53,13 +54,18 @@ Weather data depending on the options specified }
 \description{
 Given a valid station and a single date this function will
 return a dataframe of time-stamped weather data. All the
-records are summarized into one record per day.
+records are summarized into one record per day. If and
+\code{end_date} is specified the function returns 1 record
+for each day in the date range.
 }
 \examples{
 \dontrun{
+paris_in_fall<- getSummarizedWeather("CDG", "2013-09-30") #will get Temp columns by default
+#
 windLHR <- getSummarizedWeather("LHR", "2012-12-12", "2012-12-31",
                                  opt_custom_columns=TRUE,
                                  custom_columns=c(17,18,19,23))
+
 }
 }
 \seealso{

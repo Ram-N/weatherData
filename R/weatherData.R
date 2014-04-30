@@ -33,6 +33,11 @@ require(plyr)
 #' }
 #'@examples
 #'\dontrun{
+#' getDetailedWeather("NRT", "2014-04-29") #just the Temperature Columns
+#' 
+#' # Returns all columns available
+#' getDetailedWeather("NRT", "2014-04-29", opt_all_columns=T) 
+#' 
 #' wCDG <- getDetailedWeather("CDG", "2013-12-12",opt_custom_columns=T, 
 #'                            custom_columns=c(10,11,12))
 #'}
@@ -124,11 +129,12 @@ getDetailedWeather <- function(station_id,
 #' 
 #' @description Given a valid station and a single date this function
 #'  will return a dataframe of time-stamped weather data. All the records
-#'  are summarized into one record per day.
+#'  are summarized into one record per day. If and \code{end_date} is specified
+#'  the function returns 1 record for each day in the date range.
 #'  
 #' @param station_id is a valid 3-letter airport code or a valid Weather Station ID
 #' @param start_date string representing a date in the past ("YYYY-MM-DD")
-#' @param end_date string representing a date in the past ("YYYY-MM-DD"), and later than or equal to start_date.
+#' @param end_date (optional) string representing a date in the past ("YYYY-MM-DD"), and later than or equal to start_date.
 #' @param station_type can be \code{airportCode} which is the default, or it
 #'  can be \code{id} which is a weather-station ID
 #' @param opt_temperature_columns Boolen flag to indicate only Temperature data is to be returned (default TRUE)
@@ -151,14 +157,17 @@ getDetailedWeather <- function(station_id,
 #' 
 #'@examples
 #'\dontrun{
+#' paris_in_fall<- getSummarizedWeather("CDG", "2013-09-30") #will get Temp columns by default
+#' #
 #' windLHR <- getSummarizedWeather("LHR", "2012-12-12", "2012-12-31", 
 #'                                  opt_custom_columns=TRUE, 
 #'                                  custom_columns=c(17,18,19,23))
+#'                                  
 #'}
 #' @export
 getSummarizedWeather <- function(station_id, 
                                  start_date, 
-                                 end_date,
+                                 end_date=NULL,
                                  station_type="airportCode",
                                  opt_temperature_columns=TRUE,
                                  opt_all_columns=FALSE,
@@ -179,9 +188,9 @@ getSummarizedWeather <- function(station_id,
                                     end_date,
                                     station_type="airportCode",
                                     opt_verbose=FALSE)
-  
-  message(sprintf("Retrieving from: %s", custom_url))
-  
+  if(opt_verbose){
+    message(sprintf("Retrieving from: %s", custom_url))    
+  }  
   wxdata <- readUrl(custom_url)
   if(!isObtainedDataValid(wxdata, station_id, custom_url)) return(NULL)
   

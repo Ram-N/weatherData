@@ -43,6 +43,22 @@ NULL
 #' 
 NULL
 
+#' @title Data - Summarized Daily Temperature for the City of San Francisco for all of 2013
+#'
+#' @description This is a data frame of Ambient temperature data, extracted from Weather Undergound.
+#' Each row has four columns. The Timestamp (YYYY-MM-DD HH:MM:SS) and three Temperature Columns: Daily Max, Mean and Min (in degrees F)
+#' In comparison with the \code{SFO2013} dataset which has 9507 rows, this dataset has exactly
+#' 365 rows, one for each day in 2013.
+#' @author Ram Narasimhan \email{ramnarasimhan@@gmail.com}
+#' @name SFO2013Summarized
+#' @docType data
+#' @usage data(SFO2013Summarized)
+#' @references 
+#' \url{http://www.wunderground.com/history/airport/SFO/2013/1/1/CustomHistory.html?dayend=31&monthend=12&yearend=2013&req_city=NA&req_state=NA&req_statename=NA&format=1}
+#' @keywords data
+#' 
+NULL
+
 #' @title Data - Ambient Temperature for the City of San Francisco for all of 2013
 #'
 #' @description This is a data frame of Ambient temperature data, extracted from Weather Undergound.

@@ -17,12 +17,12 @@ getWeatherForDate(station_id, start_date, end_date = NULL,
   wunderground.com}
 
   \item{start_date}{string representing a date in the past
-  (YYYY-MM-DD, all numeric)}
+  ("YYYY-MM-DD", all numeric)}
 
-  \item{end_date}{(optional) If an interval is to be
-  specified, end_date is a string representing a date in
-  the past (YYYY-MM-DD, all numeric) and greater than the
-  \code{start_date}}
+  \item{end_date}{If an interval is to be specified,
+  end_date is a string representing a date in the past
+  ("YYYY-MM-DD", all numeric) and greater than the
+  \code{start_date} (Optional)}
 
   \item{station_type}{= "airportCode" (3- or 4-letter
   airport code) or "ID" (Wx call Sign)}
@@ -83,6 +83,10 @@ Weather Data.  Internally, it makes multiple calls to
 \examples{
 \dontrun{
 dat <- getWeatherForDate("PHNL", "2013-08-10", 2013-08-31")
+d3<- getWeatherForDate("CWWF", start_date="2014-03-01",
+                        end_date = "2014-03-03",
+                        opt_detailed = TRUE,
+                        opt_all_columns = TRUE)
 }
 }
 \references{

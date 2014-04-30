@@ -26,7 +26,8 @@ dataset and looks for matches. Usually, the 4 letter
 airportCode is what you are after.
 }
 \examples{
-getStationCode("Denver")
+getStationCode("Fiji")
+getStationCode("Athens", region="GA") # in the US State of Georgia
 }
 \references{
 For a world-wide list of possible stations, be sure to look

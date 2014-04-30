@@ -35,4 +35,11 @@ This functions build a custom URL and checks for the data.
 If available, it will find one row for each date in the
 date range.
 }
+\examples{
+\dontrun{
+data_okay <- checkSummarizedDataAvailability("GIG",
+                                             "2000-01-01",
+                                             "2005-12-31")
+}
+}
 

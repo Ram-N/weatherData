@@ -1,0 +1,23 @@
+weatherData 0.4
+=======================
+  
+* There is now a distinction being made between `summarized data`
+  and `detailed data.` In Summarized Data, one only row per date is returned
+
+* By default, the user will be given `Summarized Data.` You will have to 
+  specifically ask for Detailed data, with `opt_detailed=TRUE`
+
+* Depending on the type of weather Data desired (columns), there are now
+  three new options: `opt_temperature_columns`, `opt_custom_columns` or 
+  `opt_all_columns.` Temperature Columns are the default
+
+* Custom Columns take priority over the other two options. That is, over
+  opt_all_columns and `opt_temperature_columns`
+
+* new data set `SFO2013Summarized` has been added. This data is for the
+  same period as `SFO2013` but is much more compact
+
+* new `showAvailableColumns` can be used to find out what columns are
+  available. Then, the subset of columns desired can be specified using
+  `custom_columns.`  Example: `custom_columns = c(1,3,5,6)`
+

@@ -61,6 +61,11 @@ not summarize the data.
 }
 \examples{
 \dontrun{
+getDetailedWeather("NRT", "2014-04-29") #just the Temperature Columns
+
+# Returns all columns available
+getDetailedWeather("NRT", "2014-04-29", opt_all_columns=T)
+
 wCDG <- getDetailedWeather("CDG", "2013-12-12",opt_custom_columns=T,
                            custom_columns=c(10,11,12))
 }
