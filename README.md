@@ -4,6 +4,11 @@ weatherData is a library of functions that will fetch weather data (Temperature,
 
 If you want to perform weather Analysis, but don't wish to be bothered with scraping the data yourself, you can consider using `weatherData`.
 
+### Github Page with Examples
+
+The main page for weatherData (with explanations and Examples) can be found
+at [http://ram-n.github.io/weatherData/](http://ram-n.github.io/weatherData/)
+
 ### Shiny App
 
 WeatherCompare is [a Shiny App](http://spark.rstudio.com/ram/WeatherCompare/) that uses the data brought over by weatherData and then summarized in various ways
@@ -73,6 +78,8 @@ station name, and the 4 letter code can then be used in the arguments
 to other functions such as `getWeatherForDate()`
 
 
+More examples (with explanations) can be found
+at [http://ram-n.github.io/weatherData/](http://ram-n.github.io/weatherData/)
 
 
 
