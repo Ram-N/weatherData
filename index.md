@@ -11,7 +11,7 @@ title: weatherData
 * [Use Cases](#usecases)
 * [Built-in Datasets] (builtin.html)
 * [Some More Detailed Examples](Examples2.html) 
-* [Articles about the package](articles.html)
+* [Articles about the package](#articles)
 * [Credits](#credits)
 			
 ##Using WeatherData
@@ -28,9 +28,9 @@ title: weatherData
 
 ###<a name="install"></a>  Two Installation Options 
 
-  <p>You can install the version from CRAN, or you can try out the version hosted in Github. Github has the development version, where I am trying out the newer functions.</p>
+You can install the version from CRAN, or you can try out the version hosted in Github. Github has the newer version, which is in development. This is where I try out the newer functions.
 
-  <h3><a name="cran"></a>Option 1: Install from CRAN</h3>
+####<a name="cran"></a>Option 1: Install from CRAN
 
   <p>Install and Load the library</p>
 
@@ -39,7 +39,7 @@ title: weatherData
     library(weatherData)
   
 
-<h3><a name="github"></a>Option 2: Install from Github</h3>
+####<a name="github"></a>Option 2: Install from Github</h3>
 
   <p>The latest version of weatherData is on Github. (Note that this is the development version, and is usually ahead of what's on CRAN.) To install the development version of weatherData from github, use the <strong><code>devtools</code></strong> package.</p>
 
@@ -80,15 +80,18 @@ This is a just a very small sample of the functions. There are also a number of 
 
 
   <h1>
-  <a name="how-to-use-this-package" class="anchor" href="#how-to-use-this-package"><span class="octicon octicon-link"></span></a>How to Use this package</h1>
+#<a name="how-to-use-this-package"></a>Using the package: Typical Workflow
 
-  <p>The typical workflow when using <code>weatherData</code> is to first find the <code>station_id</code> for the location(s) that you are interested in. Once you have the station_id and the date ranges, it is a simple matter to fetch the data.</p>
+The typical workflow when using <code>weatherData</code> is to first find the <code>station_id </code> for the location(s) that you are interested in. Once you have the station_id and the date ranges, it is a simple matter to fetch the data.</p>
 
-  <p>In all the examples that follow, it is assumed that you have loaded the library.</p>
+In all the examples that follow, it is assumed that you have loaded the library. You can do by typing `library(weatherData).` 
 
-`library(weatherData)`
+Many [more Detailed Examples](Examples2.html) of the functions in `weatherData` can be found in these pages.
+
 
 ###<a name="articles"></a>  Articles about weatherData
+
+There have been a few articles written about the functions in this package. They might be useful to get a feel for use cases.
 
 **Joe Rickert** of <code>Revolution Analytics</code> has written a <a href="http://blog.revolutionanalytics.com/2014/02/r-and-the-weather.html">blog post with a sample script that uses <code>weatherData</code></a>. Do check it out.
 
@@ -99,10 +102,5 @@ Here's [a presentation](http://files.meetup.com/1225993/Ram_BARUG_weatherData.pp
 ###  <a name="credits" class="anchor" href="#credits"></a>Credits
 
 The `weatherData` package has benefited from the suggestions of quite a number of weather analysts. Their feedback, suggestions
-and bug reports has helped. Detailed credits for their contributions can be found [here](credits.html).
-
-    
-	  
-  
-<!-- End other Pages -->
+and bug reports have helped immensely. Detailed credits for their contributions can be found [here](credits.html).
 
