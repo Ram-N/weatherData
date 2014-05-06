@@ -2,11 +2,6 @@
 layout: default
 title: Credits
 ---
-<h3>
-		<a name="suggestions" class="anchor" href="#suggestions"><span class="octicon octicon-link"></span></a>Suggestions</h3>
-
-Suggestions are welcome! If you would have a particular need for weather data,
-let me know what changes you'd like to see in the package. If you find bugs, please do report it. Fetching data from the web can be fragile. Please consider submitting an Issue.
 	
 <h3>
 <a name="credits" class="anchor" href="#credits"><span class="octicon octicon-link"></span></a>Credits</h3>
@@ -19,5 +14,12 @@ let me know what changes you'd like to see in the package. If you find bugs, ple
 led to the creation of the three flags: `opt_all_columns`, `opt_temperature_colunns` & `opt_custom_columns.` In fact, he was the one who 
 came up with the idea for having a vector for `custom_columns.`
 - **Martin Lavoie** reported that several flags in `getWeatherData` weren't getting set properly. Some of his examples have been added to insts/tests.
+
+
+<h3>
+		<a name="suggestions" class="anchor" href="#suggestions"><span class="octicon octicon-link"></span></a>Suggestions</h3>
+
+Suggestions are welcome! If you would have a particular need for weather data,
+let me know what changes you'd like to see in the package. If you find bugs, please do report it. Fetching data from the web can be fragile. Please consider submitting an Issue.
 
 [Back](index.html)
