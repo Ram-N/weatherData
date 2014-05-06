@@ -8,21 +8,16 @@ title: weatherData
     -  [From CRAN](#cran)
     - [From Github](#github)
 * [Quickstart](#quickstart)
-* [Use Cases](#usecases)
 * [Built-in Datasets] (builtin.html)
-* [Some More Detailed Examples](Examples2.html) 
+* [Typical Workflow](#how-to-use-this-package)
+* [Demo Shiny Application](#usecases)
 * [Articles about the package](#articles)
 * [Credits](#credits)
 			
 ##Using WeatherData
   
-  If you want to perform weather Analysis, but don't wish to do the data scraping yourself, you can consider using `weatherData`.
+  If you want to perform weather Analysis, but don't wish to do the data scraping yourself, you can consider using `weatherData`. Given a few parameters, it has functions that return the available data in a time-stamped data frame that is easy to work with.
   
-
-#### <a name="usecases"></a>weatherData Package Use Cases 
-
-
-  <p><code>WeatherCompare</code> is <a href="http://spark.rstudio.com/ram/WeatherCompare/">a Shiny App</a> that uses the data brought over by weatherData and then summarized in various ways.</p>
 
 
 
@@ -80,13 +75,37 @@ This is a just a very small sample of the functions. There are also a number of 
 
 
   <h1>
-#<a name="how-to-use-this-package"></a>Using the package: Typical Workflow
+###<a name="how-to-use-this-package"></a>Using the package: Typical Workflow
 
-The typical workflow when using <code>weatherData</code> is to first find the <code>station_id </code> for the location(s) that you are interested in. Once you have the station_id and the date ranges, it is a simple matter to fetch the data.</p>
 
-In all the examples that follow, it is assumed that you have loaded the library. You can do by typing `library(weatherData).` 
+Typically, in order to analyze the available weather data, you will need to decide on four parameters:
 
-Many [more Detailed Examples](Examples2.html) of the functions in `weatherData` can be found in these pages.
+1. Location. (Which city, zipcode or weather station are you interested in)
+2. Time Interval (Is this for 1 day, a sequence of dates, or a whole year or more)
+3. Level of Detail: Is one record per day adequate? (If so, use summarized) If not, specify the `opt_detailed` option.
+4. Which of the available columns are you interested in? (Temperature, Pressure, Wind, Humidity or all the available ones.)
+
+In all the examples, it is assumed that you have loaded the library. You can do so by typing `library(weatherData).` 
+
+####Step 1:
+Find the `station id` for the location(s) that you are interested in. If you know the airport code (3 letters) you can try that.
+Once you have the `station_id` and the date ranges, it is a simple matter to fetch the data.
+
+####Step 2:
+Set the date range: `start_date="YYYY-MM-DD"` and `end_date="YYYY-MM-DD"` If you need data for just one day, then end_date doesn't have to be specified.
+
+####Step 3:
+If the default level of detail is sufficient, call one of the `getWeatherData()` functions, and assign the data frame being returned to it.
+
+  `wx_df <- getWeatherForDate("SAN", "2011-08-26")`
+
+
+A few [more Detailed Examples](Examples2.html) of the functions in `weatherData` can be found in these [pages](Examples2.html).
+
+
+#### <a name="usecases"></a>weatherData Demo Application 
+
+  <p><code>WeatherCompare</code> is <a href="http://spark.rstudio.com/ram/WeatherCompare/">a Shiny App</a> that uses the data brought over by weatherData and then summarized in various ways.</p>
 
 
 ###<a name="articles"></a>  Articles about weatherData
