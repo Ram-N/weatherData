@@ -55,6 +55,7 @@ You can install the version from CRAN, or you can try out the version hosted in 
 If you want to get started using the functions in the package right away, you can do so.
 
 **Quickstart Example 1.** Start by getting the temperature data for a Location of interest for a particular date.
+
      getWeatherForDate("SEA", "2014-05-05")
 	 
 *Variations*
@@ -91,6 +92,8 @@ In all the examples, it is assumed that you have loaded the library. You can do 
 Find the `station id` for the location(s) that you are interested in. If you know the airport code (3 letters) you can try that.
 Once you have the `station_id` and the date ranges, it is a simple matter to fetch the data.
 
+Details around finding the weather station ID's can be [found here](getstation.html)
+
 ####Step 2:
 Set the date range: `start_date="YYYY-MM-DD"` and `end_date="YYYY-MM-DD"` If you need data for just one day, then end_date doesn't have to be specified.
 
@@ -99,7 +102,7 @@ If the default level of detail is sufficient, call one of the `getWeatherData()`
 
   `wx_df <- getWeatherForDate("SAN", "2011-08-26")`
 
-
+####More Examples
 A few [more Detailed Examples](Examples2.html) of the functions in `weatherData` can be found in these [pages](Examples2.html).
 
 
@@ -116,10 +119,11 @@ There have been a few articles written about the functions in this package. They
 
 **Angela Hey**, a tech blogger for the **Mountain View Voice** wrote [an article about analyzing data with R](http://www.mv-voice.com/blogs/p/2014/04/17/analyze-data-yourself-with-r---a-fast-growing-language-for-statistics-forecasting-and-graphs), and used weatherData functions for her examples.  
 
-Here's [a presentation](http://files.meetup.com/1225993/Ram_BARUG_weatherData.pptx) about the features of weatherData new to version 0.4. It was part of short lightning I gave for the BARUG group. And here's [Joe Rickert's summary of the talks](http://blog.revolutionanalytics.com/2014/04/barug-talks-highlight-rs-diverse-applications.html).
+Here's [a presentation](http://files.meetup.com/1225993/Ram_BARUG_weatherData.pptx) about the features of weatherData new to version 0.4. It was part of a short lightning I gave for the BARUG group. And here's [Joe Rickert's summary of the talks](http://blog.revolutionanalytics.com/2014/04/barug-talks-highlight-rs-diverse-applications.html).
 
 ###  <a name="credits" class="anchor" href="#credits"></a>Credits
 
 The `weatherData` package has benefited from the suggestions of quite a number of weather analysts. Their feedback, suggestions
 and bug reports have helped immensely. Detailed credits for their contributions can be found [here](credits.html).
 
+Ram Narasimhan
