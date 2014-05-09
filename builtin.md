@@ -4,13 +4,10 @@ title: Built-in Datasets
 ---
  
  
- <h3>
- <a name="built-in-datasets" class="anchor" href="#built-in-datasets"><span class="octicon octicon-link"></span></a>Built-in DataSets</h3>
 
 `data(London2013)`
 
-This is a data frame of Ambient temperature data, extracted
- from Weather Undergound. Each row has two entries (columns). 
+This is a data frame of Ambient temperature data, extracted from Weather Undergound. Each row has two entries (columns). 
  
  - The Timestamp (YYYY-MM-DD HH:MM:SS) and the
  - TemperatureF (in degrees F)

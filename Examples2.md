@@ -1,6 +1,6 @@
 ---
 layout: default
-title: Credits
+title: Examples
 ---
 
 ##More Examples

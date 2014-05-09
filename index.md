@@ -3,13 +3,14 @@ layout: default
 title: weatherData	
 ---
 
-- [About the Package](#about)
-- [Installing weatherData Package](#install)
-    -  [From CRAN](#cran)
-    - [From Github](#github)
-* [Quickstart](#quickstart)
-* [Built-in Datasets] (builtin.html)
+* [About the Package](#about)
+* [Installing weatherData Package](#install)
+    * [From CRAN](#cran)
+    * [From Github](#github)
+* [Basic Usage: Quick start](#quickstart)
 * [Typical Workflow](#how-to-use-this-package)
+* [Examples](#moreexamples)
+* [Built-in Datasets] (#builtin)
 * [Demo Shiny Application](#usecases)
 * [Articles about the package](#articles)
 * [Credits](#credits)
@@ -50,7 +51,7 @@ You can install the version from CRAN, or you can try out the version hosted in 
   <a href="http://cran.rstudio.com/bin/windows/Rtools/">Rtools</a>.</p>
 
 
-###<a name="quickstart"></a>  Quickstart Guide
+###<a name="quickstart"></a>  Basic Usage: Quickstart
 
 If you want to get started using the functions in the package right away, you can do so.
 
@@ -76,7 +77,7 @@ This is a just a very small sample of the functions. There are also a number of 
 
 
   <h1>
-###<a name="how-to-use-this-package"></a>Using the package: Typical Workflow
+####<a name="how-to-use-this-package"></a>Using the package: Typical Workflow
 
 
 Typically, in order to analyze the available weather data, you will need to decide on four parameters:
@@ -102,11 +103,17 @@ If the default level of detail is sufficient, call one of the `getWeatherData()`
 
   `wx_df <- getWeatherForDate("SAN", "2011-08-26")`
 
-####More Examples
-A few [more Detailed Examples](Examples2.html) of the functions in `weatherData` can be found in these [pages](Examples2.html).
+###<a name="moreexamples"></a>Examples
+
+* [Example 1: Using `getWeatherForYear()`](example_weatherYear.html) to compare the daily temperature differences for two cities. In this example, we get one year's worth of data for two cities, and plot the daily differences.
+* A few [more Detailed Examples](Examples2.html) of the functions in `weatherData` can be found in these [pages](Examples2.html).
 
 
-#### <a name="usecases"></a>weatherData Demo Application 
+####<a name="builtin"></a>Built-in Datasets
+The package comes with a few pre-loaded datasets and those are available for trying out some basic analysis right away. More details about what is included and what each of those datasets contains can be [found here](builtin.html). That page also includes some sample code for using one of the datasets, `Mumbai2013`
+
+
+### <a name="usecases"></a>weatherData Demo Application 
 
   <p><code>WeatherCompare</code> is <a href="http://spark.rstudio.com/ram/WeatherCompare/">a Shiny App</a> that uses the data brought over by weatherData and then summarized in various ways.</p>
 
