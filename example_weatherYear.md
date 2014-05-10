@@ -48,7 +48,7 @@ With these two functions in place, given any two cities, we can create the diffe
     plotDifferences(differences, city1, city2)
 
 And here's the resulting plot:
-![Plot of Daily Differences](/images/ORDSFO.jpeg)
+![Plot of Daily Differences](images/ORDSFO.jpeg)
 	
 [<< Back to Examples](index.html#moreexamples)
 

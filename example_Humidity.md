@@ -81,7 +81,7 @@ Now we have the data we need. We can carry out any analysis we wish, or plot the
 	       2014 (South & South East Asian Cities) ")
 
 And here's the resulting plot:
-![Plot of Daily Differences](/images/SouthAsiaHumidity.jpeg)
+![Plot of Daily Differences](images/SouthAsiaHumidity.jpeg)
 	
 [<< Back to Examples](index.html#moreexamples)
 
