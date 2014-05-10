@@ -103,10 +103,12 @@ If the default level of detail is sufficient, call one of the `getWeatherData()`
 
   `wx_df <- getWeatherForDate("SAN", "2011-08-26")`
 
-###<a name="moreexamples"></a>Examples
+##<a name="moreexamples"></a>Examples
 
-* [Example 1: Using `getWeatherForYear()`](example_weatherYear.html) to compare the daily temperature differences for two cities. In this example, we get one year's worth of data for two cities, and plot the daily differences.
-* A few [more Detailed Examples](Examples2.html) of the functions in `weatherData` can be found in these [pages](Examples2.html).
+* [Example 1: Using `getWeatherForYear()`](example_weatherYear.html) to compare the daily temperature differences for two cities. In this example, we get one year's worth of data for two cities, and plot the daily differences	
+* [Example 2: Comparing Intra-day Humidity:](example_Humidity.html) This example illustrates how we go about getting one day's worth of custom data for several South East Asian cities, and how to plot the time series data obtained.
+
+A few [more Detailed Examples](Examples2.html) of the functions in `weatherData` can be found in these [pages](Examples2.html).
 
 
 ####<a name="builtin"></a>Built-in Datasets
@@ -126,7 +128,7 @@ There have been a few articles written about the functions in this package. They
 
 **Angela Hey**, a tech blogger for the **Mountain View Voice** wrote [an article about analyzing data with R](http://www.mv-voice.com/blogs/p/2014/04/17/analyze-data-yourself-with-r---a-fast-growing-language-for-statistics-forecasting-and-graphs), and used weatherData functions for her examples.  
 
-Here's [a presentation](http://files.meetup.com/1225993/Ram_BARUG_weatherData.pptx) about the features of weatherData new to version 0.4. It was part of a short lightning I gave for the BARUG group. And here's [Joe Rickert's summary of the talks](http://blog.revolutionanalytics.com/2014/04/barug-talks-highlight-rs-diverse-applications.html).
+Here's [a presentation](http://files.meetup.com/1225993/Ram_BARUG_weatherData.pptx) about the features in `weatherData` that are new to version 0.4. It was part of a short lightning I gave for the BARUG group. And here's [Joe Rickert's summary of the talks](http://blog.revolutionanalytics.com/2014/04/barug-talks-highlight-rs-diverse-applications.html).
 
 ###  <a name="credits" class="anchor" href="#credits"></a>Credits
 
