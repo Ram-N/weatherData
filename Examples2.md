@@ -40,13 +40,15 @@ So, we can see that the 4-letter airportCode that we are interested in is <code>
 
   <p>These commands are useful for a quick check, before invoking <code>getDateRangeWeather</code></p>
 
+####Getting the current temperature of a Location
+
     getCurrentTemperature("PIT")
 
-  <p>If you are writing functions that use the current (latest) temperature for any location, you could use the
-  <code>getCurrentTemperature</code> function. This function will get the latest recorded Temperature for a give city or station. Any valid US Airport code or International 4-letter Airport Weather Code is valid. For example "EGLL" for London, UK. This function returns a NULL if it is unable to fetch the temperature, so you can test for that using <code>is.null()</code></p>
+  <p>If you are writing functions that use the current (latest) temperature for any location, you can try using the
+ `getCurrentTemperature` function. This function will get the latest recorded Temperature for a give city or station. Any valid US Airport code or International 4-letter Airport Weather Code will usually work. For example "EGLL" for London, UK. This function returns a NULL if it is unable to fetch the temperature, so you can test for that using `is.null().`
 
-  <p>Note: This function uses the Sys.Date to learn today's date</p>
-
+  **Caution**: This function uses the `Sys.Date` to learn today's date. So it might be a good idea to test it before including it in your script.
+  
 ### List of the different functions available in weatherData
 
 ####Functions to Check if Data is available
@@ -66,7 +68,7 @@ So, we can see that the 4-letter airportCode that we are interested in is <code>
 * `getSummarizedWeather`	Gets daily summary weather data (One record per day)
 
 #### Convenience Wrappers
-* `getTemperatureForDate`	Getting Temperature data for a single date (or a range of dates)
+
 * `getWeatherForDate`	Getting data for a range of dates
 * `getWeatherForYear`	Get weather data for one full year
 
