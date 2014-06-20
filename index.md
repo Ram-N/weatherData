@@ -106,8 +106,8 @@ If the default level of detail is sufficient, call one of the `getWeatherData()`
 ##<a name="moreexamples"></a>Detailed Examples
 
 * [Example 1: Using `getWeatherForYear()`](example_weatherYear.html) to compare the daily temperature differences for two cities. In this example, we get one year's worth of data for two cities, and plot the daily differences	
-* [Example 2: Comparing Intra-day Humidity:](example_Humidity.html) This example illustrates how we go about getting one day's worth of custom data for several South East Asian cities, and how to plot the time series data obtained.
-* [Example 3: Getting Wind Data for a City:](example_Wind.html) This example illustrates how we go about getting Wind data for a city of our choosing.
+* [Example 2: Getting Wind Data for a City:](example_Wind.html) This example illustrates how we go about getting Wind data for a city of our choosing.
+* [Example 3: Comparing Intra-day Humidity:](example_Humidity.html) This example illustrates how we go about getting one day's worth of custom data for several South East Asian cities, and how to plot the time series data obtained.
 
 A few [more Detailed Examples](Examples2.html) of the functions in `weatherData` can be found in these [pages](Examples2.html).
 

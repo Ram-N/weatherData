@@ -3,6 +3,8 @@ layout: default
 title: Example - Wind Data
 ---
 
+[weatherData](index.html)
+
 ###Example showing How to Get Detailed Wind Data
 
 For this example, we are interested in Wind data for the town of Barrow in Alaska. We need to find the airport code, then we have to find out
@@ -50,16 +52,18 @@ Either the 4-letter code PABR or the airport code BRW would work.
 
 So the columns we are interested in are 7, 8 and 13, because they relate to Wind. Please note that the column numbers are very different depending on whether or not `opt_detailed` is TRUE or FALSE.
 
-So we know that when fetching the data, we have to set `opt_custom_columns=TRUE` and  `custom_columns=c(7,8,13).` 
+When fetching the data, we have to set `opt_custom_columns=TRUE` and  `custom_columns=c(7,8,13).` 
 
 We are now ready to actually fetch the data.
 
 	
 ####Fetch the Data
 
-    getWeatherForDate("BRW", start_date="2014-01-01", 
+    >getWeatherForDate("BRW", start_date="2014-01-01", 
                       opt_detailed=T,
                       opt_custom_columns=T, custom_columns=c(7,8,13))
+
+And this gets us:
 
     Checking Data Availability For BRW
     Found Records for 2014-01-01
