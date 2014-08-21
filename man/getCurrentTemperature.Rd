@@ -29,7 +29,9 @@ current time. This function returns temperature in
 Farenheit or Celcius depending on the caller's location.
 }
 \examples{
+\dontrun{
 getCurrentTemperature(station ="HNL")
+}
 }
 \references{
 For a list of valid Weather Stations, try this format

@@ -18,7 +18,7 @@ License: \tab GPL\cr
 }
 These functions don't use APIs. They rely on reading URL's instead.
 Given a valid city and a date (or date range), the functions in 
-weatherData can fetch them as a nice R data frame. 
+weatherData can fetch them as a clean R data frame. 
 
 These functions are useful for anyone interested in doing analysis
 using weather data.
@@ -29,8 +29,3 @@ Ram Narasimhan
 Maintainer: Ram Narasimhan <ramnarasimhan@gmail.com>
 }
 \keyword{ package }
-\examples{
-getStationCode("Chennai")
-checkDataAvailabilityForDateRange("BWI", "2013-12-13", "2014-01-01", "airportCode")
-getWeatherForDate("LAX", "2013-01-01")
-}

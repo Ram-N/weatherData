@@ -442,7 +442,10 @@ getWeatherForYear <- function(station_id,
 #'  \url{http://www.wunderground.com/weatherstation/ListStations.asp?selectedCountry=United+States}
 #'  and replace with your country of interest
 #' 
-#' @examples getCurrentTemperature(station ="HNL")
+#' @examples 
+#' \dontrun{
+#' getCurrentTemperature(station ="HNL")
+#' }
 #' @export
 getCurrentTemperature <- function(station_id){  
   #Try with tomorrow's date first, in case location is ahead in timezone
