@@ -10,6 +10,7 @@ title: weatherData
 * [Basic Usage: Quick start](#quickstart)
 * [Typical Workflow](#how-to-use-this-package)
 * [Detailed Examples](#moreexamples)
+* [Frequently Asked Questions](#faq)
 * [Built-in Datasets] (#builtin)
 * [Demo Shiny Application](#usecases)
 * [Articles about the package](#articles)
@@ -35,7 +36,7 @@ You can install the version from CRAN, or you can try out the version hosted in 
     library(weatherData)
   
 
-####<a name="github"></a>Option 2: Install from Github</h3>
+####<a name="github"></a>Option 2: Install from Github
 
   <p>The latest version of weatherData is on Github. (Note that this is the development version, and is usually ahead of what's on CRAN.) To install the development version of weatherData from github, use the <strong><code>devtools</code></strong> package.</p>
 
@@ -59,12 +60,14 @@ If you want to get started using the functions in the package right away, you ca
 
      getWeatherForDate("SEA", "2014-05-05")
 	 
-*Variations*
-If you want detailed data:
+#####Variations
+
+**Quickstart Example 1a.**  If you want detailed data (meaning, more columns besides Temperature):
 
      getWeatherForDate("SEA", "2014-05-05", opt_detailed=TRUE)
 
-If you want detailed data for a range of dates:
+**Quickstart Example 1b.** If you want detailed data for a *range* of dates instead of for a single date, just specify
+a start date  and end date:
 
      getWeatherForDate("SEA", "2014-04-01", end_date="2014-04-30")
 	 #This will fetch a dataframe of temperature data for the month of April.
@@ -112,6 +115,11 @@ If the default level of detail is sufficient, call one of the `getWeatherData()`
 A few [more Detailed Examples](Examples2.html) of the functions in `weatherData` can be found in these [pages](Examples2.html).
 
 
+##<a name="faq"></a>Frequently Asked Questions
+
+* If you are running into difficulties, some of the [answers to FAQ](faq.html) might be of some help.
+
+
 ####<a name="builtin"></a>Built-in Datasets
 The package comes with a few pre-loaded datasets and those are available for trying out some basic analysis right away. More details about what is included and what each of those datasets contains can be [found here](builtin.html). That page also includes some sample code for using one of the datasets, `Mumbai2013`
 
@@ -133,7 +141,7 @@ Here's [a presentation](http://files.meetup.com/1225993/Ram_BARUG_weatherData.pp
 
 ###  <a name="credits" class="anchor" href="#credits"></a>Credits
 
-The `weatherData` package has benefited from the suggestions of quite a number of weather analysts. Their feedback, suggestions
+The `weatherData` package has benefited immensely from the suggestions of quite a number of weather analysts. Their feedback, suggestions
 and bug reports have helped immensely. Detailed credits for their contributions can be found [here](credits.html).
 
 Ram Narasimhan

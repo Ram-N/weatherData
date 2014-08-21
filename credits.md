@@ -14,6 +14,7 @@ title: Credits
 led to the creation of the three flags: `opt_all_columns`, `opt_temperature_colunns` & `opt_custom_columns.` In fact, he was the one who 
 came up with the idea for having a vector for `custom_columns.`
 - **Martin Lavoie** reported that several flags in `getWeatherData` weren't getting set properly. Some of his examples have been added to insts/tests.
+- **Eduard Chiru** reported a bug in CheckDataAvailability, when there were too few rows to fetch.
 
 
 <h3>
@@ -21,5 +22,7 @@ came up with the idea for having a vector for `custom_columns.`
 
 Suggestions are welcome! If you would have a particular need for weather data,
 let me know what changes you'd like to see in the package. If you find bugs, please do report it. Fetching data from the web can be fragile. Please consider submitting an Issue.
+
+Just drop me a note at ramnarasimhan <AT> gmail d0t com
 
 [Back](index.html)
