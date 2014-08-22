@@ -75,7 +75,7 @@ isObtainedDataValid <- function(wxdata, station_id, url){
   pattern="No daily or hourly history data"
   
   if(length(wxdata) <=2){
-    warning(sprintf("There seems to be no data in the URL.\nTry going to the URL via your browser and seeing there is data.
+    warning(sprintf("There seems to be no data in the URL.\nTry going to the URL via your browser and seeing if there is data.
                     \n Inspect the validity of the URL being tried:\n %s \n", url))
     return(0) #have to try again
   }

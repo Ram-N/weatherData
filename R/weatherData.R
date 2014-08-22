@@ -132,7 +132,7 @@ getDetailedWeather <- function(station_id,
 #'  are summarized into one record per day. If and \code{end_date} is specified
 #'  the function returns 1 record for each day in the date range.
 #'  
-#' @param station_id is a valid 3-letter airport code or a valid Weather Station ID
+#' @param station_id is a valid 3-letter airport code 
 #' @param start_date string representing a date in the past ("YYYY-MM-DD")
 #' @param end_date (optional) string representing a date in the past ("YYYY-MM-DD"), and later than or equal to start_date.
 #' @param station_type can be \code{airportCode} which is the default, or it
@@ -182,11 +182,17 @@ getSummarizedWeather <- function(station_id,
     stop("\nInput parameters Invalid.")
     return(NULL)
   }
+
+  if(station_type=="id"){
+    warning("\nSummarized Data (one row per day) is not available for stationtype=='id'.\n\n Try the getDetailedWeather() function\n")
+    return(NULL)
+  }
+  
   
   custom_url <- createWU_Custom_URL(station_id, 
                                     start_date, 
                                     end_date,
-                                    station_type="airportCode",
+                                    station_type,
                                     opt_verbose=FALSE)
   if(opt_verbose){
     message(sprintf("Retrieving from: %s", custom_url))    

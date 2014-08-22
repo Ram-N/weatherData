@@ -8,8 +8,7 @@ getSummarizedWeather(station_id, start_date, end_date = NULL,
   custom_columns = NULL, opt_verbose = FALSE)
 }
 \arguments{
-  \item{station_id}{is a valid 3-letter airport code or a
-  valid Weather Station ID}
+  \item{station_id}{is a valid 3-letter airport code}
 
   \item{start_date}{string representing a date in the past
   ("YYYY-MM-DD")}

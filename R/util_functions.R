@@ -409,6 +409,24 @@ createWU_Custom_URL <- function (station,
 }
 
 
+#for internal use only
+convertTimeStringToTimeStamp <- function(time_vec, date){
+  
+  #There are two possible formats.
+  # In 1. The date is separate, and the time comes from the first column
+  # In 2. The timestamp contains it all
+  
+  time_stamp <- time_vec[1]
+  if(!is.na(as.POSIXct(strptime(paste(date, time_vec[1]), 
+                                format='%Y-%m-%d %I:%M %p')))){
+    time_vec <- as.POSIXct(paste(date, time_vec), format='%Y-%m-%d %I:%M %p')
+  } else if(!is.na(as.POSIXct(time_stamp, format='%Y-%m-%d %H:%M:%S'))) {
+    time_vec <- as.POSIXct(time_vec, format='%Y-%m-%d %H:%M:%S')
+  }
+  #it is isn't any of the above formats, just return the vector
+  return(time_vec)  
+}
+
 
 #for internal use only
 cleanAndSubsetObtainedData<- function(wxdata, 
@@ -426,8 +444,13 @@ cleanAndSubsetObtainedData<- function(wxdata,
   
   #get rid of the trailing br at the end of each line
   wxdata <- gsub("<br />", "", wxdata) 
+  #the following are harmless if not present
+  wxdata <- gsub("<br>", "", wxdata) #get rid of BR tags
+  wxdata <- wxdata[wxdata!=""] #remove blank lines (if any)
+  wxdata <- sub(",+$", "", wxdata) #remove ENDING commas (if any)
   
-  
+  if(opt_verbose){print(length(wxdata))}
+    
   # extract Column Header names
   header_row <- wxdata[1] #wxdata is a chr vector
   header_names <- strsplit(header_row, ',')[[1]]
@@ -452,10 +475,16 @@ cleanAndSubsetObtainedData<- function(wxdata,
   names(wx_df) <- header_names
   row.names(wx_df) <- 1:nrow(wx_df) #give the dataframe rownames
   
+  if(opt_verbose){
+    print(dim(wx_df))
+    print(head(wx_df))
+  }
+  
+  
   #we now have a good df to work with.
   # -------------------------------------------------------------  
   #create a clean column of Dates
-  #In summarized, there is not timestamp, only DateStamp
+  #In summarized, there is no timestamp, only DateStamp
   wx_df$Date <- strptime(wx_df[,1], format='%Y-%m-%d')
   time_column_number <- length(wx_df)
   
@@ -476,6 +505,9 @@ cleanAndSubsetObtainedData<- function(wxdata,
     message("Desired Columns Requested:")
     print(desired_columns)    
   }
+  
+  
+  
   if(desiredColumnsAreValid(wx_df, desired_columns))
     return(wx_df[,desired_columns])
   else
@@ -503,7 +535,12 @@ cleanAndSubsetDetailedData<- function(wxdata,
   
   #get rid of the trailing br at the end of each line
   wxdata <- gsub("<br />", "", wxdata) 
-  
+
+  wxdata <- gsub("<br>", "", wxdata) #get rid of BR tags
+  wxdata <- wxdata[wxdata!=""] #remove blank lines (if any)
+  wxdata <- sub(",+$", "", wxdata) #remove ENDING commas (if any)
+
+  if(opt_verbose){print(length(wxdata))}
   
   if(opt_compress_output==TRUE) {
     # remove odd rows starting from 3, in order to reduce volume
@@ -532,6 +569,10 @@ cleanAndSubsetDetailedData<- function(wxdata,
   wx_df <- read.csv(tC, as.is=TRUE, row.names=NULL, header=FALSE, skip=1) #makes it a data frame
   close(tC)  
   
+  if(opt_verbose){
+    print(dim(wx_df))
+    print(head(wx_df))
+  }
   
   
   # assign column and row names
@@ -541,11 +582,17 @@ cleanAndSubsetDetailedData<- function(wxdata,
   # We now have a good df to work with.
   # -------------------------------------------------------------  
   # convert Time column into properly encoded date time
-  wx_df$DateTime <- as.POSIXct(strptime(paste(date,wx_df[[1]]), format='%Y-%m-%d %I:%M %p'))
+  
+  #' need to find the Format of the Time stamp first.
+  #' It could be one of two formats...
+  #' If neither, then don't convert..
+  
+  wx_df$DateTime <- convertTimeStringToTimeStamp(wx_df[[1]], date)
+  #wx_df$DateTime <- as.POSIXct(strptime(paste(date,wx_df[[1]]), format='%Y-%m-%d %I:%M %p'))
   
   # sort by Time
   wx_df <- wx_df[order(wx_df$DateTime), ] #sort the rows, ordered by increasing time
-  time_column <- grep("DateTime", names(wx_df))[1]
+  time_column <- grep("DateTime", names(wx_df))[1] #find the column number
   names(wx_df)[time_column] <- "Time" #rename it back
   
   
