@@ -1,3 +1,4 @@
+<<<<<<< Local Changes
 ---
 layout: default
 title: weatherData	
@@ -115,7 +116,7 @@ If the default level of detail is sufficient, call one of the `getWeatherData()`
 A few [more Detailed Examples](Examples2.html) of the functions in `weatherData` can be found in these [pages](Examples2.html).
 
 
-##<a name="faq"></a>Frequently Asked Questions
+###<a name="faq"></a>Frequently Asked Questions
 
 * If you are running into difficulties, some of the [answers to FAQ](faq.html) might be of some help.
 
@@ -144,4 +145,5 @@ Here's [a presentation](http://files.meetup.com/1225993/Ram_BARUG_weatherData.pp
 The `weatherData` package has benefited immensely from the suggestions of quite a number of weather analysts. Their feedback, suggestions
 and bug reports have helped immensely. Detailed credits for their contributions can be found [here](credits.html).
 
-Ram Narasimhan
+Ram Narasimhan=======
+>>>>>>> External Changes
