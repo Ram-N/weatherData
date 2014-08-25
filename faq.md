@@ -31,15 +31,15 @@ For example, if you try using `getSummarizedWeather` you will get only around 40
 Answer: If you specify *station_type="id"* you can fetch data from personal weather stations that Weather Underground supports. There are 1000s of such stations all over the world. Get the station_id by checking the weather underground website.
 
 Then do the following:
-   library(devtools)
-   install_github("weatherData", "Ram-N")
-   library(weatherData)
+    library(devtools)
+    install_github("weatherData", "Ram-N")
+    library(weatherData)
 
-   #important to set the station_type to be "id"
-   getDetailedWeather("ISKHALBR2", "2013-08-23", station_type="id")
+    #important to set the station_type to be "id"
+    getDetailedWeather("ISKHALBR2", "2013-08-23", station_type="id")
 
-   #get specific columns
-   getDetailedWeather("ISKHALBR2", "2013-08-23", station_type="id",
+    #get specific columns
+    getDetailedWeather("ISKHALBR2", "2013-08-23", station_type="id",
                      opt_custom_columns=T,
                      custom_columns = c(3,4))
   
