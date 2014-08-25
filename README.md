@@ -1,6 +1,6 @@
 [![Build Status](https://travis-ci.org/Ram-N/weatherData.png?branch=master)](https://travis-ci.org/Ram-N/weatherData)
 
-weatherData is a library of functions that will fetch weather data (Temperature, Pressure, Humidity, Wind Speed etc.) from the Web for you as clean data frame.
+weatherData is a library of functions that will fetch weather data (Temperature, Pressure, Humidity, Wind Speed etc.) from the Web for you as a clean data frame.
 
 If you want to perform weather Analysis, but don't wish to be bothered with scraping the data yourself, you can consider using `weatherData`.
 
