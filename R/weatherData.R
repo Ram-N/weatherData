@@ -183,17 +183,11 @@ getSummarizedWeather <- function(station_id,
     return(NULL)
   }
 
-  if(station_type=="id"){
-    warning("\nSummarized Data (one row per day) is not available for stationtype=='id'.\n\n Try the getDetailedWeather() function\n")
-    return(NULL)
-  }
-  
-  
   custom_url <- createWU_Custom_URL(station_id, 
                                     start_date, 
                                     end_date,
                                     station_type,
-                                    opt_verbose=FALSE)
+                                    opt_verbose)
   if(opt_verbose){
     message(sprintf("Retrieving from: %s", custom_url))    
   }  

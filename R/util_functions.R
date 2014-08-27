@@ -375,8 +375,12 @@ createWU_Custom_URL <- function (station,
                         '&month=', m,
                         '&day=', d, 
                         '&year=', y,
-                        '&format=1')    
+                        '&dayend=', de,
+                        '&monthend=', me,
+                        '&yearend=', ye,                                                
+                        '&graphspan=custom&format=1')
   }
+    
   
   #for airport codes
   if(station_type=="airportcode") {
@@ -401,7 +405,7 @@ createWU_Custom_URL <- function (station,
   }    
   
   if(opt_verbose) {
-    message(sprintf("Getting data from:\n %s\n",final_url))
+    message(sprintf("URL to Try:\n %s\n",final_url))
     #message(sprintf("%s %s \n",letterCode, station))    
   }
   
@@ -476,6 +480,7 @@ cleanAndSubsetObtainedData<- function(wxdata,
   row.names(wx_df) <- 1:nrow(wx_df) #give the dataframe rownames
   
   if(opt_verbose){
+    message("Preview of the data available...")
     print(dim(wx_df))
     print(head(wx_df))
   }
@@ -485,11 +490,14 @@ cleanAndSubsetObtainedData<- function(wxdata,
   # -------------------------------------------------------------  
   #create a clean column of Dates
   #In summarized, there is no timestamp, only DateStamp
-  wx_df$Date <- strptime(wx_df[,1], format='%Y-%m-%d')
+  wx_df$CleanDate <- strptime(wx_df[,1], format='%Y-%m-%d')
   time_column_number <- length(wx_df)
   
   # sort by Time
-  wx_df <- wx_df[order(wx_df$Date), ] #sort the rows, ordered by increasing time
+  wx_df <- wx_df[order(wx_df$CleanDate), ] #sort the rows, ordered by increasing time  
+  time_column_number <- grep("CleanDate", names(wx_df))[1] #find the column number
+  names(wx_df)[time_column_number] <- "Date" #rename it back
+  
   
   ##----------------------------------------------------------
   #subset Columns
@@ -501,7 +509,7 @@ cleanAndSubsetObtainedData<- function(wxdata,
                                               custom_columns,
                                               opt_verbose) 
   
-  if(opt_custom_columns & opt_verbose) {
+  if(opt_verbose) {
     message("Desired Columns Requested:")
     print(desired_columns)    
   }
