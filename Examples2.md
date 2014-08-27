@@ -5,6 +5,8 @@ title: Examples
 
 [weatherData](index.html)
 
+###Several examples can be found in the [main page](index.html#moreexamples)
+
 ##More Examples
 
 
@@ -18,7 +20,7 @@ Let's say that we want to search for weather in Buffalo. But we are interested i
 	#We can specify the additional parameter region
     getStationCode("Buffalo", region="WY") 
 	
-  <p>This function will return a record containing matches to a given station name, and the 4 letter code can then be used in the arguments to other functions such as <code>getWeatherForDate()</code>
+This function will return a record containing matches to a given station name, and the 4 letter code can then be used in the arguments to other functions such as <code>getWeatherForDate()</code>
 
     > getStationCode("Buffalo", region="WY") 	  
 	  [[1]]

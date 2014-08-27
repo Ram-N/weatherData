@@ -1,4 +1,3 @@
-<<<<<<< Local Changes
 ---
 layout: default
 title: weatherData	
@@ -112,6 +111,9 @@ If the default level of detail is sufficient, call one of the `getWeatherData()`
 * [Example 1: Using `getWeatherForYear()`](example_weatherYear.html) to compare the daily temperature differences for two cities. In this example, we get one year's worth of data for two cities, and plot the daily differences	
 * [Example 2: Getting Wind Data for a City:](example_Wind.html) This example illustrates how we go about getting Wind data for a city of our choosing.
 * [Example 3: Comparing Intra-day Humidity:](example_Humidity.html) This example illustrates how we go about getting one day's worth of custom data for several South East Asian cities, and how to plot the time series data obtained.
+* [Example 4: Getting Data from Personal Weather Stations:](example_PWS.html) This simple example illustrates how to go about getting data
+  from a personal weather station (as opposed to from an Airport.) 
+
 
 A few [more Detailed Examples](Examples2.html) of the functions in `weatherData` can be found in these [pages](Examples2.html).
 
@@ -145,5 +147,4 @@ Here's [a presentation](http://files.meetup.com/1225993/Ram_BARUG_weatherData.pp
 The `weatherData` package has benefited immensely from the suggestions of quite a number of weather analysts. Their feedback, suggestions
 and bug reports have helped immensely. Detailed credits for their contributions can be found [here](credits.html).
 
-Ram Narasimhan=======
->>>>>>> External Changes
+Ram Narasimhan
