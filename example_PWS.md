@@ -15,7 +15,7 @@ http://www.wunderground.com/cgi-bin/findweather/hdfForecast?query=Miami%2C+Flori
 
 Then click on the 'change station' tab, and that gives us dozens of PWS nearby.
 
-Let us use the one of these stations for this example, with the code of **KFLCOCON2.** That code is important.
+Let us use the one of these stations for this example, with the code of **KFLMIAMI88.** That code is important, because we use that in the functions.
 	
 ####Usage: getSummarizedWeather(stationID, start_date, end_date, station_type="id")
 
@@ -52,7 +52,7 @@ which produces:
 	18 2014-02-19            67               0.00
 	19 2014-02-20            71               0.00
 
-Once we have the data in a data frame. We can carry out any analysis we wish, or plot the data.
+Once we have the data in a data frame. We can plot the data or carry out further analysis with the data frame.
 
 	
 [<< Back to Examples](index.html#moreexamples)
