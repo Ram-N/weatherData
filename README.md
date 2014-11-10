@@ -20,7 +20,7 @@ To install the development version of weatherData from github, use the **devtool
 ```r
 install.packages("devtools")
 library("devtools")
-install_github("weatherData", "Ram-N")
+install_github("Ram-N/weatherData")
 ```
 
 Load the library
