@@ -14,7 +14,7 @@ title: weatherData
 * [Built-in Datasets] (#builtin)
 * [Demo Shiny Application](#usecases)
 * [Articles about the package](#articles)
-* [Credits](#credits)
+* [Credits](credits.html)
 			
 ##Using WeatherData
   
