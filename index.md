@@ -42,7 +42,7 @@ You can install the version from CRAN, or you can try out the version hosted in 
 
     install.packages("devtools")
     library("devtools")
-    install_github("weatherData", "Ram-N")
+    install_github("Ram-N/weatherData")
 
   <p>Once the package has installed, load the library</p>
 

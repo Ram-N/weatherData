@@ -15,6 +15,7 @@ led to the creation of the three flags: `opt_all_columns`, `opt_temperature_colu
 came up with the idea for having a vector for `custom_columns.`
 - **Martin Lavoie** reported that several flags in `getWeatherData` weren't getting set properly. Some of his examples have been added to insts/tests.
 - **Eduard Chiru** reported a bug in CheckDataAvailability, when there were too few rows to fetch.
+- **Dan Urban** requested getting Solar Radation data, which made `ShowAvailableColumns` better in handling "id" type of personal weather stations.
 
 
 <h3>
