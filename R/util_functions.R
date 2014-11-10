@@ -98,7 +98,7 @@ showAvailableColumns<- function(station_id,
   } else{
     df <- getSummarizedWeather(station_id,
                                start_date,end_date,
-                               station_type="airportCode",
+                               station_type,
                                opt_all_columns=TRUE)
     
   }
@@ -106,7 +106,8 @@ showAvailableColumns<- function(station_id,
   #print only the header...as a dataframe
   #Dropping the first Column since it is not present in the web-page. 
   #Time Column was added by the getSummarizedWeather function
-  named_df <- data.frame("columnNumber" = 1:(ncol(df)-1), "columnName" = names(df)[-1])    
+  named_df <- data.frame("columnNumber" = 1:(ncol(df)-1), 
+                         "columnName" = names(df)[-1])    
   return(named_df)
 }
 

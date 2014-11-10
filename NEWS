@@ -17,7 +17,7 @@ weatherData 0.4
 * new data set `SFO2013Summarized` has been added. This data is for the
   same period as `SFO2013` but is much more compact
 
-* new `showAvailableColumns` can be used to find out what columns are
-  available. Then, the subset of columns desired can be specified using
+* new `showAvailableColumns` can be used to find out which columns are
+  available. Then, the desired subset of columns can be specified using
   `custom_columns.`  Example: `custom_columns = c(1,3,5,6)`
 
