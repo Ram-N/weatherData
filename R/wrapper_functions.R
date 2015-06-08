@@ -328,20 +328,20 @@ getWeatherForDate <- function(station_id,
     #Take care of filename and Row Names for min/max
     prepend <- NULL
     if(daily_max & daily_min) {#both
-      names(d) <- c("TimeMin", "MinTemp","TimeMax", "MaxTemp")
+      names(df) <- c("TimeMin", "MinTemp","TimeMax", "MaxTemp")
       prepend <- "MinMax_"
     } else if(daily_min){
-      names(d) <- c("TimeMin", "MinTemp")
+      names(df) <- c("TimeMin", "MinTemp")
       prepend <- "Min_"
     } else if(daily_max){
-      names(d) <- c("TimeMax", "MaxTemp")
+      names(df) <- c("TimeMax", "MaxTemp")
       prepend <- "Max_"
     }
     
     outFileName <- paste0(prepend, station_id,"_",start_date, coda)  
     outFileName <- paste(outFileName, "csv","gz", sep=".")
     
-    write.csv(d, file=gzfile(outFileName), row.names=FALSE)
+    write.csv(df, file=gzfile(outFileName), row.names=FALSE)
     message(paste("wrote:", outFileName, "to", getwd()))    
   }  
   
