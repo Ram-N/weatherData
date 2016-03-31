@@ -1,4 +1,3 @@
-require(plyr)
 #' @title Check if WeatherUnderground has Data for given station and date
 #' 
 #' @description Use this function to check if data is available for station and date
@@ -203,6 +202,7 @@ checkSummarizedDataAvailability<- function (station_id,
 #'   found by visiting the weatherUnderground URL, and counting from 1. Note that if \code{opt_custom_columns} is TRUE, 
 #'   then \code{custom_columns} must be specified.
 #' @import plyr
+#' @import curl
 #' @references For a list of valid Weather Stations, try this format
 #'  \url{http://www.wunderground.com/weatherstation/ListStations.asp?selectedCountry=United+States}
 #'  and replace with your country of interest
@@ -212,11 +212,11 @@ checkSummarizedDataAvailability<- function (station_id,
 #' }
 #'@examples
 #'\dontrun{
-#' dat <- getWeatherForDate("PHNL", "2013-08-10", 2013-08-31")
-#' d3<- getWeatherForDate("CWWF", start_date="2014-03-01", 
-#'                         end_date = "2014-03-03", 
-#'                         opt_detailed = TRUE, 
-#'                         opt_all_columns = TRUE)
+#'dat <- getWeatherForDate("PHNL", "2013-08-10", 2013-08-31")
+#'d3<- getWeatherForDate("CWWF", start_date="2014-03-01", 
+#'                       end_date = "2014-03-03", 
+#'                       opt_detailed = TRUE, 
+#'                       opt_all_columns = TRUE)
 #'}
 #' @export
 getWeatherForDate <- function(station_id, 
@@ -285,8 +285,8 @@ getWeatherForDate <- function(station_id,
                                           custom_columns,
                                           opt_compress_output=FALSE,
                                           opt_verbose,
-                                          opt_warnings=TRUE) 
-        
+                                          opt_warnings=TRUE)
+
       message(paste(station_id, i, date.range[i], ": Fetching",
                     nrow(single_day_df), "Rows" , "with",
                     ncol(single_day_df), "Column(s)" )
@@ -506,11 +506,11 @@ getDailyMinMaxTemp <- function(station_id, start_date,
 #' \item Date and Time stamp (for when that day's maximum temperature was recorded)
 #' \item Maximum Temperature for the station in Farenheit (or Celcius)
 #' }
-#'@examples
+#' @examples
 #'\dontrun{
-#' dat <- getDailyMinMaxTemp("KIAH", "2013-08-10", 2013-08-31", daily_max=TRUE)
-#' dat <- getDailyMinMaxTemp("KBIL", "2013-08-10", daily_max=T)
-#' dat <- getDailyMinMaxTemp("EGLL", "2013-08-10", daily_max=T, daily_min=TRUE)
+#'dat <- getDailyMinMaxTemp("KIAH", "2013-08-10", 2013-08-31", daily_max=TRUE)
+#'dat <- getDailyMinMaxTemp("KBIL", "2013-08-10", daily_max=T)
+#'dat <- getDailyMinMaxTemp("EGLL", "2013-08-10", daily_max=T, daily_min=TRUE)
 #'}
 #' at export 
   

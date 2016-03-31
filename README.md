@@ -28,7 +28,6 @@ Load the library
 library(weatherData)
 ```
 
-
 Windows users must also first install
 [Rtools](http://cran.rstudio.com/bin/windows/Rtools/).
 
@@ -80,7 +79,4 @@ to other functions such as `getWeatherForDate()`
 
 More examples (with explanations) can be found
 at [http://ram-n.github.io/weatherData/](http://ram-n.github.io/weatherData/)
-
-
-
 

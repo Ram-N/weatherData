@@ -1,4 +1,4 @@
 library(testthat)
 library(weatherData)
 
-test_package("weatherData")
+test_check("weatherData")
