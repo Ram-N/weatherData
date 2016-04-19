@@ -1,6 +1,5 @@
 context("Wrapper Functions")
 
-
 test_that("Wrapper: GetDataForYear", {
   df <- getWeatherForYear("FCO", 2013)
   expect_that(df, is_a("data.frame"))

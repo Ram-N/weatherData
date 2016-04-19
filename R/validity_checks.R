@@ -1,8 +1,8 @@
 IsDateInvalid <- function (date, opt_warnings=TRUE) {
   # d <- try( as.Date( date, format= "%d-%m-%Y %H:%M:%S" ) ) #original
-  d <- try( as.Date( date) )
-  if( class( d ) == "try-error" || is.na( d ) )  {
-    stop(paste( "\n\nInvalid date supplied:", date ))
+  d <- try(as.Date(date))
+  if( class(d) == "try-error" || is.na(d) ){
+    stop(paste("\n\nInvalid date supplied:", date))
     return(1)
   }
 

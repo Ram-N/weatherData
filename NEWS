@@ -1,3 +1,9 @@
+weatherData 0.4.5
+=======================
+
+* Now curl::curl is used in `util_functions.R` to address issues reported by
+  several users
+
 weatherData 0.4
 =======================
   
