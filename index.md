@@ -96,7 +96,7 @@ In all the examples, it is assumed that you have loaded the library. You can do 
 Find the `station id` for the location(s) that you are interested in. If you know the airport code (3 letters) you can try that.
 Once you have the `station_id` and the date ranges, it is a simple matter to fetch the data.
 
-Details around finding the weather station ID's can be [found here](getstation.html)
+A few Details around finding the weather station ID's can be [found here](example_PWS.html)
 
 ####Step 2:
 Set the date range: `start_date="YYYY-MM-DD"` and `end_date="YYYY-MM-DD"` If you need data for just one day, then end_date doesn't have to be specified.
