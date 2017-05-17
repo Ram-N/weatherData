@@ -3,7 +3,7 @@ context("Detailed Weather")
 test_that("Get the right number of rows", {
   df <- getDetailedWeather("GIG", "2012-03-14", opt_all_columns=TRUE)
   expect_is(df, "data.frame")
-  expect_equal(nrow(df), 31)
+  expect_equal(nrow(df), 45)
   expect_equal(ncol(df), 15)
 })
 
@@ -11,7 +11,7 @@ test_that("DetailedData: Get the Temp column by default", {
   LA <- getDetailedWeather("LAX", "2014-01-01")
   expect_is(LA, "data.frame")
   expect_equal(ncol(LA), 2)
-  expect_equal(nrow(LA), 33)
+  expect_equal(nrow(LA), 24)
 })
 
 test_that("Detailed: Get Custom columns", {

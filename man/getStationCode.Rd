@@ -35,4 +35,3 @@ For a world-wide list of possible stations, be sure to look at
 \url{http://weather.rap.ucar.edu/surface/stations.txt} The ICAO (4-letter
 code is what needs to be input to \code{getDetailedWeather()})
 }
-

@@ -33,4 +33,3 @@ data_okay <- checkDataAvailabilityForDateRange("BOS",
                                                "2011-03-31")
 }
 }
-

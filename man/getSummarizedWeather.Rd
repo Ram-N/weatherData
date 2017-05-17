@@ -60,4 +60,3 @@ windLHR <- getSummarizedWeather("LHR", "2012-12-12", "2012-12-31",
 \seealso{
 getWeatherForDate, getDetailededWeather
 }
-

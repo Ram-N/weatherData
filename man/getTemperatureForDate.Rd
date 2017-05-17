@@ -53,4 +53,3 @@ For a list of valid Weather Stations, try this format
 \seealso{
 getWeatherForDate, getDetailedWeather
 }
-

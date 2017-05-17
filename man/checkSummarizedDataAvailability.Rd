@@ -34,4 +34,3 @@ data_okay <- checkSummarizedDataAvailability("GIG",
                                              "2005-12-31")
 }
 }
-

@@ -133,6 +133,7 @@ showAvailableColumns<- function(station_id,
 #' getStationCode("Fiji") 
 #' getStationCode("Athens", region="GA") # in the US State of Georgia
 #'
+#'@import utils
 #'@export
 getStationCode <- function(stationName, region=NULL){
   
@@ -500,7 +501,9 @@ cleanAndSubsetObtainedData<- function(wxdata,
   return(wx_df[,desired_columns])
 }
 
-#for internal use only
+
+#' @keywords internal
+#' for internal use only
 cleanAndSubsetDetailedData<- function(wxdata, 
                                       date,
                                       opt_temperature_columns=TRUE,

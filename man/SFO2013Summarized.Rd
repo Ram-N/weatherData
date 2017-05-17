@@ -13,11 +13,10 @@ Each row has four columns. The Timestamp (YYYY-MM-DD HH:MM:SS) and three Tempera
 In comparison with the \code{SFO2013} dataset which has 9507 rows, this dataset has exactly
 365 rows, one for each day in 2013.
 }
-\author{
-Ram Narasimhan \email{ramnarasimhan@gmail.com}
-}
 \references{
 \url{http://www.wunderground.com/history/airport/SFO/2013/1/1/CustomHistory.html?dayend=31&monthend=12&yearend=2013&req_city=NA&req_state=NA&req_statename=NA&format=1}
 }
+\author{
+Ram Narasimhan \email{ramnarasimhan@gmail.com}
+}
 \keyword{data}
-

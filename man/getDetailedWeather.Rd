@@ -64,4 +64,3 @@ wCDG <- getDetailedWeather("CDG", "2013-12-12",opt_custom_columns=T,
 \seealso{
 getWeatherForDate, getSummarizedWeather
 }
-

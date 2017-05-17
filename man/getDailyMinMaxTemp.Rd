@@ -48,4 +48,3 @@ This functions fetches all the records for
 each date specified, but it only retaints the min and/or max record, along 
  with the timestamp.
 }
-

@@ -177,10 +177,10 @@ getSummarizedWeather <- function(station_id,
   }
 
   custom_url <- createWU_Custom_URL(station_id, 
-                                    start_date, 
+                                    start_date,
                                     end_date,
-                                    station_type,
-                                    opt_verbose)
+                                    station_type=station_type,
+                                    opt_verbose=opt_verbose)
   if(opt_verbose){
     message(sprintf("Retrieving from: %s", custom_url))    
   }  

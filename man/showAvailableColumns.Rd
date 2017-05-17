@@ -24,10 +24,11 @@ can be \code{id} which is a weather-station ID}
 }
 \description{
 Displays all the columns that are available in the website, for the given
- station, and date range. Useful when only a subset of the columns are
- desired. Those can be specfied using the \code{custom_columns} vector. Note: There
- are different columns available for summarized vs. detailed data. Be sure to 
- turn the \code{opt_detailed} flag to be TRUE if multiple records per day is desired.
+station, and date range. Useful when only a subset of the columns are
+desired. Those can be specfied using the \code{custom_columns} vector.
+Note: There are different columns available for summarized vs. detailed
+data. Be sure toturn the \code{opt_detailed} flag to be TRUE if multiple
+records per day is desired.
 }
 \examples{
 \dontrun{
@@ -37,4 +38,3 @@ showAvailableColumns("NRT", "2014-04-04")
 showAvailableColumns("CDG", "2013-12-12", opt_detailed=T)
 }
 }
-
