@@ -12,8 +12,8 @@ The package has functions that can fetch weather data.
 \tabular{ll}{
 Package: \tab weatherData\cr
 Type: \tab Package\cr
-Version: \tab 0.4\cr
-Date: \tab 2014-04-29\cr
+Version: \tab 0.5.0\cr
+Date: \tab 2017-06-05\cr
 License: \tab GPL\cr
 }
 These functions don't use APIs. They rely on reading URL's instead.

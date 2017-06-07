@@ -4,5 +4,6 @@
 
 * Fixed station_type = "ID" bug. Many features were not working.
 
-* `curl` option is now ready for CRAN. (This has been on github for months.)
+* `curl` option takes care of 'https' (This has been on github for months.)
 
+* Added a warning for multiple year fetches. (WeatherUnderground doesn't allow very large CSV files.)

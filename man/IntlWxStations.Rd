@@ -4,6 +4,7 @@
 \name{IntlWxStations}
 \alias{IntlWxStations}
 \title{Data - International Weather Stations}
+\format{An object of class \code{data.frame} with 9715 rows and 1 columns.}
 \usage{
 data(IntlWxStations)
 }

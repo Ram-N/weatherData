@@ -59,6 +59,11 @@ keepOnlyMinMax <- function(single_day_df,
   
 }
 
+
+data("IntlWxStations" , envir=environment())
+data("USAirportWeatherStations", envir=environment())
+
+
 #' Shows all the available Weather Data Columns
 #' 
 #' Displays all the columns that are available in the website, for the given
@@ -137,8 +142,10 @@ showAvailableColumns<- function(station_id,
 #'@export
 getStationCode <- function(stationName, region=NULL){
   
+
   stn2 <- NULL; us_stns <- NULL
   intl_stn2 <- NULL; i_stns <- NULL
+  
   if(!is.null(region)){
     region_matches <- grep(pattern=region,
                            USAirportWeatherStations$State, 

@@ -352,14 +352,11 @@ getWeatherForDate <- function(station_id,
 
 
 
-
-#checkSummarizedDataAvailability("KBUF", "2012-12-12", end_date=NULL)
-
 #'  Get weather data for one full year
 #'  
 #' @description Function will return a data frame with all the records
 #'   for a given station_id and year. If the current year is supplied,
-#'   it will returns records until the current Sys.Date() ("today")
+#'   it will return records until the current Sys.Date() ("today")
 #'   
 #' @details Note that this function is a light wrapper for getWeatherForDate
 #'    with the two end dates being Jan-01 and Dec-31 of the given year.
@@ -599,3 +596,88 @@ getTemperatureForDate <- function(station_id,
                     opt_write_to_file)
   
 }
+
+
+
+#' @title For Multiple Years, fetch the weather data for a station
+#' 
+#' @description Function will return a data frame with all the records
+#'   for a given station_id for all the years requested. If the current year is supplied,
+#'   it will return records until the current Sys.Date() ("today").
+#'   This function will return a (fairly large) data frame. If you are going 
+#'  to be using this data for future analysis, you can store the results in a CSV file
+#'   by setting \code{opt_write_to_file} to be TRUE
+#'  
+#' @details Note that this function is a light wrapper for getWeatherForYear
+#'   
+#' @param station_id is a valid Weather Station ID
+#'  (example: "BUF", "ORD", "VABB" for Mumbai).
+#'  Valid Weather Station "id" values: "KFLMIAMI75" or "IMOSCOWO2" You can look these up
+#'   at wunderground.com. You can get station_id's for a given location
+#'   by calling \code{getStationCode()}
+#' @param start_year is a valid year in the past (numeric, YYYY format)
+#' @param end_year is a valid year in the past (numeric, YYYY format)
+#' @param station_type = "airportCode" (3 or 4 letter airport code) or "ID" (Wx call Sign)
+#' @param opt_detailed Boolen flag to indicate if detailed records for the station are desired.
+#' (default FALSE). By default only one records per date is returned.
+#' @param opt_write_to_file If TRUE, the resulting dataframe will be stored in a CSV file. 
+#'  Default is FALSE
+#' @references For a list of valid Weather Stations, try this format
+#'  \url{http://www.wunderground.com/weatherstation/ListStations.asp?selectedCountry=United+States}
+#'  and replace with your country of interest
+#' @return A data frame with each row containing: \itemize{
+#' \item Date and Time stamp (for each date specified)
+#' \item Temperature and/or other weather columns sought
+#' }
+#'@examples
+#'\dontrun{
+#' dat <- getWeatherForMultipleYears("SFO", 2013, 2017)
+#' 
+#' # If opt_detailed is turned on, you will get a large data frame
+#' wx_SF <- getWeatherForMultipleYears("SIN", 2014, 2017, opt_detailed=TRUE)
+#'}
+#' @export
+getWeatherForMultipleYears <- function(station_id,
+                                       start_year,
+                                       end_year,
+                                       station_type="airportCode",
+                                       opt_detailed=FALSE,
+                                       opt_write_to_file=FALSE){
+  
+  
+  if(!validYear(start_year)){   #check if year is valid
+    warning("Start Year argument is invalid. Please provide a valid 4-digit 
+            year (numeric)")
+    return(NULL)
+  } 
+  
+  if(!validYear(end_year)){   #check if year is valid
+    warning("End Year argument is invalid. Please provide a valid 4-digit 
+            year (numeric)")
+    return(NULL)
+  } 
+
+  if(start_year>end_year){   #illegal time duration
+    warning("Start Year cannot be after End Year. Please make sure that \
+the end year is after start year.")
+    return(NULL)
+  } 
+
+  num_years <- end_year - start_year
+
+  multi_year <- vector("list", num_years)
+  for(year in start_year:end_year){
+    multi_year[[year]] <- getWeatherForYear(station_id,
+                      year,
+                      station_type=station_type,
+                      opt_detailed=opt_detailed,
+                      opt_write_to_file = opt_write_to_file) 
+    
+  }
+  
+  #flatted the List into a data frame
+  multi_year_df <- do.call(rbind, multi_year)
+  return(multi_year_df)
+    
+}
+

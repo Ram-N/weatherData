@@ -105,7 +105,7 @@ NULL
 #' \url{http://www.wunderground.com/about/faq/US_cities.asp}
 #' @keywords data
 #' 
-NULL
+"USAirportWeatherStations"
 
 #' @title Data - International Weather Stations
 #' @description This is a data frame of the 1602 stations in Weather Underground's
@@ -121,5 +121,4 @@ NULL
 #' maintained by Greg Thompson of NCAR.
 #' @keywords data
 #' 
-NULL
-
+"IntlWxStations"

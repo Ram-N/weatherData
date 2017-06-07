@@ -9,9 +9,6 @@ If you want to perform weather Analysis, but don't wish to be bothered with scra
 The main page for weatherData (with explanations and Examples) can be found
 at [http://ram-n.github.io/weatherData/](http://ram-n.github.io/weatherData/)
 
-### Shiny App
-
-WeatherCompare is [a Shiny App](http://spark.rstudio.com/ram/WeatherCompare/) that uses the data brought over by weatherData and then summarized in various ways
 
 # Install 
 
@@ -28,8 +25,7 @@ Load the library
 library(weatherData)
 ```
 
-Windows users must also first install
-[Rtools](http://cran.rstudio.com/bin/windows/Rtools/).
+Windows users may also need to first install *Rtools* from CRAN. (Look in bin/windows)
 
 ## Suggestions
 

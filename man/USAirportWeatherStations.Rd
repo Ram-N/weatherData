@@ -4,6 +4,7 @@
 \name{USAirportWeatherStations}
 \alias{USAirportWeatherStations}
 \title{Data - US Weather Stations ID's}
+\format{An object of class \code{data.frame} with 1602 rows and 7 columns.}
 \usage{
 data(USAirportWeatherStations)
 }

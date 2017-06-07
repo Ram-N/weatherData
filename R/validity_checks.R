@@ -43,6 +43,10 @@ validYear <- function(year){
   if(year <= 0){
     return(0)
   }    
+  if(year <= 1970){
+    warning("\nWARNING: The year", year, "may not have any data.")
+  }    
+  
   if(year > current_year){
     warning("\nThe year cannot be greater than current year.")
     return(0)
