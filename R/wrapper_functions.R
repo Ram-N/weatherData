@@ -376,8 +376,21 @@ getWeatherForDate <- function(station_id,
 #' @param station_type = "airportCode" (3 or 4 letter airport code) or "ID" (Wx call Sign)
 #' @param opt_detailed Boolen flag to indicate if detailed records for the station are desired.
 #' (default FALSE). By default only one records per date is returned.
+#' @param opt_verbose Boolean flag to indicate if verbose output is desired
+#' @param daily_min A boolean indicating if only the Minimum Temperatures are desired
+#' @param daily_max A boolean indicating if only the Maximum Temperatures are desired
 #' @param opt_write_to_file If TRUE, the resulting dataframe will be stored in a CSV file. 
 #'  Default is FALSE
+#' @param opt_temperature_columns Boolen flag to indicate only Temperature data is to be returned (default TRUE)
+#' @param opt_all_columns Boolen flag to indicate whether all available data is to be returned (default FALSE)
+#' @param opt_custom_columns Boolen flag to indicate if only a user-specified set of columns are to be returned. (default FALSE)
+#'  If TRUE, then the desired columns must be specified via \code{custom_columns}
+#' @param custom_columns Vector of integers specified by the user to indicate which columns to fetch. 
+#'  The Date column is always returned as the first column. The 
+#'  column numbers specfied in \code{custom_columns} are appended as columns of 
+#'   the data frame being returned (default NULL). The exact column numbers can be
+#'   found by visiting the weatherUnderground URL, and counting from 1. Note that if \code{opt_custom_columns} is TRUE, 
+#'   then \code{custom_columns} must be specified.
 #' @references For a list of valid Weather Stations, try this format
 #'  \url{http://www.wunderground.com/weatherstation/ListStations.asp?selectedCountry=United+States}
 #'  and replace with your country of interest
@@ -396,8 +409,15 @@ getWeatherForDate <- function(station_id,
 getWeatherForYear <- function(station_id,
                               year,
                               station_type="airportCode",
-                              opt_detailed=FALSE,
-                              opt_write_to_file = FALSE) {
+                              opt_detailed = FALSE,                
+                              opt_write_to_file = FALSE,
+                              opt_temperature_columns=TRUE,
+                              opt_all_columns=FALSE,
+                              opt_custom_columns=FALSE,
+                              custom_columns=NULL,
+                              opt_verbose=FALSE,
+                              daily_min=FALSE,
+                              daily_max=FALSE) {
   
   if(!validYear(year)){   #check if year is valid
     warning("Year argument is invalid. Please provide a valid 4-digit 
@@ -416,7 +436,16 @@ getWeatherForYear <- function(station_id,
                     first_day, 
                     last_day, 
                     station_type, 
-                    opt_detailed) 
+                    opt_detailed,                
+                    opt_write_to_file,
+                    opt_temperature_columns,
+                    opt_all_columns,
+                    opt_custom_columns,
+                    custom_columns,
+                    opt_verbose,
+                    daily_min,
+                    daily_max)
+  
 }
 
 
@@ -618,10 +647,24 @@ getTemperatureForDate <- function(station_id,
 #' @param start_year is a valid year in the past (numeric, YYYY format)
 #' @param end_year is a valid year in the past (numeric, YYYY format)
 #' @param station_type = "airportCode" (3 or 4 letter airport code) or "ID" (Wx call Sign)
-#' @param opt_detailed Boolen flag to indicate if detailed records for the station are desired.
-#' (default FALSE). By default only one records per date is returned.
+#' @param opt_detailed Boolen flag to indicate if multiple records for each day ("detailed") 
+#' for the station are desired. Default is FALSE. 
+#' By default only one record per date is returned.
 #' @param opt_write_to_file If TRUE, the resulting dataframe will be stored in a CSV file. 
 #'  Default is FALSE
+#' @param opt_verbose Boolean flag to indicate if verbose output is desired
+#' @param daily_min A boolean indicating if only the Minimum Temperatures are desired
+#' @param daily_max A boolean indicating if only the Maximum Temperatures are desired
+#' @param opt_temperature_columns Boolen flag to indicate only Temperature data is to be returned (default TRUE)
+#' @param opt_all_columns Boolen flag to indicate whether all available data is to be returned (default FALSE)
+#' @param opt_custom_columns Boolen flag to indicate if only a user-specified set of columns are to be returned. (default FALSE)
+#'  If TRUE, then the desired columns must be specified via \code{custom_columns}
+#' @param custom_columns Vector of integers specified by the user to indicate which columns to fetch. 
+#'  The Date column is always returned as the first column. The 
+#'  column numbers specfied in \code{custom_columns} are appended as columns of 
+#'   the data frame being returned (default NULL). The exact column numbers can be
+#'   found by visiting the weatherUnderground URL, and counting from 1. Note that if \code{opt_custom_columns} is TRUE, 
+#'   then \code{custom_columns} must be specified.
 #' @references For a list of valid Weather Stations, try this format
 #'  \url{http://www.wunderground.com/weatherstation/ListStations.asp?selectedCountry=United+States}
 #'  and replace with your country of interest
@@ -634,15 +677,22 @@ getTemperatureForDate <- function(station_id,
 #' dat <- getWeatherForMultipleYears("SFO", 2013, 2017)
 #' 
 #' # If opt_detailed is turned on, you will get a large data frame
-#' wx_SF <- getWeatherForMultipleYears("SIN", 2014, 2017, opt_detailed=TRUE)
+#' wx_singapore <- getWeatherForMultipleYears("SIN", 2014, 2017, opt_detailed=TRUE)
 #'}
 #' @export
 getWeatherForMultipleYears <- function(station_id,
                                        start_year,
                                        end_year,
                                        station_type="airportCode",
-                                       opt_detailed=FALSE,
-                                       opt_write_to_file=FALSE){
+                                       opt_detailed = FALSE,                
+                                       opt_write_to_file = FALSE,
+                                       opt_temperature_columns=TRUE,
+                                       opt_all_columns=FALSE,
+                                       opt_custom_columns=FALSE,
+                                       custom_columns=NULL,
+                                       opt_verbose=FALSE,
+                                       daily_min=FALSE,
+                                       daily_max=FALSE) {
   
   
   if(!validYear(start_year)){   #check if year is valid
@@ -652,6 +702,7 @@ getWeatherForMultipleYears <- function(station_id,
   } 
   
   if(!validYear(end_year)){   #check if year is valid
+    warning("Both start_year and end_year are required arguments.")
     warning("End Year argument is invalid. Please provide a valid 4-digit 
             year (numeric)")
     return(NULL)
@@ -668,14 +719,22 @@ the end year is after start year.")
   multi_year <- vector("list", num_years)
   for(year in start_year:end_year){
     multi_year[[year]] <- getWeatherForYear(station_id,
-                      year,
-                      station_type=station_type,
-                      opt_detailed=opt_detailed,
-                      opt_write_to_file = opt_write_to_file) 
+                                            year,
+                                            station_type=station_type,
+                                            opt_detailed=opt_detailed,
+                                            opt_write_to_file = opt_write_to_file,
+                                            opt_temperature_columns=opt_temperature_columns,
+                                            opt_all_columns= opt_all_columns,
+                                            opt_custom_columns= opt_custom_columns,
+                                            custom_columns=custom_columns,
+                                            opt_verbose=opt_verbose,
+                                            daily_min=daily_min,
+                                            daily_max=daily_max)      
     
   }
   
-  #flatted the List into a data frame
+  # multi_year is a list of data-frames
+  # flatted the List into a single data frame to return
   multi_year_df <- do.call(rbind, multi_year)
   return(multi_year_df)
     
