@@ -441,7 +441,7 @@ cleanAndSubsetObtainedData<- function(wxdata,
   #the following are harmless if not present
   wxdata <- gsub("<br>", "", wxdata) #get rid of BR tags
   wxdata <- wxdata[wxdata!=""] #remove blank lines (if any)
-  wxdata <- sub(",+$", "", wxdata) #remove ENDING commas (if any)
+  #wxdata <- sub(",+$", "", wxdata) #remove ENDING commas (if any)
 
   if(opt_verbose){print(length(wxdata))}
 
@@ -464,7 +464,11 @@ cleanAndSubsetObtainedData<- function(wxdata,
   close(tC)  
 
   # assign column and row names
-  names(wx_df) <- header_names
+  if(length(header_names) == ncol(wx_df)){
+    names(wx_df) <- header_names
+  } else {
+    warning("Some columns are missing in Obtained Data. Check")
+  }
   row.names(wx_df) <- 1:nrow(wx_df) #give the dataframe rownames
 
   if(opt_verbose){
@@ -530,7 +534,7 @@ cleanAndSubsetDetailedData<- function(wxdata,
 
   wxdata <- gsub("<br>", "", wxdata) #get rid of BR tags
   wxdata <- wxdata[wxdata!=""] #remove blank lines (if any)
-  wxdata <- sub(",+$", "", wxdata) #remove ENDING commas (if any)
+#  wxdata <- sub(",+$", "", wxdata) #remove ENDING commas (if any)
 
   if(opt_verbose){print(length(wxdata))}
   
@@ -568,7 +572,11 @@ cleanAndSubsetDetailedData<- function(wxdata,
   
   
   # assign column and row names
-  names(wx_df) <- header_names
+  if(length(header_names) == ncol(wx_df)){
+    names(wx_df) <- header_names
+  } else {
+    warning("Some columns are missing in Obtained Data. Check")
+  }
   row.names(wx_df) <- 1:nrow(wx_df) #give the dataframe rownames
   
   # We now have a good df to work with.

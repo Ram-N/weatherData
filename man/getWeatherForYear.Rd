@@ -5,7 +5,10 @@
 \title{Get weather data for one full year}
 \usage{
 getWeatherForYear(station_id, year, station_type = "airportCode",
-  opt_detailed = FALSE, opt_write_to_file = FALSE)
+  opt_detailed = FALSE, opt_write_to_file = FALSE,
+  opt_temperature_columns = TRUE, opt_all_columns = FALSE,
+  opt_custom_columns = FALSE, custom_columns = NULL, opt_verbose = FALSE,
+  daily_min = FALSE, daily_max = FALSE)
 }
 \arguments{
 \item{station_id}{is a valid Weather Station ID
@@ -23,6 +26,26 @@ Valid Weather Station "id" values: "KFLMIAMI75" or "IMOSCOWO2" You can look thes
 
 \item{opt_write_to_file}{If TRUE, the resulting dataframe will be stored in a CSV file. 
 Default is FALSE}
+
+\item{opt_temperature_columns}{Boolen flag to indicate only Temperature data is to be returned (default TRUE)}
+
+\item{opt_all_columns}{Boolen flag to indicate whether all available data is to be returned (default FALSE)}
+
+\item{opt_custom_columns}{Boolen flag to indicate if only a user-specified set of columns are to be returned. (default FALSE)
+If TRUE, then the desired columns must be specified via \code{custom_columns}}
+
+\item{custom_columns}{Vector of integers specified by the user to indicate which columns to fetch. 
+The Date column is always returned as the first column. The 
+column numbers specfied in \code{custom_columns} are appended as columns of 
+ the data frame being returned (default NULL). The exact column numbers can be
+ found by visiting the weatherUnderground URL, and counting from 1. Note that if \code{opt_custom_columns} is TRUE, 
+ then \code{custom_columns} must be specified.}
+
+\item{opt_verbose}{Boolean flag to indicate if verbose output is desired}
+
+\item{daily_min}{A boolean indicating if only the Minimum Temperatures are desired}
+
+\item{daily_max}{A boolean indicating if only the Maximum Temperatures are desired}
 }
 \value{
 A data frame with each row containing: \itemize{
